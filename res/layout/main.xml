@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+	<TextView style="@style/app_title" android:layout_height="wrap_content"
+		android:layout_width="wrap_content" android:text="@string/app_title" android:id="@+id/title" ></TextView>
+	<TextView android:layout_height="wrap_content"
+		android:layout_width="wrap_content" android:textAppearance="?android:attr/textAppearanceMedium"
+		android:id="@+id/label_login" android:text="@string/label_login" android:layout_margin="5dip"></TextView>
+	<EditText android:layout_height="wrap_content"
+		android:layout_width="match_parent" android:id="@+id/login" android:layout_margin="5dip">
+		<requestFocus></requestFocus>
+	</EditText>
+	<TextView android:layout_height="wrap_content"
+		android:layout_width="wrap_content" android:textAppearance="?android:attr/textAppearanceMedium"
+		android:id="@+id/label_password" android:text="@string/label_passord" android:layout_margin="5dip"></TextView>
+	<EditText android:layout_height="wrap_content"
+		android:layout_width="match_parent" android:inputType="textPassword"
+		android:id="@+id/password" android:layout_margin="5dip"></EditText>
+<!-- 	<TextView android:layout_height="wrap_content" -->
+<!-- 		android:layout_width="wrap_content" android:textAppearance="?android:attr/textAppearanceMedium" -->
+<!-- 		android:id="@+id/label_requestDate" android:text="@string/label_requestDate" android:layout_margin="5dip"></TextView> -->
+<!-- 	<EditText android:layout_height="wrap_content" -->
+<!-- 		android:layout_width="match_parent" android:layout_margin="5dip" android:inputType="date" -->
+<!-- 		android:id="@+id/requestDate"></EditText> -->
+	<Button android:layout_height="wrap_content" android:id="@+id/go"
+		android:layout_width="wrap_content" android:text="@string/button_go" android:layout_margin="5dip"></Button>
+
+</LinearLayout>

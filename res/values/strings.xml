@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_title">HSR Timetable</string>
+    <string name="app_name">HSR Timetable</string>
+    <string name="button_go">Go</string>
+    <string name="label_login">Login</string>
+    <string name="label_passord">Password</string>
+    <string name="label_requestDate">Date</string>
+</resources>
