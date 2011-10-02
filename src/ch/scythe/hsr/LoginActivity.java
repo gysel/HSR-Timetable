@@ -9,13 +9,11 @@ import android.widget.Button;
 import android.widget.EditText;
 
 public class LoginActivity extends Activity {
-	// public static final String PARAM_REQUEST_DATE = "requestDate";
 	public static final String PARAM_PASSWORD = "password";
 	public static final String PARAM_LOGIN = "login";
 	// _UI
 	private EditText field_login;
 	private EditText field_password;
-	// private EditText field_requestDate;
 	private Button go;
 
 	/** Called when the activity is first created. */
@@ -26,7 +24,6 @@ public class LoginActivity extends Activity {
 
 		field_login = (EditText) findViewById(R.id.login);
 		field_password = (EditText) findViewById(R.id.password);
-		// field_requestDate = (EditText) findViewById(R.id.requestDate);
 		go = (Button) findViewById(R.id.go);
 
 		go.setOnClickListener(new OnClickListener() {
@@ -39,8 +36,6 @@ public class LoginActivity extends Activity {
 				params.putString(PARAM_LOGIN, field_login.getText().toString());
 				params.putString(PARAM_PASSWORD, field_password.getText()
 						.toString());
-				// params.putString(PARAM_REQUEST_DATE, field_requestDate
-				// .getText().toString());
 				myIntent.putExtras(params);
 
 				startActivityForResult(myIntent, 0);

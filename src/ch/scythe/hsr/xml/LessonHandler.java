@@ -60,30 +60,11 @@ public class LessonHandler extends HandlerBase {
 		if (this.currentLesson != null) {
 			if (name.equalsIgnoreCase(XML_NODE_TYPE)) {
 				currentLesson.setType(builder.toString());
-			} else if (name.equalsIgnoreCase(XML_NODE_TIME_UNIT)) {
-				// } else if (name.equalsIgnoreCase(DESCRIPTION)) {
-				// currentLesson.setDescription(builder.toString());
-				// } else if (name.equalsIgnoreCase(PUB_DATE)) {
-				// currentLesson.setDate(builder.toString());
 			} else if (name.equalsIgnoreCase(XML_NODE_LESSON)) {
 				lessons.add(currentLesson);
 			}
 			builder.setLength(0);
 		}
 	}
-
-	// @Override
-	// public void endElement(String uri, String localName, String name) {
-	// super.endElement(uri, localName, name);
-	// }
-
-	// @Override
-	// public void startElement(String uri, String localName, String name,
-	// Attributes attributes) throws SAXException {
-	// super.startElement(uri, localName, name, attributes);
-	// if (localName.equalsIgnoreCase(ITEM)) {
-	// this.currentMessage = new Message();
-	// }
-	// }
 
 }

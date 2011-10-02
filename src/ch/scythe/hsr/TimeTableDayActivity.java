@@ -46,10 +46,11 @@ public class TimeTableDayActivity extends Activity {
 
 	private void requestTimetable(String login, String password, String date) {
 
-		String tdate = "2011-09-28";
+		date = "2011-09-28";
+
 		HttpPost httppost = new HttpPost(URL);
 		try {
-			String xml = createSoapXml(tdate, login, password);
+			String xml = createSoapXml(date, login, password);
 			StringEntity se = new StringEntity(xml, HTTP.UTF_8);
 
 			se.setContentType("text/xml");
