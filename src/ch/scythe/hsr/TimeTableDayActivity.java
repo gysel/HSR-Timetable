@@ -1,6 +1,8 @@
 package ch.scythe.hsr;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.http.client.ClientProtocolException;
@@ -46,7 +48,8 @@ public class TimeTableDayActivity extends Activity {
 
 	private void requestTimetable(String login, String password, String date) {
 
-		date = "2011-09-28";
+		SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+		date = dateFormatter.format(new Date());
 
 		HttpPost httppost = new HttpPost(URL);
 		try {
