@@ -1,7 +1,7 @@
-HSR Timetable
+﻿HSR Timetable
 ==========
 
-HSR Timetable is an Android App providing access to the Timetable of the [Hochschule f�r Technik Rapperswil](http://www.hsr.ch).
+HSR Timetable is an Android App providing access to the Timetable of the [Hochschule für Technik Rapperswil](http://www.hsr.ch).
 
 As soon as it reaches a reasonable state, I will publish it on the Android Market. This should happen until the end of 2011.
 
