@@ -8,11 +8,11 @@ As soon as it reaches a reasonable state, I will publish it on the Android Marke
 License
 -------
 
-All the tools are put under the [GPLv3](http://www.gnu.org/licenses/gpl.html)
+The complete source code is put under the [GPLv3](http://www.gnu.org/licenses/gpl.html)
 license, so that everyone is forced to publish improvements. Please send me
 a pull request on Github if you improved one of the scripts.
 
 Disclaimer
 ----------
 
-This app is inofficial and not supported by the HSR.
+This App is inofficial and not supported by the HSR.
