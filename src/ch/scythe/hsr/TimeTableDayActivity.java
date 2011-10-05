@@ -1,12 +1,10 @@
 package ch.scythe.hsr;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map.Entry;
 
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
@@ -15,7 +13,13 @@ import org.apache.http.message.BasicHttpResponse;
 import org.apache.http.protocol.HTTP;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.TextView;
 import ch.scythe.hsr.entity.Day;
 import ch.scythe.hsr.entity.Lesson;
@@ -28,6 +32,7 @@ public class TimeTableDayActivity extends Activity {
 	private SaxTimetableParser parser = new SaxTimetableParser();
 	// _UI
 	private TextView resultbox;
+	private SharedPreferences preferences;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -35,83 +40,110 @@ public class TimeTableDayActivity extends Activity {
 		setContentView(R.layout.timetable_day);
 
 		resultbox = (TextView) findViewById(R.id.result);
+		preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-		Bundle params = getIntent().getExtras();
-
-		String login = (String) params.get(LoginActivity.PARAM_LOGIN);
-		String password = (String) params.get(LoginActivity.PARAM_PASSWORD);
-		// String requestDate = (String) params
-		// .get(LoginActivity.PARAM_REQUEST_DATE);
-
-		resultbox.setText("Loading timetable");
-
-		requestTimetable(login, password, null);
+		requestTimetable();
 
 	}
 
-	private void requestTimetable(String login, String password, String date) {
+	@Override
+	public void onWindowFocusChanged(boolean hasFocus) {
+		super.onWindowFocusChanged(hasFocus);
+	}
 
-		SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
-		date = dateFormatter.format(new Date());
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.mainmenu, menu);
+		return true;
+	}
 
-		HttpPost httppost = new HttpPost(URL);
-		try {
-			String xml = createSoapXml(date, login, password);
-			StringEntity se = new StringEntity(xml, HTTP.UTF_8);
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.preferences:
+			Intent i = new Intent(this, UserPreferencesActivity.class);
+			startActivity(i);
+			break;
+		case R.id.refresh:
+			requestTimetable();
+			break;
 
-			se.setContentType("text/xml");
-			httppost.setHeader("Content-Type", "text/xml;charset=UTF-8");
-			httppost.setHeader("SOAPAction",
-					"\"http://tempuri.org/GetOwnTimeTableOfDay\"");
+		}
+		return true;
+	}
 
-			httppost.setEntity(se);
+	private void requestTimetable() {
 
-			// ProgressDialog dialog = ProgressDialog.show(
-			// TimeTableDayActivity.this, "", "Loading. Please wait...",
-			// true);
-			// dialog.show();
+		String login = preferences.getString(getString(R.string.key_login),
+				null);
+		String password = preferences.getString(
+				getString(R.string.key_password), null);
+		String date = null;
 
-			HttpClient httpclient = new DefaultHttpClient();
-			BasicHttpResponse httpResponse = (BasicHttpResponse) httpclient
-					.execute(httppost);
+		if (login == null || password == null) {
+			resultbox.setText("Please set login and password in preferences.");
+		} else {
+			SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+			date = dateFormatter.format(new Date());
 
-			// dialog.hide();
+			HttpPost httppost = new HttpPost(URL);
+			try {
+				String xml = createSoapXml(date, login, password);
+				StringEntity se = new StringEntity(xml, HTTP.UTF_8);
 
-			int httpStatus = httpResponse.getStatusLine().getStatusCode();
-			if (httpStatus == 200) {
-				List<Lesson> lessons = parser.parse(httpResponse.getEntity()
-						.getContent());
-				Day day = new Day(lessons);
+				se.setContentType("text/xml");
+				httppost.setHeader("Content-Type", "text/xml;charset=UTF-8");
+				httppost.setHeader("SOAPAction",
+						"\"http://tempuri.org/GetOwnTimeTableOfDay\"");
 
-				StringBuilder output = new StringBuilder();
-				output.append("Date: ").append(date).append("\n\n");
-				for (Entry<TimeUnit, Lesson> entry : day.getLessons()
-						.entrySet()) {
-					TimeUnit timeUnit = entry.getKey();
-					Lesson lesson = entry.getValue();
-					output.append(timeUnit.getStartTime()).append(" - ");
-					output.append(timeUnit.getEndTime()).append("\n");
-					if (lesson != null) {
-						output.append(lesson.getIdentifier()).append(" (");
-						output.append(lesson.getType()).append(")");
-					} else {
-						output.append("-");
+				httppost.setEntity(se);
+
+				HttpClient httpclient = new DefaultHttpClient();
+				BasicHttpResponse httpResponse = (BasicHttpResponse) httpclient
+						.execute(httppost);
+
+				int httpStatus = httpResponse.getStatusLine().getStatusCode();
+				if (httpStatus == 200) {
+					List<Lesson> lessons = parser.parse(httpResponse
+							.getEntity().getContent());
+					Day day = new Day(lessons);
+
+					StringBuilder output = new StringBuilder();
+					output.append("Date: ").append(date).append("\n\n");
+					for (Entry<TimeUnit, Lesson> entry : day.getLessons()
+							.entrySet()) {
+						TimeUnit timeUnit = entry.getKey();
+						Lesson lesson = entry.getValue();
+						output.append(timeUnit.getStartTime()).append(" - ");
+						output.append(timeUnit.getEndTime()).append("\n");
+						if (lesson != null) {
+							output.append(lesson.getIdentifier()).append(" (");
+							output.append(lesson.getType()).append(")\n");
+							output.append("Room: ").append(lesson.getRoom());
+						} else {
+							output.append("-");
+						}
+						output.append("\n\n");
 					}
-					output.append("\n\n");
-				}
-				resultbox.setText(output.toString());
+					resultbox.setText(output.toString());
 
-			} else {
-				resultbox.setText("HTTP Status: " + httpStatus);
+				} else {
+					resultbox.setText("Request not successful. \nHTTP Status: "
+							+ httpStatus);
+				}
+
+				// } catch (ClientProtocolException e) {
+				// e.printStackTrace();
+				// } catch (IOException e) {
+				// e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
+				resultbox.setText("Error!\n" + e.getMessage());
 			}
 
-		} catch (ClientProtocolException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
+
 	}
 
 	private String createSoapXml(String date, String login, String password) {

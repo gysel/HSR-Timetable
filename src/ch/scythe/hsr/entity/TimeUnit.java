@@ -3,7 +3,7 @@ package ch.scythe.hsr.entity;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumSet;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,9 +19,7 @@ public enum TimeUnit {
 	private final Integer id;
 	private final String startTime;
 	private final String endTime;
-	// TODO can we merge lookup and all?
-	private static final Map<Integer, TimeUnit> lookup = new HashMap<Integer, TimeUnit>();
-	private static final List<TimeUnit> all = new ArrayList<TimeUnit>();
+	private static final Map<Integer, TimeUnit> lookup = new LinkedHashMap<Integer, TimeUnit>();
 
 	private TimeUnit(Integer id, String startTime, String endTime) {
 		this.id = id;
@@ -32,7 +30,6 @@ public enum TimeUnit {
 	static {
 		for (TimeUnit unit : EnumSet.allOf(TimeUnit.class)) {
 			lookup.put(unit.getId(), unit);
-			all.add(unit);
 		}
 	}
 
@@ -53,7 +50,8 @@ public enum TimeUnit {
 	}
 
 	public static List<TimeUnit> getAll() {
-		return Collections.unmodifiableList(all);
+		return Collections.unmodifiableList(new ArrayList<TimeUnit>(lookup
+				.values()));
 	}
 
 }

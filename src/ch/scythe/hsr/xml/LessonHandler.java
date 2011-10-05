@@ -11,6 +11,7 @@ import ch.scythe.hsr.entity.Lesson;
 
 public class LessonHandler extends HandlerBase {
 
+	private static final String XML_NODE_ROOM = "Room";
 	private static final String XML_ATTRIBUTE_ID = "id";
 	private static final String XML_NODE_TIME_UNIT = "TimeUnit";
 	private static final String XML_NODE_TYPE = "Type";
@@ -50,6 +51,10 @@ public class LessonHandler extends HandlerBase {
 			currentLesson.addTimeUnit(Integer.parseInt(attributes
 					.getValue(XML_ATTRIBUTE_ID)));
 
+		} else if (currentLesson != null
+				&& name.equalsIgnoreCase(XML_NODE_ROOM)) {
+			// TODO one lesson can have several rooms.
+			currentLesson.setRoom(attributes.getValue(XML_ATTRIBUTE_ID));
 		}
 
 	}

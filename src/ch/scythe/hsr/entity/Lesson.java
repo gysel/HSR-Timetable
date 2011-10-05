@@ -9,6 +9,7 @@ public class Lesson {
 	private String type;
 	private List<TimeUnit> timeUnits = new ArrayList<TimeUnit>();
 	private String identifier;
+	private String room;
 
 	public void setType(String type) {
 		this.type = type;
@@ -41,4 +42,12 @@ public class Lesson {
 		return identifier;
 	}
 
+	public void setRoom(String room) {
+		this.room = room;
+
+	}
+
+	public String getRoom() {
+		return room;
+	}
 }

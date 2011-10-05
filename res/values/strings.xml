@@ -6,4 +6,12 @@
     <string name="label_login">Login</string>
     <string name="label_passord">Password</string>
     <string name="label_requestDate">Date</string>
+    <string name="menu_preferences">Preferences</string>
+    <string name="preferences_login_credentials">Login Credentials</string>
+    <string name="preferences_login">HSR Login</string>
+    <string name="preferences_password">Password</string>
+    <string name="menu_refresh">Refresh</string>
+    <string name="preferences_password_text">Your password will only be sent to the HSR server.</string>
+    <string name="key_login">login</string>
+    <string name="key_password">password</string>
 </resources>

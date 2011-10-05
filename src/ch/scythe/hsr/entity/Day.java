@@ -2,7 +2,7 @@ package ch.scythe.hsr.entity;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class Day {
@@ -10,7 +10,8 @@ public class Day {
 	private final Map<TimeUnit, Lesson> lessons;
 
 	public Day(Collection<Lesson> lessons) {
-		this.lessons = new HashMap<TimeUnit, Lesson>();
+		// the LinkedHashMap has a defined ordering of the keys
+		this.lessons = new LinkedHashMap<TimeUnit, Lesson>();
 		// initialize all time units with an empty value...
 		for (TimeUnit units : TimeUnit.getAll()) {
 			this.lessons.put(units, null);
