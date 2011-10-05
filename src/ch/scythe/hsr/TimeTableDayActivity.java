@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map.Entry;
 
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -16,7 +17,9 @@ import org.apache.http.protocol.HTTP;
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.TextView;
+import ch.scythe.hsr.entity.Day;
 import ch.scythe.hsr.entity.Lesson;
+import ch.scythe.hsr.entity.TimeUnit;
 import ch.scythe.hsr.xml.SaxTimetableParser;
 
 public class TimeTableDayActivity extends Activity {
@@ -78,8 +81,26 @@ public class TimeTableDayActivity extends Activity {
 			if (httpStatus == 200) {
 				List<Lesson> lessons = parser.parse(httpResponse.getEntity()
 						.getContent());
-				resultbox.setText("Date: " + date + "\nLessons: "
-						+ lessons.toString());
+				Day day = new Day(lessons);
+
+				StringBuilder output = new StringBuilder();
+				output.append("Date: ").append(date).append("\n\n");
+				for (Entry<TimeUnit, Lesson> entry : day.getLessons()
+						.entrySet()) {
+					TimeUnit timeUnit = entry.getKey();
+					Lesson lesson = entry.getValue();
+					output.append(timeUnit.getStartTime()).append(" - ");
+					output.append(timeUnit.getEndTime()).append("\n");
+					if (lesson != null) {
+						output.append(lesson.getIdentifier()).append(" (");
+						output.append(lesson.getType()).append(")");
+					} else {
+						output.append("-");
+					}
+					output.append("\n\n");
+				}
+				resultbox.setText(output.toString());
+
 			} else {
 				resultbox.setText("HTTP Status: " + httpStatus);
 			}

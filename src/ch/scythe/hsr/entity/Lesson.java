@@ -7,7 +7,7 @@ import java.util.List;
 public class Lesson {
 
 	private String type;
-	private List<Integer> timeUnits = new ArrayList<Integer>();
+	private List<TimeUnit> timeUnits = new ArrayList<TimeUnit>();
 	private String identifier;
 
 	public void setType(String type) {
@@ -19,18 +19,18 @@ public class Lesson {
 		return type;
 	}
 
-	public void addTimeUnit(Integer timeUnit) {
-		timeUnits.add(timeUnit);
+	public void addTimeUnit(Integer timeUnitId) {
+		timeUnits.add(TimeUnit.findById(timeUnitId));
 	}
 
-	public List<Integer> getTimeUnits() {
+	public List<TimeUnit> getTimeUnits() {
 		return Collections.unmodifiableList(timeUnits);
 	}
 
 	@Override
 	public String toString() {
 		return "<Lesson identifier=" + identifier + " type=" + type
-				+ ", timeUnit=" + timeUnits + " >";
+				+ ", timeUnits=" + timeUnits + " >";
 	}
 
 	public void setIdentifier(String identifier) {
