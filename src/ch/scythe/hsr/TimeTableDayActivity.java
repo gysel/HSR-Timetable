@@ -18,7 +18,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 import ch.scythe.hsr.entity.Day;
@@ -47,14 +46,8 @@ public class TimeTableDayActivity extends Activity {
 	}
 
 	@Override
-	public void onWindowFocusChanged(boolean hasFocus) {
-		super.onWindowFocusChanged(hasFocus);
-	}
-
-	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.mainmenu, menu);
+		getMenuInflater().inflate(R.menu.mainmenu, menu);
 		return true;
 	}
 
@@ -86,6 +79,7 @@ public class TimeTableDayActivity extends Activity {
 		} else {
 			SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
 			date = dateFormatter.format(new Date());
+			// date = "2011-10-11";
 
 			HttpPost httppost = new HttpPost(URL);
 			try {
