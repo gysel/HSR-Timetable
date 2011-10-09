@@ -101,7 +101,6 @@ public class TimeTableDayActivity extends Activity {
 	private synchronized void startRequest() {
 		synchronized (dataTaskRunning) {
 			if (Boolean.FALSE.equals(dataTaskRunning)) {
-				dataTaskRunning = true;
 
 				String login = preferences.getString(getString(R.string.key_login), null);
 				String password = preferences.getString(getString(R.string.key_password), null);
@@ -111,6 +110,7 @@ public class TimeTableDayActivity extends Activity {
 				} else {
 					progress.show();
 					resultbox.setText("");
+					dataTaskRunning = true;
 					new FetchDataTask().execute(currentDate, login, password);
 				}
 			}
