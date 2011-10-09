@@ -16,4 +16,7 @@
     <string name="key_password">password</string>
     <string name="label_date_label">Date:</string>
     <string name="default_novalue">-</string>
+    <string name="button_prev">Prev</string>
+    <string name="button_next">Next</string>
+    <string name="button_today">Today</string>
 </resources>

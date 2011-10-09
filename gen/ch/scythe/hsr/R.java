@@ -14,19 +14,22 @@ public final class R {
         public static final int icon=0x7f020000;
     }
     public static final class id {
+        public static final int button_next=0x7f08000b;
+        public static final int button_prev=0x7f080009;
+        public static final int button_today=0x7f08000a;
         public static final int date_label=0x7f080007;
         public static final int date_value=0x7f080008;
         public static final int go=0x7f080005;
         public static final int label_login=0x7f080001;
         public static final int label_password=0x7f080003;
-        public static final int linearLayout1=0x7f08000a;
+        public static final int linearLayout1=0x7f08000d;
         public static final int linearLayout2=0x7f080006;
         public static final int login=0x7f080002;
         public static final int password=0x7f080004;
-        public static final int preferences=0x7f08000d;
-        public static final int refresh=0x7f08000c;
-        public static final int result=0x7f08000b;
-        public static final int scrollView1=0x7f080009;
+        public static final int preferences=0x7f080010;
+        public static final int refresh=0x7f08000f;
+        public static final int result=0x7f08000e;
+        public static final int scrollView1=0x7f08000c;
         public static final int title=0x7f080000;
     }
     public static final class layout {
@@ -40,6 +43,9 @@ public final class R {
         public static final int app_name=0x7f050001;
         public static final int app_title=0x7f050000;
         public static final int button_go=0x7f050002;
+        public static final int button_next=0x7f050011;
+        public static final int button_prev=0x7f050010;
+        public static final int button_today=0x7f050012;
         public static final int default_novalue=0x7f05000f;
         public static final int key_login=0x7f05000c;
         public static final int key_password=0x7f05000d;

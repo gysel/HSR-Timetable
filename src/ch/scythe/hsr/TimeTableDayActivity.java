@@ -1,6 +1,7 @@
 package ch.scythe.hsr;
 
 import java.text.DateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map.Entry;
@@ -14,6 +15,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import ch.scythe.hsr.api.RequestException;
 import ch.scythe.hsr.api.TimeTableAPI;
@@ -72,6 +74,28 @@ public class TimeTableDayActivity extends Activity {
 
 		}
 		return true;
+	}
+
+	public void showPrevDay(View view) {
+		currentDate = addDays(currentDate, -1);
+		startRequest();
+	}
+
+	public void showToday(View view) {
+		currentDate = new Date();
+		startRequest();
+	}
+
+	public void showNextDay(View view) {
+		currentDate = addDays(currentDate, 1);
+		startRequest();
+	}
+
+	private Date addDays(Date date, int days) {
+		Calendar c = Calendar.getInstance();
+		c.setTime(date);
+		c.add(Calendar.DATE, days);
+		return c.getTime();
 	}
 
 	private synchronized void startRequest() {
