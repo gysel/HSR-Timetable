@@ -14,4 +14,6 @@
     <string name="preferences_password_text">Your password will only be sent to the HSR server.</string>
     <string name="key_login">login</string>
     <string name="key_password">password</string>
+    <string name="label_date_label">Date:</string>
+    <string name="default_novalue">-</string>
 </resources>

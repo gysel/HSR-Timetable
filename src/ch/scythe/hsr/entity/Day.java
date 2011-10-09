@@ -2,14 +2,18 @@ package ch.scythe.hsr.entity;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class Day {
 
 	private final Map<TimeUnit, Lesson> lessons;
+	private final Date date;
 
-	public Day(Collection<Lesson> lessons) {
+	public Day(Collection<Lesson> lessons, Date date) {
+		this.date = date;
 		// the LinkedHashMap has a defined ordering of the keys
 		this.lessons = new LinkedHashMap<TimeUnit, Lesson>();
 		// initialize all time units with an empty value...
@@ -28,8 +32,17 @@ public class Day {
 		}
 	}
 
+	public Day(Date date) {
+		this.date = date;
+		lessons = new HashMap<TimeUnit, Lesson>();
+	}
+
 	public Map<TimeUnit, Lesson> getLessons() {
 		return Collections.unmodifiableMap(lessons);
+	}
+
+	public Date getDate() {
+		return date;
 	}
 
 }
