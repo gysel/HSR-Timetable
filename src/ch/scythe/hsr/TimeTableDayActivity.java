@@ -10,12 +10,15 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import ch.scythe.hsr.api.RequestException;
 import ch.scythe.hsr.api.TimeTableAPI;
@@ -27,6 +30,7 @@ public class TimeTableDayActivity extends Activity {
 	// _UI
 	private TextView resultbox;
 	private TextView datebox;
+	private TableLayout timeTable;
 	private SharedPreferences preferences;
 	private ProgressDialog progress;
 	// _Helpers
@@ -42,6 +46,7 @@ public class TimeTableDayActivity extends Activity {
 
 		resultbox = (TextView) findViewById(R.id.result);
 		datebox = (TextView) findViewById(R.id.date_value);
+		timeTable = (TableLayout) findViewById(R.id.timeTable);
 		preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
 		progress = new ProgressDialog(this);
@@ -122,26 +127,39 @@ public class TimeTableDayActivity extends Activity {
 		String dateLocale = mediumDateFormat.format(day.getDate());
 		datebox.setText(dateLocale);
 
+		int rows = timeTable.getChildCount();
+		if (rows > 1) {
+			// remove existing rows from the table (not the header)
+			timeTable.removeViews(1, rows - 1);
+		}
+
 		String result = "";
 		if (hasError) {
 			result = errorMessage;
 		} else {
-			StringBuilder output = new StringBuilder();
 			for (Entry<TimeUnit, Lesson> entry : day.getLessons().entrySet()) {
 				TimeUnit timeUnit = entry.getKey();
 				Lesson lesson = entry.getValue();
-				output.append(timeUnit.getStartTime()).append(" - ");
-				output.append(timeUnit.getEndTime()).append("\n");
-				if (lesson != null) {
-					output.append(lesson.getIdentifier()).append(" (");
-					output.append(lesson.getType()).append(")\n");
-					output.append("Room: ").append(lesson.getRoom());
-				} else {
-					output.append("-");
+
+				// init row
+				TableRow row = new TableRow(getApplicationContext());
+				if (timeUnit.getId() % 2 == 0) { // hightlight every other row
+					row.setBackgroundColor(Color.DKGRAY);
 				}
-				output.append("\n\n");
+				TextView timeUnitField = createTableColumn(row);
+				TextView lessonField = createTableColumn(row);
+				TextView roomField = createTableColumn(row);
+				// fill values into row
+				timeUnitField.setText(timeUnit.toDurationString(" - "));
+				if (lesson != null) {
+					lessonField.setText(lesson.getIdentifier());
+					roomField.setText(lesson.getRoom());
+				} else {
+					lessonField.setText(getString(R.string.default_novalue));
+				}
+				timeTable.addView(row);
+
 			}
-			result = output.toString();
 		}
 
 		resultbox.setText(result);
@@ -151,6 +169,13 @@ public class TimeTableDayActivity extends Activity {
 			dataTaskRunning = false;
 		}
 
+	}
+
+	private TextView createTableColumn(TableRow row) {
+		TextView field = new TextView(getApplicationContext());
+		field.setPadding(5, 5, 5, 5);
+		row.addView(field);
+		return field;
 	}
 
 	class FetchDataTask extends AsyncTask<Object, Integer, Day> {

@@ -19,4 +19,7 @@
     <string name="button_prev">Prev</string>
     <string name="button_next">Next</string>
     <string name="button_today">Today</string>
+    <string name="label_time">Time</string>
+    <string name="label_lesson">Lesson</string>
+    <string name="label_room">Room</string>
 </resources>
