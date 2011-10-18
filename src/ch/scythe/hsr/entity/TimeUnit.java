@@ -7,6 +7,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import ch.scythe.hsr.error.EnumNotFoundException;
+
 public enum TimeUnit {
 
 	LESSON_1(2, "07:05", "07:50"), LESSON_2(3, "08:10", "08:55"), LESSON_3(4, "09:05", "09:50"), LESSON_4(5, "10:10",
@@ -43,8 +45,12 @@ public enum TimeUnit {
 		return endTime;
 	}
 
-	public static TimeUnit findById(Integer id) {
-		return lookup.get(id);
+	public static TimeUnit findById(Integer id) throws EnumNotFoundException {
+		TimeUnit result = lookup.get(id);
+		if (result == null) {
+			throw new EnumNotFoundException("Enum does not have a value for " + id);
+		}
+		return result;
 	}
 
 	public static List<TimeUnit> getAll() {

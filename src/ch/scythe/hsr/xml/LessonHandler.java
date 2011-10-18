@@ -8,6 +8,7 @@ import org.xml.sax.HandlerBase;
 import org.xml.sax.SAXException;
 
 import ch.scythe.hsr.entity.Lesson;
+import ch.scythe.hsr.error.EnumNotFoundException;
 
 public class LessonHandler extends HandlerBase {
 
@@ -25,8 +26,7 @@ public class LessonHandler extends HandlerBase {
 	}
 
 	@Override
-	public void characters(char[] ch, int start, int length)
-			throws SAXException {
+	public void characters(char[] ch, int start, int length) throws SAXException {
 		super.characters(ch, start, length);
 		builder.append(ch, start, length);
 	}
@@ -39,20 +39,20 @@ public class LessonHandler extends HandlerBase {
 	}
 
 	@Override
-	public void startElement(String name, AttributeList attributes)
-			throws SAXException {
+	public void startElement(String name, AttributeList attributes) throws SAXException {
 
 		super.startElement(name, attributes);
 		if (name.equalsIgnoreCase(XML_NODE_LESSON)) {
 			currentLesson = new Lesson();
 			currentLesson.setIdentifier(attributes.getValue(XML_ATTRIBUTE_ID));
-		} else if (currentLesson != null
-				&& name.equalsIgnoreCase(XML_NODE_TIME_UNIT)) {
-			currentLesson.addTimeUnit(Integer.parseInt(attributes
-					.getValue(XML_ATTRIBUTE_ID)));
+		} else if (currentLesson != null && name.equalsIgnoreCase(XML_NODE_TIME_UNIT)) {
+			try {
+				currentLesson.addTimeUnit(Integer.parseInt(attributes.getValue(XML_ATTRIBUTE_ID)));
+			} catch (EnumNotFoundException e) {
+				throw new SAXException(e);
+			}
 
-		} else if (currentLesson != null
-				&& name.equalsIgnoreCase(XML_NODE_ROOM)) {
+		} else if (currentLesson != null && name.equalsIgnoreCase(XML_NODE_ROOM)) {
 			// TODO one lesson can have several rooms.
 			currentLesson.setRoom(attributes.getValue(XML_ATTRIBUTE_ID));
 		}

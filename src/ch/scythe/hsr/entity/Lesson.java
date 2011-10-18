@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import ch.scythe.hsr.error.EnumNotFoundException;
+
 public class Lesson {
 
 	private String type;
-	private List<TimeUnit> timeUnits = new ArrayList<TimeUnit>();
+	private final List<TimeUnit> timeUnits = new ArrayList<TimeUnit>();
 	private String identifier;
 	private String room;
 
@@ -20,7 +22,7 @@ public class Lesson {
 		return type;
 	}
 
-	public void addTimeUnit(Integer timeUnitId) {
+	public void addTimeUnit(Integer timeUnitId) throws EnumNotFoundException {
 		timeUnits.add(TimeUnit.findById(timeUnitId));
 	}
 
@@ -30,8 +32,7 @@ public class Lesson {
 
 	@Override
 	public String toString() {
-		return "<Lesson identifier=" + identifier + " type=" + type
-				+ ", timeUnits=" + timeUnits + " >";
+		return "<Lesson identifier=" + identifier + " type=" + type + ", timeUnits=" + timeUnits + " >";
 	}
 
 	public void setIdentifier(String identifier) {

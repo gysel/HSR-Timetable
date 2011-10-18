@@ -25,6 +25,14 @@ public class TimeTableAPI {
 	// _Helper
 	private final SaxTimetableParser parser = new SaxTimetableParser();
 
+	/**
+	 * TODO implement Exception handling
+	 * 
+	 * @throws RequestException
+	 *             if the timetable could not be successfully requested.
+	 * @throws ParseException
+	 *             if result contains not parsable data.
+	 */
 	public Day retrieve(Date date, String login, String password) throws RequestException {
 		Day result = null;
 

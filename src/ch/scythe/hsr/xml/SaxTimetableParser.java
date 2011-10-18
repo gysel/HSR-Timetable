@@ -7,7 +7,6 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import ch.scythe.hsr.entity.Lesson;
-import ch.scythe.hsr.xml.LessonHandler;
 
 public class SaxTimetableParser {
 
