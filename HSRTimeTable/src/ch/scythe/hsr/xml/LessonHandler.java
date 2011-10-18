@@ -64,7 +64,7 @@ public class LessonHandler extends HandlerBase {
 		super.endElement(name);
 		if (this.currentLesson != null) {
 			if (name.equalsIgnoreCase(XML_NODE_TYPE)) {
-				currentLesson.setType(builder.toString());
+				currentLesson.setType(builder.toString().trim());
 			} else if (name.equalsIgnoreCase(XML_NODE_LESSON)) {
 				lessons.add(currentLesson);
 			}
