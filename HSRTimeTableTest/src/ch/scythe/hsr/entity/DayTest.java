@@ -1,9 +1,6 @@
 package ch.scythe.hsr.entity;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -24,7 +21,6 @@ public class DayTest {
 		// Verify outcome
 		Map<TimeUnit, Lesson> actualLessons = sut.getLessons();
 		assertTrue(actualLessons.isEmpty());
-
 	}
 
 	@Test

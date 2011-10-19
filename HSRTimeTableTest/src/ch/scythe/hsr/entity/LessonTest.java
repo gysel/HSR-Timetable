@@ -1,5 +1,7 @@
 package ch.scythe.hsr.entity;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.List;
 
 import org.junit.Assert;
@@ -8,7 +10,7 @@ import org.junit.Test;
 
 import ch.scythe.hsr.error.EnumNotFoundException;
 
-public class LessonText {
+public class LessonTest {
 
 	@Test
 	public void testAddTimeUnit() throws EnumNotFoundException {
@@ -45,7 +47,20 @@ public class LessonText {
 		sut.addTimeUnit(expectedTimeUnit.getId());
 		// Exercise sut
 		sut.getTimeUnits().add(TimeUnit.LESSON_2);
+	}
 
+	@Test
+	public void testLecturers() {
+		String delimiter = ", ";
+		assertEquals("", sut.getLecturersAsString(delimiter));
+		// Set up fixture
+		String lecturer1 = "FOO";
+		String lecturer2 = "BAR";
+		// Exercise sut
+		sut.addLecturer(lecturer1);
+		sut.addLecturer(lecturer2);
+		// Verify outcome
+		assertEquals(lecturer1 + delimiter + lecturer2, sut.getLecturersAsString(delimiter));
 	}
 
 	private Lesson sut;

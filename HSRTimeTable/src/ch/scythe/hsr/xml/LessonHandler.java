@@ -17,6 +17,7 @@ public class LessonHandler extends HandlerBase {
 	private static final String XML_NODE_TIME_UNIT = "TimeUnit";
 	private static final String XML_NODE_TYPE = "Type";
 	private static final String XML_NODE_LESSON = "Lesson";
+	private static final String XML_NODE_NAME_SHORT = "NameShort";
 	private List<Lesson> lessons;
 	private Lesson currentLesson;
 	private StringBuilder builder;
@@ -65,6 +66,8 @@ public class LessonHandler extends HandlerBase {
 		if (this.currentLesson != null) {
 			if (name.equalsIgnoreCase(XML_NODE_TYPE)) {
 				currentLesson.setType(builder.toString().trim());
+			} else if (name.equalsIgnoreCase(XML_NODE_NAME_SHORT)) {
+				currentLesson.addLecturer(builder.toString().trim());
 			} else if (name.equalsIgnoreCase(XML_NODE_LESSON)) {
 				lessons.add(currentLesson);
 			}
