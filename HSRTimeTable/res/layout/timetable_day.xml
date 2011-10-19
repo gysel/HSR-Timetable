@@ -15,9 +15,9 @@
 	</LinearLayout>
 
 	<ScrollView android:layout_width="match_parent" android:id="@+id/scrollView1" android:layout_height="fill_parent">
-		<LinearLayout android:layout_height="wrap_content" android:id="@+id/linearLayout3" android:orientation="vertical" android:layout_width="match_parent" android:gravity="center_horizontal">
-			<TableLayout android:layout_height="wrap_content" android:id="@+id/timeTable" android:layout_width="wrap_content">
-				<TableRow android:layout_height="wrap_content" android:id="@+id/headerRow" android:layout_width="match_parent">
+		<LinearLayout android:layout_height="wrap_content" android:id="@+id/linearLayout3" android:orientation="vertical" android:layout_width="match_parent">
+			<TableLayout android:layout_height="wrap_content" android:id="@+id/timeTable" android:layout_width="fill_parent">
+				<TableRow android:layout_height="wrap_content" android:id="@+id/headerRow" android:layout_width="match_parent" android:background="#FF505050">
 					<TextView android:id="@+id/table_header_time" android:text="@string/label_time" style="@style/table_cell" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
 					<TextView android:id="@+id/table_header_lesson" android:text="@string/label_lesson" style="@style/table_cell" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
 					<TextView android:id="@+id/table_header_room" android:text="@string/label_room" style="@style/table_cell" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>

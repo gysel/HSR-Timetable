@@ -144,7 +144,7 @@ public class TimeTableDayActivity extends Activity {
 				// init row
 				TableRow row = new TableRow(getApplicationContext());
 				if (timeUnit.getId() % 2 == 0) { // hightlight every other row
-					row.setBackgroundColor(Color.DKGRAY);
+					row.setBackgroundColor(Color.rgb(40, 40, 40));
 				}
 				TextView timeUnitField = createTableColumn(row);
 				TextView lessonField = createTableColumn(row);
