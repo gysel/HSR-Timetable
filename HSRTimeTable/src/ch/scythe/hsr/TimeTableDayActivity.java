@@ -149,11 +149,13 @@ public class TimeTableDayActivity extends Activity {
 				TextView timeUnitField = createTableColumn(row);
 				TextView lessonField = createTableColumn(row);
 				TextView roomField = createTableColumn(row);
+				TextView lecturerField = createTableColumn(row);
 				// fill values into row
 				timeUnitField.setText(timeUnit.toDurationString(" - "));
 				if (lesson != null) {
 					lessonField.setText(lesson.getIdentifier());
 					roomField.setText(lesson.getRoom());
+					lecturerField.setText(lesson.getLecturersAsString(", "));
 				} else {
 					lessonField.setText(getString(R.string.default_novalue));
 				}

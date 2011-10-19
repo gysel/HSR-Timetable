@@ -22,10 +22,11 @@ public final class R {
         public static final int headerRow=0x7f08000a;
         public static final int linearLayout2=0x7f080001;
         public static final int linearLayout3=0x7f080008;
-        public static final int preferences=0x7f080010;
-        public static final int refresh=0x7f08000f;
-        public static final int result=0x7f08000e;
+        public static final int preferences=0x7f080011;
+        public static final int refresh=0x7f080010;
+        public static final int result=0x7f08000f;
         public static final int scrollView1=0x7f080007;
+        public static final int table_header_lecturer=0x7f08000e;
         public static final int table_header_lesson=0x7f08000c;
         public static final int table_header_room=0x7f08000d;
         public static final int table_header_time=0x7f08000b;
@@ -49,6 +50,7 @@ public final class R {
         public static final int key_login=0x7f05000c;
         public static final int key_password=0x7f05000d;
         public static final int label_date_label=0x7f05000e;
+        public static final int label_lecturer=0x7f050016;
         public static final int label_lesson=0x7f050014;
         public static final int label_login=0x7f050003;
         public static final int label_passord=0x7f050004;

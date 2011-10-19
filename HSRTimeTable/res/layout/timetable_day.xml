@@ -2,22 +2,26 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical" android:layout_width="fill_parent"
 	android:layout_height="fill_parent">
+
 	<TextView android:layout_height="wrap_content" style="@style/app_title"
 		android:layout_width="wrap_content" android:text="@string/app_title" android:id="@+id/title"></TextView>
-	<LinearLayout android:id="@+id/linearLayout2" android:layout_width="match_parent" android:layout_height="wrap_content">
+
+	<LinearLayout android:id="@+id/linearLayout2" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
 		<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_margin="5dip" android:text="@string/label_date_label" android:id="@+id/date_label"></TextView>
 		<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_margin="5dip" android:id="@+id/date_value" android:text="@string/default_novalue"></TextView>
-		<Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="top" android:text="@string/button_prev" android:id="@+id/button_prev" android:onClick="showPrevDay"></Button>
-		<Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/button_today" android:text="@string/button_today" android:onClick="showToday"></Button>
-		<Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="right" android:text="@string/button_next" android:id="@+id/button_next" android:onClick="showNextDay"></Button>
+		<Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/button_prev" android:id="@+id/button_prev" android:onClick="showPrevDay"></Button>
+		<Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/button_today" android:id="@+id/button_today" android:onClick="showToday"></Button>
+		<Button android:text="@string/button_next" android:id="@+id/button_next" android:layout_width="wrap_content" android:onClick="showNextDay" android:layout_height="wrap_content"></Button>
 	</LinearLayout>
+
 	<ScrollView android:layout_width="match_parent" android:id="@+id/scrollView1" android:layout_height="fill_parent">
 		<LinearLayout android:layout_height="wrap_content" android:id="@+id/linearLayout3" android:orientation="vertical" android:layout_width="match_parent" android:gravity="center_horizontal">
 			<TableLayout android:layout_height="wrap_content" android:id="@+id/timeTable" android:layout_width="wrap_content">
-				<TableRow android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/headerRow">
+				<TableRow android:layout_height="wrap_content" android:id="@+id/headerRow" android:layout_width="match_parent">
 					<TextView android:id="@+id/table_header_time" android:text="@string/label_time" style="@style/table_cell" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
 					<TextView android:id="@+id/table_header_lesson" android:text="@string/label_lesson" style="@style/table_cell" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
 					<TextView android:id="@+id/table_header_room" android:text="@string/label_room" style="@style/table_cell" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+					<TextView style="@style/table_cell" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/table_header_lecturer" android:text="@string/label_lecturer"></TextView>
 				</TableRow>
 			</TableLayout>
 			<TextView android:id="@+id/result" android:layout_margin="5dip" android:layout_height="wrap_content" android:text="" android:layout_width="wrap_content"></TextView>
