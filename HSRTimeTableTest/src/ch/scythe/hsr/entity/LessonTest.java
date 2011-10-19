@@ -63,6 +63,52 @@ public class LessonTest {
 		assertEquals(lecturer1 + delimiter + lecturer2, sut.getLecturersAsString(delimiter));
 	}
 
+	@Test
+	public void testGetIdentifierShort() throws Exception {
+		String noise = "34713_";
+		String interestingPart = "An1I-v2";
+		// Set up fixture
+		sut.setIdentifier(noise + interestingPart);
+		// Exercise sut
+		String actualIdentifierShort = sut.getIdentifierShort();
+		// Verify outcome
+		assertEquals(interestingPart, actualIdentifierShort);
+	}
+
+	@Test
+	public void testGetIdentifierShortTESTparsableButDuplicateSplittingDelimiter() throws Exception {
+		String noise = "34713_";
+		String interestingPart = "An1I_v2";
+		// Set up fixture
+		sut.setIdentifier(noise + interestingPart);
+		// Exercise sut
+		String actualIdentifierShort = sut.getIdentifierShort();
+		// Verify outcome
+		assertEquals(interestingPart, actualIdentifierShort);
+	}
+
+	@Test
+	public void testGetIdentifierShortTESTnotParseable() throws Exception {
+		String identifier = "anUnknownFormat";
+		// Set up fixture
+		sut.setIdentifier(identifier);
+		// Exercise sut
+		String actualIdentifierShort = sut.getIdentifierShort();
+		// Verify outcome
+		assertEquals(identifier, actualIdentifierShort);
+	}
+
+	@Test
+	public void testGetIdentifierShortTESTslightlyNotParsable() throws Exception {
+		String identifier = "34713-An1I_v2";
+		// Set up fixture
+		sut.setIdentifier(identifier);
+		// Exercise sut
+		String actualIdentifierShort = sut.getIdentifierShort();
+		// Verify outcome
+		assertEquals(identifier, actualIdentifierShort);
+	}
+
 	private Lesson sut;
 
 	@Before

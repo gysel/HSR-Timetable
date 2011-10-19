@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import ch.scythe.hsr.error.EnumNotFoundException;
 
@@ -14,6 +15,8 @@ public class Lesson {
 	private final List<String> lecturers = new ArrayList<String>();
 	private String identifier;
 	private String room;
+
+	private final Pattern identifierPattern = Pattern.compile("^[0-9]{5}_.*$");
 
 	public void setType(String type) {
 		this.type = type;
@@ -45,9 +48,17 @@ public class Lesson {
 		return identifier;
 	}
 
+	public String getIdentifierShort() {
+		String result = identifier;
+		if (identifierPattern.matcher(identifier).matches()) {
+			String[] splittedIdentifier = identifier.split("_", 2);
+			result = splittedIdentifier[1];
+		}
+		return result;
+	}
+
 	public void setRoom(String room) {
 		this.room = room;
-
 	}
 
 	public String getRoom() {

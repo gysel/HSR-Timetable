@@ -153,7 +153,7 @@ public class TimeTableDayActivity extends Activity {
 				// fill values into row
 				timeUnitField.setText(timeUnit.toDurationString(" - "));
 				if (lesson != null) {
-					lessonField.setText(lesson.getIdentifier());
+					lessonField.setText(lesson.getIdentifierShort());
 					roomField.setText(lesson.getRoom());
 					lecturerField.setText(lesson.getLecturersAsString(", "));
 				} else {
