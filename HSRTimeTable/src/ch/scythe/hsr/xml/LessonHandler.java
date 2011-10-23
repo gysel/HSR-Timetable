@@ -16,6 +16,7 @@ public class LessonHandler extends DefaultHandler {
 	private static final String XML_ATTRIBUTE_ID = "id";
 	private static final String XML_NODE_TIME_UNIT = "TimeUnit";
 	private static final String XML_NODE_TYPE = "Type";
+	private static final String XML_NODE_DESCRIPTION = "Description";
 	private static final String XML_NODE_LESSON = "Lesson";
 	private static final String XML_NODE_NAME_SHORT = "NameShort";
 	private List<Lesson> lessons;
@@ -69,6 +70,8 @@ public class LessonHandler extends DefaultHandler {
 				currentLesson.addLecturer(builder.toString().trim());
 			} else if (qName.equalsIgnoreCase(XML_NODE_LESSON)) {
 				lessons.add(currentLesson);
+			} else if (qName.equalsIgnoreCase(XML_NODE_DESCRIPTION)) {
+				currentLesson.setDescription(builder.toString().trim());
 			}
 			builder.setLength(0);
 		}

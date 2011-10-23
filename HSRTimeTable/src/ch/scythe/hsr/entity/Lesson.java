@@ -10,12 +10,14 @@ import ch.scythe.hsr.error.EnumNotFoundException;
 
 public class Lesson {
 
+	// members
+	private String identifier;
 	private String type;
+	private String room;
+	private String description;
 	private final List<TimeUnit> timeUnits = new ArrayList<TimeUnit>();
 	private final List<String> lecturers = new ArrayList<String>();
-	private String identifier;
-	private String room;
-
+	// helpers
 	private final Pattern identifierPattern = Pattern.compile("^[0-9]{5}_.*$");
 
 	public void setType(String type) {
@@ -78,5 +80,13 @@ public class Lesson {
 			}
 		}
 		return result.toString();
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getDescription() {
+		return description;
 	}
 }

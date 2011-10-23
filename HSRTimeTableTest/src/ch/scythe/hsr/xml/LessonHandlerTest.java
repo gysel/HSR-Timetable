@@ -24,6 +24,7 @@ public class LessonHandlerTest {
 	private static final String TYPE_EXERCISE = "Uebung";
 	private static final String ROOM_NETWORK_LAB = "2.103";
 	private static final String ROOM_NETWORK_EXERCISE = "1.212a";
+	private static final String DESCRIPTION_NETWORK_LAB = "gerade KW: CN1Prak-p10";
 
 	@Test
 	public void testScenarioSunnyPath() throws FileNotFoundException {
@@ -34,18 +35,18 @@ public class LessonHandlerTest {
 		Map<TimeUnit, Lesson> lessons = day.getLessons();
 		// Verify outcome
 		assertLesson(lessons, TimeUnit.LESSON_2, ROOM_NETWORK_LAB, TYPE_PRACTICAL_COURSE, IDENTIFIER_CN1_PRAK_P10,
-				LECTURER_CN1_LAB);
+				LECTURER_CN1_LAB, DESCRIPTION_NETWORK_LAB);
 		assertLesson(lessons, TimeUnit.LESSON_3, ROOM_NETWORK_LAB, TYPE_PRACTICAL_COURSE, IDENTIFIER_CN1_PRAK_P10,
-				LECTURER_CN1_LAB);
+				LECTURER_CN1_LAB, DESCRIPTION_NETWORK_LAB);
 		assertLesson(lessons, TimeUnit.LESSON_4, ROOM_NETWORK_LAB, TYPE_PRACTICAL_COURSE, IDENTIFIER_CN1_PRAK_P10,
-				LECTURER_CN1_LAB);
+				LECTURER_CN1_LAB, DESCRIPTION_NETWORK_LAB);
 		assertLesson(lessons, TimeUnit.LESSON_5, ROOM_NETWORK_LAB, TYPE_PRACTICAL_COURSE, IDENTIFIER_CN1_PRAK_P10,
-				LECTURER_CN1_LAB);
+				LECTURER_CN1_LAB, DESCRIPTION_NETWORK_LAB);
 		//
 		assertLesson(lessons, TimeUnit.LESSON_8, ROOM_NETWORK_EXERCISE, TYPE_EXERCISE, IDENTIFIER_CN1_EXCERCISE,
-				LECTURER_CN1_EXERCISE);
+				LECTURER_CN1_EXERCISE, "");
 		assertLesson(lessons, TimeUnit.LESSON_9, ROOM_NETWORK_EXERCISE, TYPE_EXERCISE, IDENTIFIER_CN1_EXCERCISE,
-				LECTURER_CN1_EXERCISE);
+				LECTURER_CN1_EXERCISE, "");
 	}
 
 	private SaxTimetableParser parser;
@@ -61,12 +62,13 @@ public class LessonHandlerTest {
 	}
 
 	private void assertLesson(Map<TimeUnit, Lesson> lessons, TimeUnit timeUnit, String roomName, String type,
-			String identifier, String lecturer) {
+			String identifier, String lecturer, String description) {
 		Lesson lesson = lessons.get(timeUnit);
 		assertEquals(roomName, lesson.getRoom());
 		assertEquals(type, lesson.getType());
 		assertEquals(identifier, lesson.getIdentifier());
 		assertEquals(lecturer, lesson.getLecturersAsString(", "));
+		assertEquals(description, lesson.getDescription());
 	}
 
 }
