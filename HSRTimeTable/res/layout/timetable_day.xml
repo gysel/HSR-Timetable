@@ -24,7 +24,7 @@
 					<TextView style="@style/table_cell" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/table_header_lecturer" android:text="@string/label_lecturer"></TextView>
 				</TableRow>
 			</TableLayout>
-			<TextView android:id="@+id/result" android:layout_margin="5dip" android:layout_height="wrap_content" android:text="" android:layout_width="wrap_content"></TextView>
+			<TextView android:id="@+id/status_message" android:visibility="gone" android:layout_margin="5dip" android:layout_height="wrap_content" android:text="" android:layout_width="wrap_content"></TextView>
 		</LinearLayout>
 	</ScrollView>
 

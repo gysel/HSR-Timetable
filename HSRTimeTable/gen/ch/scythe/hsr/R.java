@@ -24,8 +24,8 @@ public final class R {
         public static final int linearLayout3=0x7f080008;
         public static final int preferences=0x7f080011;
         public static final int refresh=0x7f080010;
-        public static final int result=0x7f08000f;
         public static final int scrollView1=0x7f080007;
+        public static final int status_message=0x7f08000f;
         public static final int table_header_lecturer=0x7f08000e;
         public static final int table_header_lesson=0x7f08000c;
         public static final int table_header_room=0x7f08000d;

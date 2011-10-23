@@ -28,7 +28,7 @@ import ch.scythe.hsr.entity.TimeUnit;
 
 public class TimeTableDayActivity extends Activity {
 	// _UI
-	private TextView resultbox;
+	private TextView statusMessage;
 	private TextView datebox;
 	private TableLayout timeTable;
 	private SharedPreferences preferences;
@@ -44,7 +44,7 @@ public class TimeTableDayActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.timetable_day);
 
-		resultbox = (TextView) findViewById(R.id.result);
+		statusMessage = (TextView) findViewById(R.id.status_message);
 		datebox = (TextView) findViewById(R.id.date_value);
 		timeTable = (TableLayout) findViewById(R.id.timeTable);
 		preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -103,22 +103,13 @@ public class TimeTableDayActivity extends Activity {
 		return c.getTime();
 	}
 
-	private synchronized void startRequest() {
-		synchronized (dataTaskRunning) {
-			if (Boolean.FALSE.equals(dataTaskRunning)) {
-
-				String login = preferences.getString(getString(R.string.key_login), null);
-				String password = preferences.getString(getString(R.string.key_password), null);
-
-				if (login == null || password == null) {
-					resultbox.setText("Please set login and password in preferences.");
-				} else {
-					progress.show();
-					resultbox.setText("");
-					dataTaskRunning = true;
-					new FetchDataTask().execute(currentDate, login, password);
-				}
-			}
+	private void setMessage(String message) {
+		if (message != null && !message.isEmpty()) {
+			statusMessage.setVisibility(View.VISIBLE);
+			statusMessage.setText(message);
+		} else {
+			statusMessage.setText("");
+			statusMessage.setVisibility(View.GONE);
 		}
 	}
 
@@ -133,9 +124,8 @@ public class TimeTableDayActivity extends Activity {
 			timeTable.removeViews(1, rows - 1);
 		}
 
-		String result = "";
 		if (hasError) {
-			result = errorMessage;
+			setMessage(errorMessage);
 		} else {
 			for (Entry<TimeUnit, Lesson> entry : day.getLessons().entrySet()) {
 				TimeUnit timeUnit = entry.getKey();
@@ -143,7 +133,7 @@ public class TimeTableDayActivity extends Activity {
 
 				// init row
 				TableRow row = new TableRow(getApplicationContext());
-				if (timeUnit.getId() % 2 == 0) { // hightlight every other row
+				if (timeUnit.getId() % 2 == 1) { // hightlight every other row
 					row.setBackgroundColor(Color.rgb(0xdd, 0xdd, 0xdd));
 				}
 				TextView timeUnitField = createTableColumn(row);
@@ -164,8 +154,6 @@ public class TimeTableDayActivity extends Activity {
 			}
 		}
 
-		resultbox.setText(result);
-
 		synchronized (dataTaskRunning) {
 			progress.hide();
 			dataTaskRunning = false;
@@ -182,6 +170,26 @@ public class TimeTableDayActivity extends Activity {
 		// field.setTextColor(Color.BLACK);
 		row.addView(field);
 		return field;
+	}
+
+	private synchronized void startRequest() {
+		synchronized (dataTaskRunning) {
+			if (Boolean.FALSE.equals(dataTaskRunning)) {
+
+				String login = preferences.getString(getString(R.string.key_login), null);
+				String password = preferences.getString(getString(R.string.key_password), null);
+
+				if (login == null || password == null) {
+					String message = "Please set login and password in preferences.";
+					setMessage(message);
+				} else {
+					progress.show();
+					setMessage("");
+					dataTaskRunning = true;
+					new FetchDataTask().execute(currentDate, login, password);
+				}
+			}
+		}
 	}
 
 	class FetchDataTask extends AsyncTask<Object, Integer, Day> {
