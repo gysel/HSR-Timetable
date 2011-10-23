@@ -144,7 +144,7 @@ public class TimeTableDayActivity extends Activity {
 				// init row
 				TableRow row = new TableRow(getApplicationContext());
 				if (timeUnit.getId() % 2 == 0) { // hightlight every other row
-					row.setBackgroundColor(Color.rgb(40, 40, 40));
+					row.setBackgroundColor(Color.rgb(0xdd, 0xdd, 0xdd));
 				}
 				TextView timeUnitField = createTableColumn(row);
 				TextView lessonField = createTableColumn(row);
@@ -174,8 +174,12 @@ public class TimeTableDayActivity extends Activity {
 	}
 
 	private TextView createTableColumn(TableRow row) {
-		TextView field = new TextView(getApplicationContext());
-		field.setPadding(5, 5, 5, 5);
+		TextView field = (TextView) getLayoutInflater().inflate(R.layout.timetable_cell, null);
+
+		// TextView field = new TextView(getApplicationContext());
+		// field.set
+		// field.setPadding(5, 5, 5, 5);
+		// field.setTextColor(Color.BLACK);
 		row.addView(field);
 		return field;
 	}
