@@ -10,4 +10,11 @@
     <style name="table_cell" parent="android:Widget.TextView">
         <item name="android:padding">5dip</item>
     </style>
+    <style name="table_cell_small" parent="table_cell">
+        <item name="android:paddingTop">0dip</item>
+        <item name="android:textStyle">italic</item>
+    </style>
+    <style name="table_header" parent="table_cell">
+        <item name="android:textStyle">bold</item>
+    </style>
 </resources>

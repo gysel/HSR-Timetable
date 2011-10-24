@@ -89,4 +89,8 @@ public class Lesson {
 	public String getDescription() {
 		return description;
 	}
+
+	public boolean hasDescription() {
+		return description != null && !description.isEmpty();
+	}
 }

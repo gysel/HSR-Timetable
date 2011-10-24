@@ -35,7 +35,8 @@ public final class R {
     }
     public static final class layout {
         public static final int timetable_cell=0x7f030000;
-        public static final int timetable_day=0x7f030001;
+        public static final int timetable_info_row=0x7f030001;
+        public static final int timetable_main=0x7f030002;
     }
     public static final class menu {
         public static final int mainmenu=0x7f070000;
@@ -68,6 +69,8 @@ public final class R {
     public static final class style {
         public static final int app_title=0x7f060000;
         public static final int table_cell=0x7f060001;
+        public static final int table_cell_small=0x7f060002;
+        public static final int table_header=0x7f060003;
     }
     public static final class xml {
         public static final int user_preferences=0x7f040000;

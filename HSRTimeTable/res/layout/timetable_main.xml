@@ -18,10 +18,10 @@
 		<LinearLayout android:layout_height="wrap_content" android:id="@+id/linearLayout3" android:orientation="vertical" android:layout_width="match_parent">
 			<TableLayout android:layout_height="wrap_content" android:id="@+id/timeTable" android:layout_width="fill_parent">
 				<TableRow android:layout_height="wrap_content" android:id="@+id/headerRow" android:layout_width="match_parent" android:background="#ffBBBBBB">
-					<TextView android:id="@+id/table_header_time" android:text="@string/label_time" style="@style/table_cell" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
-					<TextView android:id="@+id/table_header_lesson" android:text="@string/label_lesson" style="@style/table_cell" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
-					<TextView android:id="@+id/table_header_room" android:text="@string/label_room" style="@style/table_cell" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
-					<TextView style="@style/table_cell" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/table_header_lecturer" android:text="@string/label_lecturer"></TextView>
+					<TextView android:id="@+id/table_header_time" android:text="@string/label_time" style="@style/table_header" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+					<TextView android:id="@+id/table_header_lesson" android:text="@string/label_lesson" style="@style/table_header" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+					<TextView android:id="@+id/table_header_room" android:text="@string/label_room" style="@style/table_header" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+					<TextView android:id="@+id/table_header_lecturer" android:text="@string/label_lecturer" style="@style/table_header" android:layout_width="wrap_content" android:layout_height="wrap_content" />
 				</TableRow>
 			</TableLayout>
 			<TextView android:id="@+id/status_message" android:visibility="gone" android:layout_margin="5dip" android:layout_height="wrap_content" android:text="" android:layout_width="wrap_content"></TextView>

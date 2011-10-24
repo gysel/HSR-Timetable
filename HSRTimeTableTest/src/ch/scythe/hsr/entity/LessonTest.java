@@ -1,6 +1,6 @@
 package ch.scythe.hsr.entity;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.util.List;
 
@@ -107,6 +107,19 @@ public class LessonTest {
 		String actualIdentifierShort = sut.getIdentifierShort();
 		// Verify outcome
 		assertEquals(identifier, actualIdentifierShort);
+	}
+
+	@Test
+	public void testHasDescription() throws Exception {
+		sut.setDescription(null);
+		assertFalse(sut.hasDescription());
+		//
+		sut.setDescription("");
+		assertFalse(sut.hasDescription());
+		//
+		sut.setDescription("some text");
+		assertTrue(sut.hasDescription());
+
 	}
 
 	private Lesson sut;

@@ -42,7 +42,7 @@ public class TimeTableDayActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.timetable_day);
+		setContentView(R.layout.timetable_main);
 
 		statusMessage = (TextView) findViewById(R.id.status_message);
 		datebox = (TextView) findViewById(R.id.date_value);
@@ -133,9 +133,8 @@ public class TimeTableDayActivity extends Activity {
 
 				// init row
 				TableRow row = new TableRow(getApplicationContext());
-				if (timeUnit.getId() % 2 == 1) { // hightlight every other row
-					row.setBackgroundColor(Color.rgb(0xdd, 0xdd, 0xdd));
-				}
+				formatRowBackground(timeUnit, row);
+				timeTable.addView(row);
 
 				TextView timeUnitField = createTableColumn(row);
 				TextView lessonField = createTableColumn(row);
@@ -147,10 +146,22 @@ public class TimeTableDayActivity extends Activity {
 					lessonField.setText(lesson.getIdentifierShort());
 					roomField.setText(lesson.getRoom());
 					lecturerField.setText(lesson.getLecturersAsString(", "));
+
+					if (lesson.hasDescription()) {
+
+						TableRow descriptionRow = (TableRow) getLayoutInflater().inflate(R.layout.timetable_info_row,
+								null);
+						TextView infoField = (TextView) descriptionRow.getChildAt(0);
+						infoField.setText(lesson.getDescription());
+						formatRowBackground(timeUnit, descriptionRow);
+
+						timeTable.addView(descriptionRow);
+
+					}
+
 				} else {
 					lessonField.setText(getString(R.string.default_novalue));
 				}
-				timeTable.addView(row);
 
 			}
 		}
@@ -160,6 +171,12 @@ public class TimeTableDayActivity extends Activity {
 			dataTaskRunning = false;
 		}
 
+	}
+
+	private void formatRowBackground(TimeUnit timeUnit, TableRow row) {
+		if (timeUnit.getId() % 2 == 1) { // hightlight every other row
+			row.setBackgroundColor(Color.rgb(0xdd, 0xdd, 0xdd));
+		}
 	}
 
 	private TextView createTableColumn(TableRow row) {
