@@ -1,6 +1,7 @@
 package ch.scythe.hsr;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -30,11 +31,13 @@ public class TimeTableDayActivity extends Activity {
 	// _UI
 	private TextView statusMessage;
 	private TextView datebox;
+	private TextView weekbox;
 	private TableLayout timeTable;
 	private SharedPreferences preferences;
 	private ProgressDialog progress;
 	// _Helpers
 	private final DateFormat mediumDateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
+	private final DateFormat weekNumberFormat = new SimpleDateFormat("w");
 	// _State
 	private Boolean dataTaskRunning = false;
 	private Date currentDate;
@@ -46,6 +49,7 @@ public class TimeTableDayActivity extends Activity {
 
 		statusMessage = (TextView) findViewById(R.id.status_message);
 		datebox = (TextView) findViewById(R.id.date_value);
+		weekbox = (TextView) findViewById(R.id.week_value);
 		timeTable = (TableLayout) findViewById(R.id.timeTable);
 		preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -115,8 +119,8 @@ public class TimeTableDayActivity extends Activity {
 
 	private void updateTimeTable(Boolean hasError, String errorMessage, Day day) {
 
-		String dateLocale = mediumDateFormat.format(day.getDate());
-		datebox.setText(dateLocale);
+		datebox.setText(mediumDateFormat.format(day.getDate()));
+		weekbox.setText(weekNumberFormat.format(day.getDate()));
 
 		int rows = timeTable.getChildCount();
 		if (rows > 1) {

@@ -4,14 +4,24 @@
 	android:layout_height="fill_parent">
 
 	<TextView android:layout_height="wrap_content" style="@style/app_title"
-		android:layout_width="wrap_content" android:text="@string/app_title" android:id="@+id/title"></TextView>
+		android:layout_width="wrap_content" android:text="@string/app_title" android:id="@+id/title" android:layout_gravity="center_horizontal"></TextView>
 
 	<LinearLayout android:id="@+id/linearLayout2" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
-		<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_margin="5dip" android:text="@string/label_date_label" android:id="@+id/date_label"></TextView>
-		<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_margin="5dip" android:id="@+id/date_value" android:text="@string/default_novalue"></TextView>
-		<Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/button_prev" android:id="@+id/button_prev" android:onClick="showPrevDay"></Button>
-		<Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/button_today" android:id="@+id/button_today" android:onClick="showToday"></Button>
-		<Button android:text="@string/button_next" android:id="@+id/button_next" android:layout_width="wrap_content" android:onClick="showNextDay" android:layout_height="wrap_content"></Button>
+		<TableLayout android:layout_width="wrap_content" android:id="@+id/tableLayout1" android:layout_height="wrap_content">
+			<TableRow android:id="@+id/tableRow1" android:layout_width="wrap_content" android:layout_height="wrap_content">
+				<TextView style="@style/table_cell" android:id="@+id/date_label" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/label_date_label"></TextView>
+				<TextView style="@style/table_cell" android:id="@+id/date_value" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/default_novalue"></TextView>
+			</TableRow>
+			<TableRow android:id="@+id/tableRow2" android:layout_width="wrap_content" android:layout_height="wrap_content">
+				<TextView style="@style/table_cell" android:id="@+id/week_label" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/label_week"></TextView>
+				<TextView style="@style/table_cell" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/default_novalue" android:id="@+id/week_value"></TextView>
+			</TableRow>
+		</TableLayout>
+		<LinearLayout android:id="@+id/linearLayout6" android:layout_height="wrap_content" android:layout_width="match_parent" android:layout_gravity="center_vertical" android:gravity="right">
+			<Button android:id="@+id/button_prev" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/button_prev" android:onClick="showPrevDay"></Button>
+			<Button android:id="@+id/button_today" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/button_today" android:onClick="showToday"></Button>
+			<Button android:id="@+id/button_next" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/button_next" android:onClick="showNextDay"></Button>
+		</LinearLayout>
 	</LinearLayout>
 
 	<ScrollView android:layout_width="match_parent" android:id="@+id/scrollView1" android:layout_height="fill_parent">
