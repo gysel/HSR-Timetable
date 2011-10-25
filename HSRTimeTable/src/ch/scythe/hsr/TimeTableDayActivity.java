@@ -40,7 +40,6 @@ public class TimeTableDayActivity extends Activity {
 	private final DateFormat weekNumberFormat = new SimpleDateFormat("w");
 	// _State
 	private Boolean dataTaskRunning = false;
-	private Date currentDate = null;
 	private Day day = null;
 
 	@Override
@@ -49,7 +48,6 @@ public class TimeTableDayActivity extends Activity {
 		setContentView(R.layout.timetable_main);
 
 		day = (Day) getLastNonConfigurationInstance();
-		currentDate = day != null ? day.getDate() : new Date();
 
 		statusMessage = (TextView) findViewById(R.id.status_message);
 		datebox = (TextView) findViewById(R.id.date_value);
@@ -62,7 +60,8 @@ public class TimeTableDayActivity extends Activity {
 		progress.setIndeterminate(true);
 		progress.setCancelable(false);
 
-		startRequest(currentDate);
+		Date date = day != null ? day.getDate() : new Date();
+		startRequest(date);
 
 	}
 
@@ -80,6 +79,7 @@ public class TimeTableDayActivity extends Activity {
 			startActivity(i);
 			break;
 		case R.id.refresh:
+			Date currentDate = day.getDate();
 			day = null;
 			startRequest(currentDate);
 			break;
@@ -94,18 +94,15 @@ public class TimeTableDayActivity extends Activity {
 	}
 
 	public void showPrevDay(View view) {
-		currentDate = addDays(currentDate, -1);
-		startRequest(currentDate);
+		startRequest(addDays(day.getDate(), -1));
 	}
 
 	public void showToday(View view) {
-		currentDate = new Date();
-		startRequest(currentDate);
+		startRequest(new Date());
 	}
 
 	public void showNextDay(View view) {
-		currentDate = addDays(currentDate, 1);
-		startRequest(currentDate);
+		startRequest(addDays(day.getDate(), 1));
 	}
 
 	private Date addDays(Date date, int days) {
@@ -244,7 +241,7 @@ public class TimeTableDayActivity extends Activity {
 				e.printStackTrace();
 				hasError = true;
 				errorMessage = e.getMessage();
-				result = new Day(currentDate);
+				result = new Day(date);
 			}
 			return result;
 		}
