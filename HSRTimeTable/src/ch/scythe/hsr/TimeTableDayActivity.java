@@ -40,12 +40,16 @@ public class TimeTableDayActivity extends Activity {
 	private final DateFormat weekNumberFormat = new SimpleDateFormat("w");
 	// _State
 	private Boolean dataTaskRunning = false;
-	private Date currentDate;
+	private Date currentDate = null;
+	private Day day = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.timetable_main);
+
+		day = (Day) getLastNonConfigurationInstance();
+		currentDate = day != null ? day.getDate() : new Date();
 
 		statusMessage = (TextView) findViewById(R.id.status_message);
 		datebox = (TextView) findViewById(R.id.date_value);
@@ -58,9 +62,7 @@ public class TimeTableDayActivity extends Activity {
 		progress.setIndeterminate(true);
 		progress.setCancelable(false);
 
-		currentDate = new Date();
-
-		startRequest();
+		startRequest(currentDate);
 
 	}
 
@@ -78,26 +80,32 @@ public class TimeTableDayActivity extends Activity {
 			startActivity(i);
 			break;
 		case R.id.refresh:
-			startRequest();
+			day = null;
+			startRequest(currentDate);
 			break;
 
 		}
 		return true;
 	}
 
+	@Override
+	public Object onRetainNonConfigurationInstance() {
+		return day;
+	}
+
 	public void showPrevDay(View view) {
 		currentDate = addDays(currentDate, -1);
-		startRequest();
+		startRequest(currentDate);
 	}
 
 	public void showToday(View view) {
 		currentDate = new Date();
-		startRequest();
+		startRequest(currentDate);
 	}
 
 	public void showNextDay(View view) {
 		currentDate = addDays(currentDate, 1);
-		startRequest();
+		startRequest(currentDate);
 	}
 
 	private Date addDays(Date date, int days) {
@@ -117,7 +125,7 @@ public class TimeTableDayActivity extends Activity {
 		}
 	}
 
-	private void updateTimeTable(Boolean hasError, String errorMessage, Day day) {
+	private void updateTimeTable(Boolean hasError, String errorMessage) {
 
 		datebox.setText(mediumDateFormat.format(day.getDate()));
 		weekbox.setText(weekNumberFormat.format(day.getDate()));
@@ -189,24 +197,32 @@ public class TimeTableDayActivity extends Activity {
 		return field;
 	}
 
-	private synchronized void startRequest() {
+	private synchronized void startRequest(Date date) {
 		synchronized (dataTaskRunning) {
 			if (Boolean.FALSE.equals(dataTaskRunning)) {
-
-				String login = preferences.getString(getString(R.string.key_login), null);
-				String password = preferences.getString(getString(R.string.key_password), null);
-
-				if (login == null || password == null) {
-					String message = "Please set login and password in preferences.";
-					setMessage(message);
+				if (day != null && datesAreEqual(day.getDate(), date)) {
+					updateTimeTable(false, null);
 				} else {
-					progress.show();
-					setMessage("");
-					dataTaskRunning = true;
-					new FetchDataTask().execute(currentDate, login, password);
+					String login = preferences.getString(getString(R.string.key_login), null);
+					String password = preferences.getString(getString(R.string.key_password), null);
+
+					if (login == null || password == null) {
+						String message = "Please set login and password in preferences.";
+						setMessage(message);
+					} else {
+						progress.show();
+						setMessage("");
+						dataTaskRunning = true;
+						new FetchDataTask().execute(date, login, password);
+					}
 				}
 			}
 		}
+	}
+
+	private boolean datesAreEqual(Date date1, Date date2) {
+		return date1.getYear() == date2.getYear() && date1.getMonth() == date2.getMonth()
+				&& date1.getDate() == date2.getDate();
 	}
 
 	class FetchDataTask extends AsyncTask<Object, Integer, Day> {
@@ -235,7 +251,8 @@ public class TimeTableDayActivity extends Activity {
 
 		@Override
 		protected void onPostExecute(Day day) {
-			updateTimeTable(hasError, errorMessage, day);
+			TimeTableDayActivity.this.day = day;
+			updateTimeTable(hasError, errorMessage);
 		}
 	}
 
