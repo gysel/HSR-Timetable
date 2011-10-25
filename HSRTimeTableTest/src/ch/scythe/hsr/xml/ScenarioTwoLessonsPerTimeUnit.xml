@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <soap:Body>
+      <GetOtherCurrentTimeTableResponse xmlns="http://tempuri.org/">
+         <GetOtherCurrentTimeTableResult student="Student Peter" id="540414">
+            <Days>
+               <Day id="2" description="Dienstag">
+                  <Lessons>
+                     <Lesson id="33945_CAD_1-p4">
+                        <Description>KW 38 - 44: T. Putscher</Description>
+                        <Type>Praktikum</Type>
+                        <TimeSlots>
+                           <TimeUnit id="3">
+                              <StartTime xsi:nil="true"/>
+                              <EndTime xsi:nil="true"/>
+                              <Rooms>
+                                 <Room id="1.256"/>
+                              </Rooms>
+                           </TimeUnit>
+                           <TimeUnit id="4">
+                              <StartTime xsi:nil="true"/>
+                              <EndTime xsi:nil="true"/>
+                              <Rooms>
+                                 <Room id="1.256"/>
+                              </Rooms>
+                           </TimeUnit>
+                        </TimeSlots>
+                        <OccurenceValue>spez</OccurenceValue>
+                        <Lecturers>
+                           <Lecturer>
+                              <NameShort>PEP</NameShort>
+                              <NameLong>Peter Petschek</NameLong>
+                           </Lecturer>
+                           <Lecturer>
+                              <NameShort>PUT</NameShort>
+                              <NameLong>Thomas Putscher</NameLong>
+                           </Lecturer>
+                        </Lecturers>
+                     </Lesson>
+                     <Lesson id="34384_Kgs-v2">
+                        <Description/>
+                        <Type>Vorlesung</Type>
+                        <TimeSlots>
+                           <TimeUnit id="8">
+                              <StartTime xsi:nil="true"/>
+                              <EndTime xsi:nil="true"/>
+                              <Rooms>
+                                 <Room id="3.114"/>
+                              </Rooms>
+                           </TimeUnit>
+                           <TimeUnit id="9">
+                              <StartTime xsi:nil="true"/>
+                              <EndTime xsi:nil="true"/>
+                              <Rooms>
+                                 <Room id="3.114"/>
+                              </Rooms>
+                           </TimeUnit>
+                        </TimeSlots>
+                        <OccurenceValue>wö</OccurenceValue>
+                        <Lecturers>
+                           <Lecturer>
+                              <NameShort>RÖL</NameShort>
+                              <NameLong>Peter Röllin</NameLong>
+                           </Lecturer>
+                        </Lecturers>
+                     </Lesson>
+                     <Lesson id="34385_RePlaner-v1">
+                        <Description/>
+                        <Type>Vorlesung</Type>
+                        <TimeSlots>
+                           <TimeUnit id="10">
+                              <StartTime xsi:nil="true"/>
+                              <EndTime xsi:nil="true"/>
+                              <Rooms>
+                                 <Room id="3.008"/>
+                              </Rooms>
+                           </TimeUnit>
+                           <TimeUnit id="11">
+                              <StartTime xsi:nil="true"/>
+                              <EndTime xsi:nil="true"/>
+                              <Rooms>
+                                 <Room id="3.008"/>
+                              </Rooms>
+                           </TimeUnit>
+                        </TimeSlots>
+                        <OccurenceValue>wö</OccurenceValue>
+                        <Lecturers>
+                           <Lecturer>
+                              <NameShort>RUG</NameShort>
+                              <NameLong>Sandro A. Ruggli</NameLong>
+                           </Lecturer>
+                           <Lecturer>
+                              <NameShort>FAE</NameShort>
+                              <NameLong>Claudio Giorgio Fäh</NameLong>
+                           </Lecturer>
+                        </Lecturers>
+                     </Lesson>
+                     <Lesson id="35109_ReKo-v3">
+                        <Description/>
+                        <Type>Vorlesung</Type>
+                        <TimeSlots>
+                           <TimeUnit id="5">
+                              <StartTime xsi:nil="true"/>
+                              <EndTime xsi:nil="true"/>
+                              <Rooms>
+                                 <Room id="1.211"/>
+                              </Rooms>
+                           </TimeUnit>
+                           <TimeUnit id="6">
+                              <StartTime xsi:nil="true"/>
+                              <EndTime xsi:nil="true"/>
+                              <Rooms>
+                                 <Room id="1.211"/>
+                              </Rooms>
+                           </TimeUnit>
+                        </TimeSlots>
+                        <OccurenceValue>wö</OccurenceValue>
+                        <Lecturers>
+                           <Lecturer>
+                              <NameShort>DIP</NameShort>
+                              <NameLong>Béatrice Di Pizzo</NameLong>
+                           </Lecturer>
+                        </Lecturers>
+                     </Lesson>
+                     <Lesson id="35110_ReKo-u31">
+                        <Description>KW  45-51:  ReKo-u31</Description>
+                        <Type>Uebung</Type>
+                        <TimeSlots>
+                           <TimeUnit id="3">
+                              <StartTime xsi:nil="true"/>
+                              <EndTime xsi:nil="true"/>
+                              <Rooms>
+                                 <Room id="1.211"/>
+                              </Rooms>
+                           </TimeUnit>
+                           <TimeUnit id="4">
+                              <StartTime xsi:nil="true"/>
+                              <EndTime xsi:nil="true"/>
+                              <Rooms>
+                                 <Room id="1.211"/>
+                              </Rooms>
+                           </TimeUnit>
+                        </TimeSlots>
+                        <OccurenceValue>wö</OccurenceValue>
+                        <Lecturers>
+                           <Lecturer>
+                              <NameShort>DIP</NameShort>
+                              <NameLong>Béatrice Di Pizzo</NameLong>
+                           </Lecturer>
+                        </Lecturers>
+                     </Lesson>
+                  </Lessons>
+               </Day>
+            </Days>
+         </GetOtherCurrentTimeTableResult>
+      </GetOtherCurrentTimeTableResponse>
+   </soap:Body>
+</soap:Envelope>

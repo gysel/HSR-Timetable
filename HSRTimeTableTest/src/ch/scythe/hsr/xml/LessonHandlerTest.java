@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import ch.scythe.hsr.entity.Day;
@@ -47,6 +48,17 @@ public class LessonHandlerTest {
 				LECTURER_CN1_EXERCISE, "");
 		assertLesson(lessons, TimeUnit.LESSON_9, ROOM_NETWORK_EXERCISE, TYPE_EXERCISE, IDENTIFIER_CN1_EXCERCISE,
 				LECTURER_CN1_EXERCISE, "");
+	}
+
+	@Test
+	@Ignore
+	public void testScenarioTwoLessonsPerTimeUnit() throws Exception {
+		// Set up fixture
+		Date scenarioDate = new Date(2011, 10, 25);
+		Day day = parse("ScenarioTwoLessonsPerTimeUnit.xml", scenarioDate);
+		// Exercise sut
+		Map<TimeUnit, Lesson> lessons = day.getLessons();
+		// Verify outcome
 	}
 
 	private SaxTimetableParser parser;
