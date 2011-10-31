@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -23,20 +22,26 @@ import org.apache.http.message.BasicHttpResponse;
 import org.apache.http.protocol.HTTP;
 
 import android.content.Context;
+import android.util.Log;
 import ch.scythe.hsr.entity.Day;
 import ch.scythe.hsr.entity.Lesson;
+import ch.scythe.hsr.enumeration.WeekDay;
+import ch.scythe.hsr.helper.DateHelper;
 import ch.scythe.hsr.xml.SaxTimetableParser;
 
 public class TimeTableAPI {
 	// _SOAP Webservice info
 	private static final String URL = "https://stundenplanws.hsr.ch:4434/Service/SASTimeTable.asmx";
-	private static final String NAMESPACE = "\"http://tempuri.org/GetOwnTimeTableOfDay\"";
+	private static final String METHOD = "GetOwnTimeTableOfDate";
+	private static final String NAMESPACE = "\"http://tempuri.org/" + METHOD + "\"";
 	// _Cache details
 	private static final String TIMETABLE_CACHE_XML = "timetable_cache.xml";
 	private static final String TIMETABLE_CACHE_INFO = "timetable_cache.txt";
 	// _Helper
 	private final SaxTimetableParser parser = new SaxTimetableParser();
 	private final Context context;
+	// _Logging details
+	private static final String LOGGING_TAG = "TimeTableAPI";
 
 	public TimeTableAPI(Context context) {
 		this.context = context;
@@ -57,28 +62,33 @@ public class TimeTableAPI {
 	public Day retrieve(Date date, String login, String password, boolean forceRequest) throws RequestException {
 		Day result = null;
 
-		SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
-		String dateString = dateFormatter.format(date);
+		String dateString = DateHelper.formatToTechnicalFormat(date);
+		String weekNumber = DateHelper.formatToWeekNumber(date);
 
 		// create cache if the cache is not present yet
 		if (forceRequest || !cacheFilesExist(context.fileList(), TIMETABLE_CACHE_XML, TIMETABLE_CACHE_INFO)) {
-			updateCache(dateString, login, password);
-
+			if (forceRequest) {
+				Log.i(LOGGING_TAG, "Forced refreshing of the cache.");
+			} else {
+				Log.i(LOGGING_TAG, "Initial loading of the cache.");
+			}
+			updateCache(dateString, weekNumber, login, password);
 		}
 
 		FileInputStream cachedRequest = null;
 		try {
 			// read the cached day
-			String cachedDay = getCachedDay();
+			String cachedWeek = getCachedWeek();
 
 			// update the cache if necessary
-			if (!dateString.equals(cachedDay)) {
-				updateCache(dateString, login, password);
+			if (!weekNumber.equals(cachedWeek)) {
+				Log.i(LOGGING_TAG, "Refreshing cache. (Data was outdated.)");
+				updateCache(dateString, weekNumber, login, password);
 			}
 
 			// parse the timetable from the cache
 			cachedRequest = context.openFileInput(TIMETABLE_CACHE_XML);
-			List<Lesson> lessons = parser.parse(cachedRequest);
+			List<Lesson> lessons = parser.parse(cachedRequest, WeekDay.getByDate(date));
 			result = new Day(lessons, date);
 
 		} catch (FileNotFoundException e) {
@@ -90,7 +100,7 @@ public class TimeTableAPI {
 		return result;
 	}
 
-	private String getCachedDay() throws RequestException {
+	private String getCachedWeek() throws RequestException {
 		String cacheInfo = null;
 		FileInputStream cachedRequestInfo = null;
 		try {
@@ -107,7 +117,8 @@ public class TimeTableAPI {
 		return cacheInfo;
 	}
 
-	private void updateCache(String dateString, String login, String password) throws RequestException {
+	private void updateCache(String dateString, String weekNumber, String login, String password)
+			throws RequestException {
 		FileOutputStream xmlCacheOutputStream = null;
 		FileOutputStream cacheInfoOutputStream = null;
 		InputStream xmlInputStream = null;
@@ -120,7 +131,7 @@ public class TimeTableAPI {
 			while ((c = xmlInputStream.read()) != -1) {
 				xmlCacheOutputStream.write(c);
 			}
-			cacheInfoOutputStream.write(dateString.getBytes());
+			cacheInfoOutputStream.write(weekNumber.getBytes());
 		} catch (FileNotFoundException e) {
 			throw new RequestException(e);
 		} catch (IOException e) {
@@ -175,13 +186,13 @@ public class TimeTableAPI {
 		result += "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:tem=\"http://tempuri.org/\">";
 		result += "   <soapenv:Header/>";
 		result += "   <soapenv:Body>";
-		result += "      <tem:GetOwnTimeTableOfDay>";
+		result += "      <tem:" + METHOD + ">";
 		result += "         <!--Optional:-->";
 		result += "         <tem:strUserName>" + login + "</tem:strUserName>";
 		result += "         <!--Optional:-->";
 		result += "         <tem:strPassword>" + password + "</tem:strPassword>";
 		result += "         <tem:reqDate>" + date + "</tem:reqDate>";
-		result += "      </tem:GetOwnTimeTableOfDay>";
+		result += "      </tem:" + METHOD + ">";
 		result += "   </soapenv:Body>";
 		result += "</soapenv:Envelope>";
 		return result;
@@ -205,7 +216,7 @@ public class TimeTableAPI {
 				break;
 			}
 		}
-	
+
 		return result;
 	}
 }

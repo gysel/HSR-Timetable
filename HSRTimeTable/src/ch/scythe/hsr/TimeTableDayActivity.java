@@ -1,10 +1,7 @@
 package ch.scythe.hsr;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 import java.util.Map.Entry;
 
 import android.app.Activity;
@@ -25,7 +22,8 @@ import ch.scythe.hsr.api.RequestException;
 import ch.scythe.hsr.api.TimeTableAPI;
 import ch.scythe.hsr.entity.Day;
 import ch.scythe.hsr.entity.Lesson;
-import ch.scythe.hsr.entity.TimeUnit;
+import ch.scythe.hsr.enumeration.TimeUnit;
+import ch.scythe.hsr.helper.DateHelper;
 
 public class TimeTableDayActivity extends Activity {
 	// _UI
@@ -35,9 +33,6 @@ public class TimeTableDayActivity extends Activity {
 	private TableLayout timeTable;
 	private SharedPreferences preferences;
 	private ProgressDialog progress;
-	// _Helpers
-	private final DateFormat mediumDateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
-	private final DateFormat weekNumberFormat = new SimpleDateFormat("w");
 	// _State
 	private Boolean dataTaskRunning = false;
 	private Day day = null;
@@ -124,8 +119,8 @@ public class TimeTableDayActivity extends Activity {
 
 	private void updateTimeTable(Boolean hasError, String errorMessage) {
 
-		datebox.setText(mediumDateFormat.format(day.getDate()));
-		weekbox.setText(weekNumberFormat.format(day.getDate()));
+		datebox.setText(DateHelper.formatToUserFriendlyFormat(day.getDate()));
+		weekbox.setText(DateHelper.formatToWeekNumber(day.getDate()));
 
 		int rows = timeTable.getChildCount();
 		if (rows > 1) {

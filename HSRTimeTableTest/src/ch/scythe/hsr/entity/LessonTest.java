@@ -8,6 +8,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import ch.scythe.hsr.enumeration.TimeUnit;
 import ch.scythe.hsr.error.EnumNotFoundException;
 
 public class LessonTest {

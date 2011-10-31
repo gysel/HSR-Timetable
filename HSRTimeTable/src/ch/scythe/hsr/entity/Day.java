@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import ch.scythe.hsr.enumeration.TimeUnit;
+
 public class Day {
 
 	private final Map<TimeUnit, Lesson> lessons;

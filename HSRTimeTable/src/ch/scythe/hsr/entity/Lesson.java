@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import ch.scythe.hsr.enumeration.TimeUnit;
 import ch.scythe.hsr.error.EnumNotFoundException;
 
 public class Lesson {

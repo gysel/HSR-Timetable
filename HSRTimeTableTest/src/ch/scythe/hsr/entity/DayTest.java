@@ -10,6 +10,7 @@ import java.util.Map;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import ch.scythe.hsr.enumeration.TimeUnit;
 import ch.scythe.hsr.error.EnumNotFoundException;
 
 public class DayTest {
@@ -17,7 +18,7 @@ public class DayTest {
 	@Test
 	public void testDayDate() {
 		// Exercise sut
-		sut = new Day(new Date(2011, 10, 18));
+		sut = new Day(new Date(2011 - 1900, 10 - 1, 18));
 		// Verify outcome
 		Map<TimeUnit, Lesson> actualLessons = sut.getLessons();
 		assertTrue(actualLessons.isEmpty());
@@ -30,7 +31,7 @@ public class DayTest {
 		addLesson(lessons, TimeUnit.LESSON_2);
 		addLesson(lessons, TimeUnit.LESSON_3);
 		// Exercise sut
-		sut = new Day(lessons, new Date(2011, 10, 18));
+		sut = new Day(lessons, new Date(2011 - 1900, 10 - 1, 18));
 		Map<TimeUnit, Lesson> actualLessons = sut.getLessons();
 		// Verify outcome
 		assertEquals(TimeUnit.getAll().size(), actualLessons.size());
@@ -46,7 +47,7 @@ public class DayTest {
 		Collection<Lesson> lessons = new ArrayList<Lesson>();
 		addLesson(lessons, TimeUnit.LESSON_2);
 		// Exercise sut
-		sut = new Day(lessons, new Date(2011, 10, 18));
+		sut = new Day(lessons, new Date(2011 - 1900, 10 - 1, 18));
 		sut.getLessons().put(TimeUnit.LESSON_3, new Lesson());
 	}
 
@@ -58,7 +59,7 @@ public class DayTest {
 		addLesson(lessons, TimeUnit.LESSON_2);
 		addLesson(lessons, TimeUnit.LESSON_2);
 		// Exercise sut
-		sut = new Day(lessons, new Date(2011, 10, 18));
+		sut = new Day(lessons, new Date(2011, 10 - 1, 18));
 	}
 
 	private Day sut;

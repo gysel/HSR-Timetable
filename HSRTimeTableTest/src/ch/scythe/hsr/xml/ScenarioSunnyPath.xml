@@ -1,9 +1,124 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
    <soap:Body>
-      <GetOwnTimeTableOfDayResponse xmlns="http://tempuri.org/">
-         <GetOwnTimeTableOfDayResult student="Gysel Michael" id="540090">
+      <GetOwnTimeTableOfDateResponse xmlns="http://tempuri.org/">
+         <GetOwnTimeTableOfDateResult student="Muster Peter" id="540090">
             <Days>
+               <Day id="1" description="Montag">
+                  <Lessons>
+                     <Lesson id="33411_CN1-v1">
+                        <Description/>
+                        <Type>Vorlesung</Type>
+                        <TimeSlots>
+                           <TimeUnit id="8">
+                              <StartTime xsi:nil="true"/>
+                              <EndTime xsi:nil="true"/>
+                              <Rooms>
+                                 <Room id="5.002"/>
+                              </Rooms>
+                           </TimeUnit>
+                           <TimeUnit id="9">
+                              <StartTime xsi:nil="true"/>
+                              <EndTime xsi:nil="true"/>
+                              <Rooms>
+                                 <Room id="5.002"/>
+                              </Rooms>
+                           </TimeUnit>
+                        </TimeSlots>
+                        <OccurenceValue>wö</OccurenceValue>
+                        <Lecturers>
+                           <Lecturer>
+                              <NameShort>RIN</NameShort>
+                              <NameLong>Andreas Rinkel</NameLong>
+                           </Lecturer>
+                           <Lecturer>
+                              <NameShort>HEI</NameShort>
+                              <NameLong>Peter Heinzmann</NameLong>
+                           </Lecturer>
+                        </Lecturers>
+                     </Lesson>
+                     <Lesson id="33829_Prog1-v1">
+                        <Description/>
+                        <Type>Vorlesung</Type>
+                        <TimeSlots>
+                           <TimeUnit id="10">
+                              <StartTime xsi:nil="true"/>
+                              <EndTime xsi:nil="true"/>
+                              <Rooms>
+                                 <Room id="3.008"/>
+                              </Rooms>
+                           </TimeUnit>
+                           <TimeUnit id="11">
+                              <StartTime xsi:nil="true"/>
+                              <EndTime xsi:nil="true"/>
+                              <Rooms>
+                                 <Room id="3.008"/>
+                              </Rooms>
+                           </TimeUnit>
+                        </TimeSlots>
+                        <OccurenceValue>wö</OccurenceValue>
+                        <Lecturers>
+                           <Lecturer>
+                              <NameShort>KES</NameShort>
+                              <NameLong>Stefan F. Keller</NameLong>
+                           </Lecturer>
+                        </Lecturers>
+                     </Lesson>
+                     <Lesson id="34713_An1I-v2">
+                        <Description/>
+                        <Type>Vorlesung</Type>
+                        <TimeSlots>
+                           <TimeUnit id="5">
+                              <StartTime xsi:nil="true"/>
+                              <EndTime xsi:nil="true"/>
+                              <Rooms>
+                                 <Room id="1.207"/>
+                              </Rooms>
+                           </TimeUnit>
+                           <TimeUnit id="6">
+                              <StartTime xsi:nil="true"/>
+                              <EndTime xsi:nil="true"/>
+                              <Rooms>
+                                 <Room id="1.207"/>
+                              </Rooms>
+                           </TimeUnit>
+                        </TimeSlots>
+                        <OccurenceValue>wö</OccurenceValue>
+                        <Lecturers>
+                           <Lecturer>
+                              <NameShort>AUG</NameShort>
+                              <NameLong>Oliver Augenstein</NameLong>
+                           </Lecturer>
+                        </Lecturers>
+                     </Lesson>
+                     <Lesson id="35269_English3-v6">
+                        <Description/>
+                        <Type>Vorlesung</Type>
+                        <TimeSlots>
+                           <TimeUnit id="12">
+                              <StartTime xsi:nil="true"/>
+                              <EndTime xsi:nil="true"/>
+                              <Rooms>
+                                 <Room id="1.251"/>
+                              </Rooms>
+                           </TimeUnit>
+                           <TimeUnit id="13">
+                              <StartTime xsi:nil="true"/>
+                              <EndTime xsi:nil="true"/>
+                              <Rooms>
+                                 <Room id="1.251"/>
+                              </Rooms>
+                           </TimeUnit>
+                        </TimeSlots>
+                        <OccurenceValue>wö</OccurenceValue>
+                        <Lecturers>
+                           <Lecturer>
+                              <NameShort>JUR</NameShort>
+                              <NameLong>Andrea Jurt Massey</NameLong>
+                           </Lecturer>
+                        </Lecturers>
+                     </Lesson>
+                  </Lessons>
+               </Day>
                <Day id="2" description="Dienstag">
                   <Lessons>
                      <Lesson id="34713_An1I-v2">
@@ -159,8 +274,78 @@
                      </Lesson>
                   </Lessons>
                </Day>
+               <Day id="3" description="Mittwoch">
+                  <Lessons>
+                     <Lesson id="33829_Prog1-v1">
+                        <Description/>
+                        <Type>Vorlesung</Type>
+                        <TimeSlots>
+                           <TimeUnit id="6">
+                              <StartTime xsi:nil="true"/>
+                              <EndTime xsi:nil="true"/>
+                              <Rooms>
+                                 <Room id="3.010"/>
+                              </Rooms>
+                           </TimeUnit>
+                        </TimeSlots>
+                        <OccurenceValue>wö</OccurenceValue>
+                        <Lecturers>
+                           <Lecturer>
+                              <NameShort>KES</NameShort>
+                              <NameLong>Stefan F. Keller</NameLong>
+                           </Lecturer>
+                        </Lecturers>
+                     </Lesson>
+                     <Lesson id="35160_Prog1-u15">
+                        <Description/>
+                        <Type>Uebung</Type>
+                        <TimeSlots>
+                           <TimeUnit id="3">
+                              <StartTime xsi:nil="true"/>
+                              <EndTime xsi:nil="true"/>
+                              <Rooms>
+                                 <Room id="1.202"/>
+                              </Rooms>
+                           </TimeUnit>
+                           <TimeUnit id="4">
+                              <StartTime xsi:nil="true"/>
+                              <EndTime xsi:nil="true"/>
+                              <Rooms>
+                                 <Room id="1.202"/>
+                              </Rooms>
+                           </TimeUnit>
+                           <TimeUnit id="5">
+                              <StartTime xsi:nil="true"/>
+                              <EndTime xsi:nil="true"/>
+                              <Rooms>
+                                 <Room id="1.202"/>
+                              </Rooms>
+                           </TimeUnit>
+                        </TimeSlots>
+                        <OccurenceValue>wö</OccurenceValue>
+                        <Lecturers>
+                           <Lecturer>
+                              <NameShort>STX</NameShort>
+                              <NameLong>Mirko Stocker</NameLong>
+                           </Lecturer>
+                        </Lecturers>
+                     </Lesson>
+                  </Lessons>
+               </Day>
+               <Day id="4" description="Donnerstag">
+                  <Lessons/>
+               </Day>
+               <Day id="5" description="Freitag">
+                  <Lessons/>
+               </Day>
+               <Day id="6" description="Samstag">
+                  <Lessons/>
+               </Day>
+               <Day id="7" description="Sonntag">
+                  <Lessons/>
+               </Day>
             </Days>
-         </GetOwnTimeTableOfDayResult>
-      </GetOwnTimeTableOfDayResponse>
+         </GetOwnTimeTableOfDateResult>
+      </GetOwnTimeTableOfDateResponse>
    </soap:Body>
 </soap:Envelope>
