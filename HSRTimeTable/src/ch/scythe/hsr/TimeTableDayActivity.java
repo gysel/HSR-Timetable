@@ -61,7 +61,7 @@ public class TimeTableDayActivity extends Activity {
 		progress.setCancelable(false);
 
 		Date date = day != null ? day.getDate() : new Date();
-		startRequest(date);
+		startRequest(date, false);
 
 	}
 
@@ -81,7 +81,7 @@ public class TimeTableDayActivity extends Activity {
 		case R.id.refresh:
 			Date currentDate = day.getDate();
 			day = null;
-			startRequest(currentDate);
+			startRequest(currentDate, true);
 			break;
 
 		}
@@ -94,15 +94,15 @@ public class TimeTableDayActivity extends Activity {
 	}
 
 	public void showPrevDay(View view) {
-		startRequest(addDays(day.getDate(), -1));
+		startRequest(addDays(day.getDate(), -1), false);
 	}
 
 	public void showToday(View view) {
-		startRequest(new Date());
+		startRequest(new Date(), false);
 	}
 
 	public void showNextDay(View view) {
-		startRequest(addDays(day.getDate(), 1));
+		startRequest(addDays(day.getDate(), 1), false);
 	}
 
 	private Date addDays(Date date, int days) {
@@ -194,7 +194,7 @@ public class TimeTableDayActivity extends Activity {
 		return field;
 	}
 
-	private synchronized void startRequest(Date date) {
+	private synchronized void startRequest(Date date, boolean forceRequest) {
 		synchronized (dataTaskRunning) {
 			if (Boolean.FALSE.equals(dataTaskRunning)) {
 				if (day != null && datesAreEqual(day.getDate(), date)) {
@@ -210,7 +210,7 @@ public class TimeTableDayActivity extends Activity {
 						progress.show();
 						setMessage("");
 						dataTaskRunning = true;
-						new FetchDataTask().execute(date, login, password);
+						new FetchDataTask().execute(date, login, password, forceRequest);
 					}
 				}
 			}
@@ -224,7 +224,7 @@ public class TimeTableDayActivity extends Activity {
 
 	class FetchDataTask extends AsyncTask<Object, Integer, Day> {
 
-		private final TimeTableAPI api = new TimeTableAPI();
+		private final TimeTableAPI api = new TimeTableAPI(TimeTableDayActivity.this);
 		private Boolean hasError = false;
 		private String errorMessage = null;
 
@@ -233,10 +233,11 @@ public class TimeTableDayActivity extends Activity {
 			Date date = (Date) params[0];
 			String login = (String) params[1];
 			String password = (String) params[2];
+			boolean forceRequest = (Boolean) params[3];
 
 			Day result = null;
 			try {
-				result = api.retrieve(date, login, password);
+				result = api.retrieve(date, login, password, forceRequest);
 			} catch (RequestException e) {
 				e.printStackTrace();
 				hasError = true;
