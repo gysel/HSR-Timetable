@@ -2,6 +2,7 @@ package ch.scythe.hsr;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Map.Entry;
 
 import android.app.Activity;
@@ -131,40 +132,22 @@ public class TimeTableDayActivity extends Activity {
 		if (hasError) {
 			setMessage(errorMessage);
 		} else {
-			for (Entry<TimeUnit, Lesson> entry : day.getLessons().entrySet()) {
+			for (Entry<TimeUnit, List<Lesson>> entry : day.getLessons().entrySet()) {
 				TimeUnit timeUnit = entry.getKey();
-				Lesson lesson = entry.getValue();
+				List<Lesson> lessonsPerTimeUnit = entry.getValue();
 
-				// init row
-				TableRow row = new TableRow(getApplicationContext());
-				formatRowBackground(timeUnit, row);
-				timeTable.addView(row);
+				if (lessonsPerTimeUnit == null || lessonsPerTimeUnit.isEmpty()) {
 
-				TextView timeUnitField = createTableColumn(row);
-				TextView lessonField = createTableColumn(row);
-				TextView roomField = createTableColumn(row);
-				TextView lecturerField = createTableColumn(row);
-				// fill values into row
-				timeUnitField.setText(timeUnit.toDurationString(" - "));
-				if (lesson != null) {
-					lessonField.setText(lesson.getIdentifierShort());
-					roomField.setText(lesson.getRoom());
-					lecturerField.setText(lesson.getLecturersAsString(", "));
+					for (Lesson lesson : lessonsPerTimeUnit) {
 
-					if (lesson.hasDescription()) {
-
-						TableRow descriptionRow = (TableRow) getLayoutInflater().inflate(R.layout.timetable_info_row,
-								null);
-						TextView infoField = (TextView) descriptionRow.getChildAt(0);
-						infoField.setText(lesson.getDescription());
-						formatRowBackground(timeUnit, descriptionRow);
-
-						timeTable.addView(descriptionRow);
+						createAndFormatTableRow(lesson, timeUnit);
 
 					}
 
 				} else {
-					lessonField.setText(getString(R.string.default_novalue));
+
+					createAndFormatTableRow(null, timeUnit);
+
 				}
 
 			}
@@ -173,6 +156,40 @@ public class TimeTableDayActivity extends Activity {
 		synchronized (dataTaskRunning) {
 			progress.hide();
 			dataTaskRunning = false;
+		}
+
+	}
+
+	private void createAndFormatTableRow(Lesson lesson, TimeUnit timeUnit) {
+		// init row
+		TableRow row = new TableRow(getApplicationContext());
+		formatRowBackground(timeUnit, row);
+		timeTable.addView(row);
+
+		TextView timeUnitField = createTableColumn(row);
+		TextView lessonField = createTableColumn(row);
+		TextView roomField = createTableColumn(row);
+		TextView lecturerField = createTableColumn(row);
+		// fill values into row
+		timeUnitField.setText(timeUnit.toDurationString(" - "));
+		if (lesson != null) {
+			lessonField.setText(lesson.getIdentifierShort());
+			roomField.setText(lesson.getRoom());
+			lecturerField.setText(lesson.getLecturersAsString(", "));
+
+			if (lesson.hasDescription()) {
+
+				TableRow descriptionRow = (TableRow) getLayoutInflater().inflate(R.layout.timetable_info_row, null);
+				TextView infoField = (TextView) descriptionRow.getChildAt(0);
+				infoField.setText(lesson.getDescription());
+				formatRowBackground(timeUnit, descriptionRow);
+
+				timeTable.addView(descriptionRow);
+
+			}
+
+		} else {
+			lessonField.setText(getString(R.string.default_novalue));
 		}
 
 	}

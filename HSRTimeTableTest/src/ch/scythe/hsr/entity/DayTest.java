@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.Ignore;
@@ -20,7 +21,7 @@ public class DayTest {
 		// Exercise sut
 		sut = new Day(new Date(2011 - 1900, 10 - 1, 18));
 		// Verify outcome
-		Map<TimeUnit, Lesson> actualLessons = sut.getLessons();
+		Map<TimeUnit, List<Lesson>> actualLessons = sut.getLessons();
 		assertTrue(actualLessons.isEmpty());
 	}
 
@@ -32,7 +33,7 @@ public class DayTest {
 		addLesson(lessons, TimeUnit.LESSON_3);
 		// Exercise sut
 		sut = new Day(lessons, new Date(2011 - 1900, 10 - 1, 18));
-		Map<TimeUnit, Lesson> actualLessons = sut.getLessons();
+		Map<TimeUnit, List<Lesson>> actualLessons = sut.getLessons();
 		// Verify outcome
 		assertEquals(TimeUnit.getAll().size(), actualLessons.size());
 		assertNull(actualLessons.get(TimeUnit.LESSON_1));
@@ -48,7 +49,7 @@ public class DayTest {
 		addLesson(lessons, TimeUnit.LESSON_2);
 		// Exercise sut
 		sut = new Day(lessons, new Date(2011 - 1900, 10 - 1, 18));
-		sut.getLessons().put(TimeUnit.LESSON_3, new Lesson());
+		sut.getLessons().put(TimeUnit.LESSON_3, new ArrayList<Lesson>());
 	}
 
 	@Test

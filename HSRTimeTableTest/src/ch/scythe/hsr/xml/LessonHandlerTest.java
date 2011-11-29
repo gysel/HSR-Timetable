@@ -1,6 +1,6 @@
 package ch.scythe.hsr.xml;
 
-import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.*;
 
 import java.io.FileNotFoundException;
 import java.util.Date;
@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import ch.scythe.hsr.entity.Day;
@@ -43,7 +42,7 @@ public class LessonHandlerTest {
 		Date scenarioDate = new Date(2011 - 1900, 10 - 1, 18);
 		Day day = parse("ScenarioSunnyPath.xml", scenarioDate);
 		// Exercise sut
-		Map<TimeUnit, Lesson> lessons = day.getLessons();
+		Map<TimeUnit, List<Lesson>> lessons = day.getLessons();
 		// Verify outcome
 		assertLesson(lessons, TimeUnit.LESSON_2, ROOM_NETWORK_LAB, TYPE_PRACTICAL_COURSE, IDENTIFIER_CN1_PRAK_P10,
 				LECTURER_CN1_LAB, DESCRIPTION_NETWORK_LAB);
@@ -64,14 +63,17 @@ public class LessonHandlerTest {
 	}
 
 	@Test
-	@Ignore
 	public void testScenarioTwoLessonsPerTimeUnit() throws Exception {
 		// Set up fixture
 		Date scenarioDate = new Date(2011 - 1900, 10 - 1, 25);
 		Day day = parse("ScenarioTwoLessonsPerTimeUnit.xml", scenarioDate);
 		// Exercise sut
-		Map<TimeUnit, Lesson> lessons = day.getLessons();
+		Map<TimeUnit, List<Lesson>> lessons = day.getLessons();
 		// Verify outcome
+		assertNull(lessons.get(TimeUnit.LESSON_1));
+		assertEquals(2, lessons.get(TimeUnit.LESSON_2).size());
+		assertEquals(2, lessons.get(TimeUnit.LESSON_3).size());
+		assertEquals(1, lessons.get(TimeUnit.LESSON_4).size());
 	}
 
 	private SaxTimetableParser parser;
@@ -87,9 +89,11 @@ public class LessonHandlerTest {
 		return new Day(lessons, date);
 	}
 
-	private void assertLesson(Map<TimeUnit, Lesson> lessons, TimeUnit timeUnit, String roomName, String type,
+	private void assertLesson(Map<TimeUnit, List<Lesson>> lessons, TimeUnit timeUnit, String roomName, String type,
 			String identifier, String lecturer, String description) {
-		Lesson lesson = lessons.get(timeUnit);
+		List<Lesson> lessonsPerTimeUnit = lessons.get(timeUnit);
+		assertEquals(1, lessonsPerTimeUnit.size());
+		Lesson lesson = lessonsPerTimeUnit.get(0);
 		assertEquals(roomName, lesson.getRoom());
 		assertEquals(type, lesson.getType());
 		assertEquals(identifier, lesson.getIdentifier());
