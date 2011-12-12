@@ -24,6 +24,7 @@ import ch.scythe.hsr.api.TimeTableAPI;
 import ch.scythe.hsr.entity.Day;
 import ch.scythe.hsr.entity.Lesson;
 import ch.scythe.hsr.enumeration.TimeUnit;
+import ch.scythe.hsr.enumeration.WeekDay;
 import ch.scythe.hsr.helper.DateHelper;
 
 public class TimeTableDayActivity extends Activity {
@@ -249,7 +250,7 @@ public class TimeTableDayActivity extends Activity {
 
 			Day result = null;
 			try {
-				result = api.retrieve(date, login, password, forceRequest);
+				result = api.retrieve(date, login, password, forceRequest).getDay(WeekDay.getByDate(date));
 			} catch (RequestException e) {
 				e.printStackTrace();
 				hasError = true;

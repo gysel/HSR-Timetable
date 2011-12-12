@@ -23,9 +23,7 @@ import org.apache.http.protocol.HTTP;
 
 import android.content.Context;
 import android.util.Log;
-import ch.scythe.hsr.entity.Day;
 import ch.scythe.hsr.entity.TimetableWeek;
-import ch.scythe.hsr.enumeration.WeekDay;
 import ch.scythe.hsr.helper.DateHelper;
 import ch.scythe.hsr.xml.SaxTimetableParser;
 
@@ -59,8 +57,9 @@ public class TimeTableAPI {
 	 * @throws ParseException
 	 *             If result contains not parsable data.
 	 */
-	public Day retrieve(Date date, String login, String password, boolean forceRequest) throws RequestException {
-		Day result = null;
+	public TimetableWeek retrieve(Date date, String login, String password, boolean forceRequest)
+			throws RequestException {
+		TimetableWeek result = null;
 
 		String dateString = DateHelper.formatToTechnicalFormat(date);
 		String weekNumber = DateHelper.formatToWeekNumber(date);
@@ -88,8 +87,7 @@ public class TimeTableAPI {
 
 			// parse the timetable from the cache
 			cachedRequest = context.openFileInput(TIMETABLE_CACHE_XML);
-			TimetableWeek timetableWeek = parser.parse(cachedRequest);
-			result = timetableWeek.getDay(WeekDay.getByDate(date));
+			result = parser.parse(cachedRequest);
 
 		} catch (FileNotFoundException e) {
 			throw new RequestException(e);
