@@ -24,7 +24,7 @@ import org.apache.http.protocol.HTTP;
 import android.content.Context;
 import android.util.Log;
 import ch.scythe.hsr.entity.Day;
-import ch.scythe.hsr.entity.Lesson;
+import ch.scythe.hsr.entity.TimetableWeek;
 import ch.scythe.hsr.enumeration.WeekDay;
 import ch.scythe.hsr.helper.DateHelper;
 import ch.scythe.hsr.xml.SaxTimetableParser;
@@ -88,8 +88,8 @@ public class TimeTableAPI {
 
 			// parse the timetable from the cache
 			cachedRequest = context.openFileInput(TIMETABLE_CACHE_XML);
-			List<Lesson> lessons = parser.parse(cachedRequest, WeekDay.getByDate(date));
-			result = new Day(lessons, date);
+			TimetableWeek timetableWeek = parser.parse(cachedRequest);
+			result = timetableWeek.getDay(WeekDay.getByDate(date));
 
 		} catch (FileNotFoundException e) {
 			throw new RequestException(e);

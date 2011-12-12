@@ -3,7 +3,6 @@ package ch.scythe.hsr.xml;
 import static junit.framework.Assert.*;
 
 import java.io.FileNotFoundException;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -12,10 +11,11 @@ import org.junit.Test;
 
 import ch.scythe.hsr.entity.Day;
 import ch.scythe.hsr.entity.Lesson;
+import ch.scythe.hsr.entity.TimetableWeek;
 import ch.scythe.hsr.enumeration.TimeUnit;
 import ch.scythe.hsr.enumeration.WeekDay;
 
-public class LessonHandlerTest {
+public class TimeTableWeekHandlerTest {
 
 	private static final String LECTURER_AN1 = "AUG";
 	private static final String LECTURER_CN1_EXERCISE = "RIN, HEI";
@@ -39,8 +39,7 @@ public class LessonHandlerTest {
 	@Test
 	public void testScenarioSunnyPathTESTparseTuesday() throws FileNotFoundException {
 		// Set up fixture
-		Date scenarioDate = new Date(2011 - 1900, 10 - 1, 18);
-		Day day = parse("ScenarioSunnyPath.xml", scenarioDate);
+		Day day = parse("ScenarioSunnyPath.xml", WeekDay.TUESDAY);
 		// Exercise sut
 		Map<TimeUnit, List<Lesson>> lessons = day.getLessons();
 		// Verify outcome
@@ -65,8 +64,7 @@ public class LessonHandlerTest {
 	@Test
 	public void testScenarioTwoLessonsPerTimeUnit() throws Exception {
 		// Set up fixture
-		Date scenarioDate = new Date(2011 - 1900, 10 - 1, 25);
-		Day day = parse("ScenarioTwoLessonsPerTimeUnit.xml", scenarioDate);
+		Day day = parse("ScenarioTwoLessonsPerTimeUnit.xml", WeekDay.TUESDAY);
 		// Exercise sut
 		Map<TimeUnit, List<Lesson>> lessons = day.getLessons();
 		// Verify outcome
@@ -83,10 +81,9 @@ public class LessonHandlerTest {
 		parser = new SaxTimetableParser();
 	}
 
-	private Day parse(String scenarioName, Date date) {
-		List<Lesson> lessons = parser.parse(LessonHandlerTest.class.getResourceAsStream(scenarioName),
-				WeekDay.getByDate(date));
-		return new Day(lessons, date);
+	private Day parse(String scenarioName, WeekDay weekDay) {
+		TimetableWeek timetableWeek = parser.parse(TimeTableWeekHandlerTest.class.getResourceAsStream(scenarioName));
+		return timetableWeek.getDay(weekDay);
 	}
 
 	private void assertLesson(Map<TimeUnit, List<Lesson>> lessons, TimeUnit timeUnit, String roomName, String type,

@@ -7,11 +7,24 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import ch.scythe.hsr.entity.Day;
 import ch.scythe.hsr.entity.Lesson;
+import ch.scythe.hsr.entity.TimetableWeek;
 import ch.scythe.hsr.enumeration.WeekDay;
 import ch.scythe.hsr.error.EnumNotFoundException;
 
-public class LessonHandler extends DefaultHandler {
+/**
+ * <p>
+ * Parses XML files returned by the HSR timetable webservice.
+ * </p>
+ * <p>
+ * Methods currently supported:
+ * </p>
+ * <ul>
+ * <li><code>GetOtherCurrentTimeTableResponse</code></li>
+ * </ul>
+ */
+public class TimeTableWeekHandler extends DefaultHandler {
 
 	private static final String XML_NODE_DAY = "Day";
 	private static final String XML_NODE_ROOM = "Room";
@@ -21,18 +34,25 @@ public class LessonHandler extends DefaultHandler {
 	private static final String XML_NODE_DESCRIPTION = "Description";
 	private static final String XML_NODE_LESSON = "Lesson";
 	private static final String XML_NODE_NAME_SHORT = "NameShort";
-	private List<Lesson> lessons;
-	private Lesson currentLesson;
+	//
 	private StringBuilder builder;
-	private final WeekDay dayOfWeek;
-	private boolean desiredDayActive = false;
+	//
+	private List<Day> days;
+	// temporary variables
+	private WeekDay currentDay;
+	private Lesson currentLesson;
+	private List<Lesson> currentLessons;
 
-	public LessonHandler(WeekDay dayOfWeek) {
-		this.dayOfWeek = dayOfWeek;
+	public TimeTableWeekHandler() {
 	}
 
+	public TimetableWeek getWeek() {
+		return new TimetableWeek(days);
+	}
+
+	@Deprecated
 	public List<Lesson> getLessons() {
-		return lessons;
+		return currentLessons;
 	}
 
 	@Override
@@ -44,7 +64,8 @@ public class LessonHandler extends DefaultHandler {
 	@Override
 	public void startDocument() throws SAXException {
 		super.startDocument();
-		lessons = new ArrayList<Lesson>();
+		currentLessons = new ArrayList<Lesson>();
+		days = new ArrayList<Day>();
 		builder = new StringBuilder();
 	}
 
@@ -54,12 +75,12 @@ public class LessonHandler extends DefaultHandler {
 
 		if (qName.equalsIgnoreCase(XML_NODE_DAY)) {
 
-			Integer id = Integer.parseInt(attributes.getValue(XML_ATTRIBUTE_ID));
-			if (dayOfWeek.getId().equals(id)) {
-				desiredDayActive = true;
-			}
+			currentLessons.clear();
 
-		} else if (desiredDayActive) {
+			Integer id = Integer.parseInt(attributes.getValue(XML_ATTRIBUTE_ID));
+			currentDay = WeekDay.getById(id);
+
+		} else if (currentDay != null) {
 
 			if (qName.equalsIgnoreCase(XML_NODE_LESSON)) {
 				currentLesson = new Lesson();
@@ -84,11 +105,13 @@ public class LessonHandler extends DefaultHandler {
 	public void endElement(String uri, String localName, String qName) throws SAXException {
 		super.endElement(uri, localName, qName);
 
-		if (desiredDayActive && qName.equalsIgnoreCase(XML_NODE_DAY)) {
-			desiredDayActive = false;
-		}
+		if (XML_NODE_DAY.equalsIgnoreCase(qName)) {
 
-		if (desiredDayActive) {
+			days.add(new Day(currentLessons, currentDay));
+			currentDay = null;
+			currentLessons.clear();
+
+		} else if (currentDay != null) {
 
 			if (this.currentLesson != null) {
 				if (qName.equalsIgnoreCase(XML_NODE_TYPE)) {
@@ -96,7 +119,7 @@ public class LessonHandler extends DefaultHandler {
 				} else if (qName.equalsIgnoreCase(XML_NODE_NAME_SHORT)) {
 					currentLesson.addLecturer(builder.toString().trim());
 				} else if (qName.equalsIgnoreCase(XML_NODE_LESSON)) {
-					lessons.add(currentLesson);
+					currentLessons.add(currentLesson);
 				} else if (qName.equalsIgnoreCase(XML_NODE_DESCRIPTION)) {
 					currentLesson.setDescription(builder.toString().trim());
 				}
@@ -106,5 +129,4 @@ public class LessonHandler extends DefaultHandler {
 		builder.setLength(0);
 
 	}
-
 }

@@ -13,28 +13,35 @@ public enum WeekDay {
 	private final Integer id;
 	private final Integer javaId;
 
-	/**
-	 * @see Calendar#DAY_OF_WEEK
-	 */
 	private static final Map<Integer, WeekDay> lookupByJavaId = new LinkedHashMap<Integer, WeekDay>();
+	private static final Map<Integer, WeekDay> lookupById = new LinkedHashMap<Integer, WeekDay>();
+
+	static {
+		for (WeekDay day : EnumSet.allOf(WeekDay.class)) {
+			lookupByJavaId.put(day.getJavaId(), day);
+			lookupById.put(day.getId(), day);
+		}
+	}
 
 	private WeekDay(Integer id, Integer javaId) {
 		this.id = id;
 		this.javaId = javaId;
 	}
 
-	static {
-		for (WeekDay day : EnumSet.allOf(WeekDay.class)) {
-			lookupByJavaId.put(day.getJavaId(), day);
-		}
-	}
-
 	public Integer getId() {
 		return id;
 	}
 
+	/**
+	 * @see Calendar#DAY_OF_WEEK
+	 */
 	public Integer getJavaId() {
 		return javaId;
+	}
+
+	public static WeekDay getById(Integer id) {
+		return lookupById.get(id);
+
 	}
 
 	public static WeekDay getByDate(Date date) {
