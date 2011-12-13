@@ -83,11 +83,15 @@ public class TimeTableAPI {
 			if (!weekNumber.equals(cachedWeek)) {
 				Log.i(LOGGING_TAG, "Refreshing cache. (Data was outdated.)");
 				updateCache(dateString, weekNumber, login, password);
+			} else {
+				Log.i(LOGGING_TAG, "Reading data from xml cache.");
 			}
 
 			// parse the timetable from the cache
 			cachedRequest = context.openFileInput(TIMETABLE_CACHE_XML);
+			long before = System.currentTimeMillis();
 			result = parser.parse(cachedRequest);
+			Log.i(LOGGING_TAG, "Parsed xml data in " + new Long(System.currentTimeMillis() - before) + "ms.");
 
 		} catch (FileNotFoundException e) {
 			throw new RequestException(e);

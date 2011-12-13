@@ -1,5 +1,6 @@
 package ch.scythe.hsr.entity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -9,8 +10,9 @@ import java.util.regex.Pattern;
 import ch.scythe.hsr.enumeration.TimeUnit;
 import ch.scythe.hsr.error.EnumNotFoundException;
 
-public class Lesson {
+public class Lesson implements Serializable {
 
+	private static final long serialVersionUID = 1L;
 	// members
 	private String identifier;
 	private String type;
@@ -77,6 +79,10 @@ public class Lesson {
 		for (Iterator<String> i = lecturers.iterator(); i.hasNext();) {
 			result.append(i.next());
 			if (i.hasNext()) {
+				if (result.length() >= 8) {
+					result.append(" …");
+					break;
+				}
 				result.append(delimiter);
 			}
 		}

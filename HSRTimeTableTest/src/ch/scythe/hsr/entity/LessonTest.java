@@ -65,6 +65,22 @@ public class LessonTest {
 	}
 
 	@Test
+	public void testLecturersTESTtooMany() {
+		String delimiter = ", ";
+		assertEquals("", sut.getLecturersAsString(delimiter));
+		// Set up fixture
+		String lecturer1 = "FOO";
+		String lecturer2 = "BAR";
+		// Exercise sut
+		sut.addLecturer(lecturer1);
+		sut.addLecturer(lecturer2);
+		sut.addLecturer("some");
+		sut.addLecturer("more");
+		// Verify outcome
+		assertEquals(lecturer1 + delimiter + lecturer2 + " …", sut.getLecturersAsString(delimiter));
+	}
+
+	@Test
 	public void testGetIdentifierShort() throws Exception {
 		String noise = "34713_";
 		String interestingPart = "An1I-v2";

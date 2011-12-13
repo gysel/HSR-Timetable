@@ -1,12 +1,13 @@
 package ch.scythe.hsr.enumeration;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.EnumSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public enum WeekDay {
+public enum WeekDay implements Serializable {
 
 	MONDAY(1, 2), TUESDAY(2, 3), WEDNESDAY(3, 4), THURSDAY(4, 5), FRIDAY(5, 6), SATURDAY(6, 7), SUNDAY(7, 1);
 

@@ -1,5 +1,6 @@
 package ch.scythe.hsr.enumeration;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumSet;
@@ -9,7 +10,7 @@ import java.util.Map;
 
 import ch.scythe.hsr.error.EnumNotFoundException;
 
-public enum TimeUnit {
+public enum TimeUnit implements Serializable {
 
 	LESSON_1(2, "07:05", "07:50"), LESSON_2(3, "08:10", "08:55"), LESSON_3(4, "09:05", "09:50"), LESSON_4(5, "10:10",
 			"10:55"), LESSON_5(6, "11:05", "11:50"), LESSON_6(7, "12:10", "12:55"), LESSON_7(8, "13:10", "13:55"), LESSON_8(

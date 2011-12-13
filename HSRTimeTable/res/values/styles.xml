@@ -16,5 +16,7 @@
     </style>
     <style name="table_header" parent="table_cell">
         <item name="android:textStyle">bold</item>
+        <item name="android:capitalize">characters</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
     </style>
 </resources>

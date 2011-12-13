@@ -14,35 +14,31 @@ public final class R {
         public static final int icon=0x7f020000;
     }
     public static final class id {
-        public static final int button_next=0x7f08000c;
-        public static final int button_prev=0x7f08000a;
-        public static final int button_today=0x7f08000b;
-        public static final int date_label=0x7f080004;
-        public static final int date_value=0x7f080005;
-        public static final int headerRow=0x7f080010;
-        public static final int linearLayout2=0x7f080001;
-        public static final int linearLayout3=0x7f08000e;
-        public static final int linearLayout6=0x7f080009;
-        public static final int preferences=0x7f080017;
-        public static final int refresh=0x7f080016;
-        public static final int scrollView1=0x7f08000d;
-        public static final int status_message=0x7f080015;
-        public static final int tableLayout1=0x7f080002;
-        public static final int tableRow1=0x7f080003;
-        public static final int tableRow2=0x7f080006;
-        public static final int table_header_lecturer=0x7f080014;
-        public static final int table_header_lesson=0x7f080012;
-        public static final int table_header_room=0x7f080013;
-        public static final int table_header_time=0x7f080011;
-        public static final int timeTable=0x7f08000f;
-        public static final int title=0x7f080000;
-        public static final int week_label=0x7f080007;
-        public static final int week_value=0x7f080008;
+        public static final int button_today=0x7f08000f;
+        public static final int date_label=0x7f080009;
+        public static final int date_value=0x7f08000a;
+        public static final int day_pager=0x7f080010;
+        public static final int headerRow=0x7f080000;
+        public static final int linearLayout2=0x7f080006;
+        public static final int linearLayout3=0x7f080002;
+        public static final int linearLayout6=0x7f08000e;
+        public static final int preferences=0x7f080012;
+        public static final int refresh=0x7f080011;
+        public static final int scrollView1=0x7f080001;
+        public static final int status_message=0x7f080004;
+        public static final int tableLayout1=0x7f080007;
+        public static final int tableRow1=0x7f080008;
+        public static final int tableRow2=0x7f08000b;
+        public static final int timeTable=0x7f080003;
+        public static final int title=0x7f080005;
+        public static final int week_label=0x7f08000c;
+        public static final int week_value=0x7f08000d;
     }
     public static final class layout {
         public static final int timetable_cell=0x7f030000;
-        public static final int timetable_info_row=0x7f030001;
-        public static final int timetable_main=0x7f030002;
+        public static final int timetable_day=0x7f030001;
+        public static final int timetable_info_row=0x7f030002;
+        public static final int timetable_main=0x7f030003;
     }
     public static final class menu {
         public static final int mainmenu=0x7f070000;

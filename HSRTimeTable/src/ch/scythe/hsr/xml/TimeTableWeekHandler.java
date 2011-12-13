@@ -50,11 +50,6 @@ public class TimeTableWeekHandler extends DefaultHandler {
 		return new TimetableWeek(days);
 	}
 
-	@Deprecated
-	public List<Lesson> getLessons() {
-		return currentLessons;
-	}
-
 	@Override
 	public void characters(char[] ch, int start, int length) throws SAXException {
 		super.characters(ch, start, length);

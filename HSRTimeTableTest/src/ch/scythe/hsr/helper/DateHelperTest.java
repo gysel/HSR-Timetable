@@ -14,7 +14,8 @@ public class DateHelperTest {
 		Locale valueBefore = Locale.getDefault();
 		//
 		Locale.setDefault(Locale.GERMAN);
-		assertEquals("Mo 31.10.11", DateHelper.formatToUserFriendlyFormat(new Date(2011 - 1900, 10 - 1, 31)));
+		assertEquals("Montag, 31. Oktober 2011",
+				DateHelper.formatToUserFriendlyFormat(new Date(2011 - 1900, 10 - 1, 31)));
 		//
 		Locale.setDefault(valueBefore);
 	}
