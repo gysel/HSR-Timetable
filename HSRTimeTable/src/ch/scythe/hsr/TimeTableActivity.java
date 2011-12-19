@@ -21,6 +21,9 @@ package ch.scythe.hsr;
 import java.util.ArrayList;
 import java.util.Date;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -35,7 +38,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 import ch.scythe.hsr.api.RequestException;
 import ch.scythe.hsr.api.TimeTableAPI;
 import ch.scythe.hsr.entity.Day;
@@ -49,11 +51,13 @@ public class TimeTableActivity extends FragmentActivity {
 	private ViewPager dayPager;
 	private MyAdapter fragmentPageAdapter;
 	// _UI
-	private TextView statusMessage;
+	// private TextView statusMessage;
 	private TextView datebox;
 	private TextView weekbox;
 	// private TableLayout timeTable;
 	private SharedPreferences preferences;
+	private static final int DIALOG_NO_USER_PASS = 0;
+	private static final int DIALOG_ERROR_PASS = 1;
 	// _State
 	private Boolean dataTaskRunning = false;
 	// private Day day = null;
@@ -65,15 +69,13 @@ public class TimeTableActivity extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.timetable_main);
 
-		week = (TimetableWeek) getLastCustomNonConfigurationInstance();
 		currentWeekDay = WeekDay.getByDate(new Date());
 
-		fragmentPageAdapter = new MyAdapter(getSupportFragmentManager(), week);
+		fragmentPageAdapter = new MyAdapter(getSupportFragmentManager());
 
 		dayPager = (ViewPager) findViewById(R.id.day_pager);
 		dayPager.setAdapter(fragmentPageAdapter);
 
-		// statusMessage = (TextView) findViewById(R.id.status_message);
 		datebox = (TextView) findViewById(R.id.date_value);
 		weekbox = (TextView) findViewById(R.id.week_value);
 		preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -82,8 +84,13 @@ public class TimeTableActivity extends FragmentActivity {
 		weekbox.setText(DateHelper.formatToWeekNumber(date));
 		datebox.setText(DateHelper.formatToUserFriendlyFormat(date));
 
-		if (week == null) {
+		TimetableWeek lastInstance = (TimetableWeek) getLastCustomNonConfigurationInstance();
+		if (lastInstance == null) {
 			startRequest(date, false);
+			scrollToDay(currentWeekDay);
+		} else {
+			// there was a screen orientation change. we can just continue...
+			week = lastInstance;
 		}
 
 	}
@@ -103,14 +110,11 @@ public class TimeTableActivity extends FragmentActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.preferences:
-			Intent i = new Intent(this, UserPreferencesActivity.class);
-			startActivity(i);
+			startActivity(new Intent(this, UserPreferencesActivity.class));
 			break;
 		case R.id.refresh:
-			// TODO implement
-			Toast.makeText(getApplicationContext(), "Not yet implemented.", Toast.LENGTH_SHORT).show();
+			startRequest(new Date(), true);
 			break;
-
 		}
 		return true;
 	}
@@ -123,41 +127,49 @@ public class TimeTableActivity extends FragmentActivity {
 		dayPager.setCurrentItem(weekDay.getId() - 1);
 	}
 
-	// private void setMessage(String message) {
-	// if (message != null && !message.isEmpty()) {
-	// statusMessage.setVisibility(View.VISIBLE);
-	// statusMessage.setText(message);
-	// } else {
-	// statusMessage.setText("");
-	// statusMessage.setVisibility(View.GONE);
-	// }
-	// }
-
 	private synchronized void startRequest(Date date, boolean forceRequest) {
 		String login = preferences.getString(getString(R.string.key_login), null);
 		String password = preferences.getString(getString(R.string.key_password), null);
 
-		if (login == null || password == null) {
-			// String message = "Please set login and password in preferences.";
-			// setMessage(message);
+		if (inNullOrEmpty(login) || inNullOrEmpty(password)) {
+			showDialog(DIALOG_NO_USER_PASS);
 		} else {
-
 			TimeTableAPI api = new TimeTableAPI(getApplicationContext());
 			try {
-				week = api.retrieve(date, login, password, false);
+				week = api.retrieve(date, login, password, forceRequest);
 			} catch (RequestException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				showDialog(DIALOG_ERROR_PASS);
 			}
-
-			scrollToDay(currentWeekDay);
-
-			// setMessage("");
-			// dataTaskRunning = true;
-
-			// new FetchDataTask().execute(date, login, password,
-			// forceRequest);
 		}
+	}
+
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		Dialog result;
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		switch (id) {
+		case DIALOG_NO_USER_PASS:
+			builder.setMessage("Please enter your username and password in the preferences.").setCancelable(true)
+					.setPositiveButton("Open preferences", new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int which) {
+							startActivity(new Intent(TimeTableActivity.this, UserPreferencesActivity.class));
+						}
+					}).setNegativeButton("Cancel", null);
+			result = builder.create();
+			break;
+		case DIALOG_ERROR_PASS:
+			// TODO add option to retry?
+			builder.setMessage("Error while fetching data.").setPositiveButton("Ok", null);
+			result = builder.create();
+			break;
+		default:
+			result = null;
+		}
+		return result;
+	}
+
+	private boolean inNullOrEmpty(String login) {
+		return login == null || login.isEmpty();
 	}
 
 	class FetchDataTask extends AsyncTask<Object, Integer, TimetableWeek> {
@@ -196,11 +208,9 @@ public class TimeTableActivity extends FragmentActivity {
 	}
 
 	public class MyAdapter extends FragmentPagerAdapter {
-		private final TimetableWeek weekReference;
 
-		public MyAdapter(FragmentManager fm, TimetableWeek week) {
+		public MyAdapter(FragmentManager fm) {
 			super(fm);
-			weekReference = week;
 		}
 
 		@Override
@@ -210,23 +220,19 @@ public class TimeTableActivity extends FragmentActivity {
 
 		@Override
 		public Fragment getItem(int position) {
-			return createDayFragment(position, weekReference);
+			DayFragment fragment = new DayFragment();
+
+			WeekDay weekDay = WeekDay.getById(position + 1);
+			Date date = DateHelper.addDays(new Date(), weekDay.getId() - currentWeekDay.getId());
+
+			Bundle args = new Bundle();
+			args.putSerializable(DayFragment.FRAGMENT_PARAMETER_DATA, week);
+			args.putSerializable(DayFragment.FRAGMENT_PARAMETER_WEEKDAY, weekDay);
+			args.putSerializable(DayFragment.FRAGMENT_PARAMETER_DATE, date);
+			fragment.setArguments(args);
+
+			return fragment;
 		}
-	}
-
-	private DayFragment createDayFragment(int position, TimetableWeek weekReference) {
-		DayFragment f = new DayFragment();
-
-		WeekDay weekDay = WeekDay.getById(position + 1);
-		Date date = DateHelper.addDays(new Date(), weekDay.getId() - currentWeekDay.getId());
-
-		Bundle args = new Bundle();
-		args.putSerializable(DayFragment.FRAGMENT_PARAMETER_DATA, week);
-		args.putSerializable(DayFragment.FRAGMENT_PARAMETER_WEEKDAY, weekDay);
-		args.putSerializable(DayFragment.FRAGMENT_PARAMETER_DATE, date);
-		f.setArguments(args);
-
-		return f;
 	}
 
 }

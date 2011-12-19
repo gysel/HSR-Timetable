@@ -37,8 +37,9 @@ public final class R {
     public static final class layout {
         public static final int timetable_cell=0x7f030000;
         public static final int timetable_day=0x7f030001;
-        public static final int timetable_info_row=0x7f030002;
-        public static final int timetable_main=0x7f030003;
+        public static final int timetable_description_row=0x7f030002;
+        public static final int timetable_info_row=0x7f030003;
+        public static final int timetable_main=0x7f030004;
     }
     public static final class menu {
         public static final int mainmenu=0x7f070000;

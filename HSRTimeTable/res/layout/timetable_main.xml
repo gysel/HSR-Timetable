@@ -18,9 +18,7 @@
 			</TableRow>
 		</TableLayout>
 		<LinearLayout android:id="@+id/linearLayout6" android:layout_height="wrap_content" android:layout_width="match_parent" android:layout_gravity="center_vertical" android:gravity="right">
-<!-- 			<Button android:id="@+id/button_prev" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/button_prev" android:onClick="showPrevDay"></Button> -->
 			<Button android:id="@+id/button_today" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/button_today" android:onClick="showToday"></Button>
-<!-- 			<Button android:id="@+id/button_next" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/button_next" android:onClick="showNextDay"></Button> -->
 		</LinearLayout>
 	</LinearLayout>
 

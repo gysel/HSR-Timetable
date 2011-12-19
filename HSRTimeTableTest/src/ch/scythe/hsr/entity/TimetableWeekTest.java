@@ -18,29 +18,40 @@
  */
 package ch.scythe.hsr.entity;
 
-import java.io.Serializable;
-import java.util.LinkedHashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+
+import junit.framework.TestCase;
+
+import org.junit.Test;
 
 import ch.scythe.hsr.enumeration.WeekDay;
 
-public class TimetableWeek implements Serializable {
+public class TimetableWeekTest extends TestCase {
 
-	private static final long serialVersionUID = 1L;
-	private final Map<WeekDay, Day> days = new LinkedHashMap<WeekDay, Day>();
-
-	public TimetableWeek(List<Day> days) {
-		for (Day day : days) {
-			this.days.put(day.getWeekDay(), day);
-		}
+	@Test
+	public void testGetDay() {
+		WeekDay day = WeekDay.MONDAY;
+		// Set up fixture
+		List<Day> days = new ArrayList<Day>();
+		Day monday = new Day(new ArrayList<Lesson>(), day);
+		days.add(monday);
+		TimetableWeek sut = new TimetableWeek(days);
+		// Exercise sut
+		Day actual = sut.getDay(day);
+		// Verify outcome
+		assertEquals(monday, actual);
+		assertNull(sut.getDay(WeekDay.TUESDAY));
 	}
 
-	public TimetableWeek() {
-	}
-
-	public Day getDay(WeekDay weekDay) {
-		return days.get(weekDay);
+	@Test
+	public void testGetDayTESTnull() {
+		// Set up fixture
+		TimetableWeek sut = new TimetableWeek();
+		// Exercise sut
+		Day actual = sut.getDay(WeekDay.MONDAY);
+		// Verify outcome
+		assertNull(actual);
 	}
 
 }

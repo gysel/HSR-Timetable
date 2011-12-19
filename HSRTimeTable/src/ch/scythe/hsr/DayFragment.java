@@ -44,7 +44,7 @@ public class DayFragment extends DialogFragment {
 	public static final String FRAGMENT_PARAMETER_WEEKDAY = "position";
 	public static final String FRAGMENT_PARAMETER_DATE = "date";
 
-	private TimetableWeek weekReference;
+	private TimetableWeek week;
 	private WeekDay weekDay;
 	private Date date;
 
@@ -57,28 +57,25 @@ public class DayFragment extends DialogFragment {
 
 		Bundle arguments = getArguments();
 		if (arguments != null) {
-			weekReference = (TimetableWeek) (arguments.getSerializable(FRAGMENT_PARAMETER_DATA));
+			week = (TimetableWeek) (arguments.getSerializable(FRAGMENT_PARAMETER_DATA));
 			weekDay = (WeekDay) (arguments.getSerializable(FRAGMENT_PARAMETER_WEEKDAY));
 			date = (Date) (arguments.getSerializable(FRAGMENT_PARAMETER_DATE));
 		}
 
 	}
 
-	/**
-	 * The Fragment's UI is just a simple text view showing its instance number.
-	 */
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.timetable_day, container, false);
 		TableLayout timeTable = (TableLayout) v.findViewById(R.id.timeTable);
 
-		Day timetableDay = weekReference.getDay(weekDay);
+		Day day = week.getDay(weekDay);
 
 		TextView headerCell = (TextView) v.findViewById(R.id.headerRow);
 		headerCell.setText(DateHelper.formatToUserFriendlyFormat(date));
 
-		if (timetableDay != null) {
-			for (Entry<TimeUnit, List<Lesson>> entry : timetableDay.getLessons().entrySet()) {
+		if (day != null) {
+			for (Entry<TimeUnit, List<Lesson>> entry : day.getLessons().entrySet()) {
 				TimeUnit timeUnit = entry.getKey();
 				List<Lesson> lessonsPerTimeUnit = entry.getValue();
 
@@ -91,6 +88,10 @@ public class DayFragment extends DialogFragment {
 					}
 				}
 			}
+		} else {
+			String message = "No data available. Please refresh.";
+			TableRow row = createTableRow(message, R.layout.timetable_info_row, getLayoutInflater(savedInstanceState));
+			timeTable.addView(row);
 		}
 		return v;
 	}
@@ -120,9 +121,8 @@ public class DayFragment extends DialogFragment {
 
 			if (lesson.hasDescription()) {
 
-				TableRow descriptionRow = (TableRow) layoutInflater.inflate(R.layout.timetable_info_row, null);
-				TextView infoField = (TextView) descriptionRow.getChildAt(0);
-				infoField.setText(lesson.getDescription());
+				String text = lesson.getDescription();
+				TableRow descriptionRow = createTableRow(text, R.layout.timetable_description_row, layoutInflater);
 				formatRowBackground(timeUnit, descriptionRow);
 
 				timeTable.addView(descriptionRow);
@@ -133,6 +133,14 @@ public class DayFragment extends DialogFragment {
 			lessonField.setText(getString(R.string.default_novalue));
 		}
 
+	}
+
+	private TableRow createTableRow(String text, int layout, LayoutInflater layoutInflater) {
+		TableRow descriptionRow = (TableRow) layoutInflater.inflate(layout, null);
+		// TODO can we use an id here?
+		TextView infoField = (TextView) descriptionRow.getChildAt(0);
+		infoField.setText(text);
+		return descriptionRow;
 	}
 
 	private void formatRowBackground(TimeUnit timeUnit, TableRow row) {

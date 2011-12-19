@@ -85,9 +85,9 @@ public class TimeTableAPI {
 		// create cache if the cache is not present yet
 		if (forceRequest || !cacheFilesExist(context.fileList(), TIMETABLE_CACHE_XML, TIMETABLE_CACHE_INFO)) {
 			if (forceRequest) {
-				Log.i(LOGGING_TAG, "Forced refreshing of the cache.");
+				Log.i(LOGGING_TAG, "Started forced cache reloading.");
 			} else {
-				Log.i(LOGGING_TAG, "Initial loading of the cache.");
+				Log.i(LOGGING_TAG, "Started initial cache loading.");
 			}
 			updateCache(dateString, weekNumber, login, password);
 		}
@@ -142,6 +142,7 @@ public class TimeTableAPI {
 		FileOutputStream xmlCacheOutputStream = null;
 		FileOutputStream cacheInfoOutputStream = null;
 		InputStream xmlInputStream = null;
+		long before = System.currentTimeMillis();
 		try {
 			xmlInputStream = readTimeTableFromServer(dateString, login, password);
 			xmlCacheOutputStream = context.openFileOutput(TIMETABLE_CACHE_XML, Context.MODE_PRIVATE);
@@ -161,6 +162,7 @@ public class TimeTableAPI {
 			safeCloseStream(xmlInputStream);
 			safeCloseStream(cacheInfoOutputStream);
 		}
+		Log.i(LOGGING_TAG, "Read data from the server in " + (System.currentTimeMillis() - before) + "ms.");
 	}
 
 	private InputStream readTimeTableFromServer(String dateString, String login, String password)
