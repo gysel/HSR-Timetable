@@ -47,6 +47,7 @@ public class DayFragment extends DialogFragment {
 	private TimetableWeek week;
 	private WeekDay weekDay;
 	private Date date;
+	private LayoutInflater layoutInflater;
 
 	public DayFragment() {
 	}
@@ -66,14 +67,19 @@ public class DayFragment extends DialogFragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		layoutInflater = getLayoutInflater(savedInstanceState);
 		View v = inflater.inflate(R.layout.timetable_day, container, false);
 		TableLayout timeTable = (TableLayout) v.findViewById(R.id.timeTable);
-
-		Day day = week.getDay(weekDay);
 
 		TextView headerCell = (TextView) v.findViewById(R.id.headerRow);
 		headerCell.setText(DateHelper.formatToUserFriendlyFormat(date));
 
+		updateTable(timeTable);
+		return v;
+	}
+
+	private void updateTable(TableLayout timeTable) {
+		Day day = week.getDay(weekDay);
 		if (day != null) {
 			for (Entry<TimeUnit, List<Lesson>> entry : day.getLessons().entrySet()) {
 				TimeUnit timeUnit = entry.getKey();
@@ -81,24 +87,28 @@ public class DayFragment extends DialogFragment {
 
 				if (lessonsPerTimeUnit == null || lessonsPerTimeUnit.isEmpty()) {
 					// no lessons at the given time slot
-					createAndFormatTableRow(null, timeUnit, timeTable, getLayoutInflater(savedInstanceState));
+					createAndFormatTableRow(null, timeUnit, timeTable, layoutInflater);
 				} else {
 					for (Lesson lesson : lessonsPerTimeUnit) {
-						createAndFormatTableRow(lesson, timeUnit, timeTable, getLayoutInflater(savedInstanceState));
+						createAndFormatTableRow(lesson, timeUnit, timeTable, layoutInflater);
 					}
 				}
 			}
 		} else {
 			String message = "No data available. Please refresh.";
-			TableRow row = createTableRow(message, R.layout.timetable_info_row, getLayoutInflater(savedInstanceState));
+			TableRow row = createTableRow(message, R.layout.timetable_info_row, layoutInflater);
 			timeTable.addView(row);
 		}
-		return v;
 	}
 
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
+	public void updateDate(TimetableWeek week) {
+		this.week = week;
+
+		TableLayout timeTable = (TableLayout) getView().findViewById(R.id.timeTable);
+		timeTable.removeAllViews();
+
+		updateTable(timeTable);
+
 	}
 
 	private void createAndFormatTableRow(Lesson lesson, TimeUnit timeUnit, TableLayout timeTable,

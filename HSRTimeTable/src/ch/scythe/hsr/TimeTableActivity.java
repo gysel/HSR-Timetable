@@ -19,10 +19,13 @@
 package ch.scythe.hsr;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -32,7 +35,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -51,16 +54,13 @@ public class TimeTableActivity extends FragmentActivity {
 	private ViewPager dayPager;
 	private MyAdapter fragmentPageAdapter;
 	// _UI
-	// private TextView statusMessage;
 	private TextView datebox;
 	private TextView weekbox;
-	// private TableLayout timeTable;
+	private ProgressDialog progress;
 	private SharedPreferences preferences;
 	private static final int DIALOG_NO_USER_PASS = 0;
 	private static final int DIALOG_ERROR_PASS = 1;
 	// _State
-	private Boolean dataTaskRunning = false;
-	// private Day day = null;
 	public TimetableWeek week = new TimetableWeek();
 	private WeekDay currentWeekDay;
 
@@ -134,12 +134,8 @@ public class TimeTableActivity extends FragmentActivity {
 		if (inNullOrEmpty(login) || inNullOrEmpty(password)) {
 			showDialog(DIALOG_NO_USER_PASS);
 		} else {
-			TimeTableAPI api = new TimeTableAPI(getApplicationContext());
-			try {
-				week = api.retrieve(date, login, password, forceRequest);
-			} catch (RequestException e) {
-				showDialog(DIALOG_ERROR_PASS);
-			}
+			progress = ProgressDialog.show(this, "", "Loading data...");
+			new FetchDataTask().execute(date, login, password, forceRequest);
 		}
 	}
 
@@ -199,15 +195,26 @@ public class TimeTableActivity extends FragmentActivity {
 
 		@Override
 		protected void onPostExecute(TimetableWeek week) {
-			TimeTableActivity.this.week = week;
+			if (!hasError) {
+				TimeTableActivity.this.week = week;
 
-			synchronized (dataTaskRunning) {
-				dataTaskRunning = false;
+				for (DayFragment fragment : fragmentPageAdapter.getActiveFragments()) {
+					fragment.updateDate(week);
+				}
 			}
+
+			progress.dismiss();
+
+			if (hasError) {
+				showDialog(DIALOG_ERROR_PASS);
+			}
+
 		}
 	}
 
-	public class MyAdapter extends FragmentPagerAdapter {
+	public class MyAdapter extends FragmentStatePagerAdapter {
+
+		private final HashMap<Integer, DayFragment> activeFragments = new HashMap<Integer, DayFragment>();
 
 		public MyAdapter(FragmentManager fm) {
 			super(fm);
@@ -231,7 +238,19 @@ public class TimeTableActivity extends FragmentActivity {
 			args.putSerializable(DayFragment.FRAGMENT_PARAMETER_DATE, date);
 			fragment.setArguments(args);
 
+			activeFragments.put(position, fragment);
+
 			return fragment;
+		}
+
+		@Override
+		public void destroyItem(View container, int position, Object object) {
+			super.destroyItem(container, position, object);
+			activeFragments.remove(position);
+		}
+
+		public Collection<DayFragment> getActiveFragments() {
+			return activeFragments.values();
 		}
 	}
 
