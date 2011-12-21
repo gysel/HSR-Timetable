@@ -18,7 +18,6 @@
  */
 package ch.scythe.hsr;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -36,17 +35,14 @@ import ch.scythe.hsr.entity.Lesson;
 import ch.scythe.hsr.entity.TimetableWeek;
 import ch.scythe.hsr.enumeration.TimeUnit;
 import ch.scythe.hsr.enumeration.WeekDay;
-import ch.scythe.hsr.helper.DateHelper;
 
 public class DayFragment extends DialogFragment {
 
 	public static final String FRAGMENT_PARAMETER_DATA = "week";
 	public static final String FRAGMENT_PARAMETER_WEEKDAY = "position";
-	public static final String FRAGMENT_PARAMETER_DATE = "date";
 
 	private TimetableWeek week;
 	private WeekDay weekDay;
-	private Date date;
 	private LayoutInflater layoutInflater;
 
 	public DayFragment() {
@@ -60,7 +56,6 @@ public class DayFragment extends DialogFragment {
 		if (arguments != null) {
 			week = (TimetableWeek) (arguments.getSerializable(FRAGMENT_PARAMETER_DATA));
 			weekDay = (WeekDay) (arguments.getSerializable(FRAGMENT_PARAMETER_WEEKDAY));
-			date = (Date) (arguments.getSerializable(FRAGMENT_PARAMETER_DATE));
 		}
 	}
 
@@ -69,7 +64,6 @@ public class DayFragment extends DialogFragment {
 		super.onSaveInstanceState(instanceToSave);
 		instanceToSave.putSerializable(FRAGMENT_PARAMETER_DATA, week);
 		instanceToSave.putSerializable(FRAGMENT_PARAMETER_WEEKDAY, weekDay);
-		instanceToSave.putSerializable(FRAGMENT_PARAMETER_DATE, date);
 	}
 
 	@Override
@@ -78,7 +72,6 @@ public class DayFragment extends DialogFragment {
 		if (savedInstanceState != null && savedInstanceState.containsKey(FRAGMENT_PARAMETER_DATA)) {
 			week = (TimetableWeek) (savedInstanceState.getSerializable(FRAGMENT_PARAMETER_DATA));
 			weekDay = (WeekDay) (savedInstanceState.getSerializable(FRAGMENT_PARAMETER_WEEKDAY));
-			date = (Date) (savedInstanceState.getSerializable(FRAGMENT_PARAMETER_DATE));
 		}
 
 		layoutInflater = getLayoutInflater(savedInstanceState);
@@ -86,7 +79,7 @@ public class DayFragment extends DialogFragment {
 		TableLayout timeTable = (TableLayout) v.findViewById(R.id.timeTable);
 
 		TextView headerCell = (TextView) v.findViewById(R.id.headerRow);
-		headerCell.setText(DateHelper.formatToUserFriendlyFormat(date));
+		headerCell.setText(weekDay.name());
 
 		updateTable(timeTable);
 

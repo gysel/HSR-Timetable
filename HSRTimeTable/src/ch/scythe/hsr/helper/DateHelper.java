@@ -25,7 +25,7 @@ import java.util.Date;
 
 public class DateHelper {
 
-	private static DateFormat fullDateFormat = new SimpleDateFormat("EEEE, d. MMMM yyyy");
+	private static DateFormat fullDateFormat = new SimpleDateFormat("d.MM.yyyy H:mm");
 	private static DateFormat technicalDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 	private static DateFormat weekNumberFormat = new SimpleDateFormat("w");
 

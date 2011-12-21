@@ -18,7 +18,6 @@
  */
 package ch.scythe.hsr;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -43,7 +42,6 @@ import android.view.View;
 import android.widget.TextView;
 import ch.scythe.hsr.api.RequestException;
 import ch.scythe.hsr.api.TimeTableAPI;
-import ch.scythe.hsr.entity.Day;
 import ch.scythe.hsr.entity.TimetableWeek;
 import ch.scythe.hsr.enumeration.WeekDay;
 import ch.scythe.hsr.helper.DateHelper;
@@ -62,14 +60,11 @@ public class TimeTableActivity extends FragmentActivity {
 	private static final int DIALOG_ERROR_PASS = 1;
 	// _State
 	public TimetableWeek week = new TimetableWeek();
-	private WeekDay currentWeekDay;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.timetable_main);
-
-		currentWeekDay = WeekDay.getByDate(new Date());
 
 		fragmentPageAdapter = new MyAdapter(getSupportFragmentManager());
 
@@ -82,15 +77,15 @@ public class TimeTableActivity extends FragmentActivity {
 
 		Date date = new Date();
 		weekbox.setText(DateHelper.formatToWeekNumber(date));
-		datebox.setText(DateHelper.formatToUserFriendlyFormat(date));
 
 		TimetableWeek lastInstance = (TimetableWeek) getLastCustomNonConfigurationInstance();
 		if (lastInstance == null) {
 			startRequest(date, false);
-			scrollToDay(currentWeekDay);
+			scrollToToday();
 		} else {
 			// there was a screen orientation change. we can just continue...
 			week = lastInstance;
+			datebox.setText(DateHelper.formatToUserFriendlyFormat(week.getLastUpdate()));
 		}
 
 	}
@@ -120,11 +115,12 @@ public class TimeTableActivity extends FragmentActivity {
 	}
 
 	public void showToday(View view) {
-		scrollToDay(currentWeekDay);
+		scrollToToday();
 	}
 
-	private void scrollToDay(WeekDay weekDay) {
-		dayPager.setCurrentItem(weekDay.getId() - 1);
+	private void scrollToToday() {
+		WeekDay today = WeekDay.getByDate(new Date());
+		dayPager.setCurrentItem(today.getId() - 1);
 	}
 
 	private synchronized void startRequest(Date date, boolean forceRequest) {
@@ -188,7 +184,7 @@ public class TimeTableActivity extends FragmentActivity {
 				e.printStackTrace();
 				hasError = true;
 				errorMessage = e.getMessage();
-				result = new TimetableWeek(new ArrayList<Day>());
+				result = new TimetableWeek();
 			}
 			return result;
 		}
@@ -200,6 +196,9 @@ public class TimeTableActivity extends FragmentActivity {
 				for (DayFragment fragment : fragmentPageAdapter.getActiveFragments()) {
 					fragment.updateDate(week);
 				}
+				datebox.setText(DateHelper.formatToUserFriendlyFormat(week.getLastUpdate()));
+			} else {
+				datebox.setText(getString(R.string.default_novalue));
 			}
 
 			progress.dismiss();
@@ -229,12 +228,10 @@ public class TimeTableActivity extends FragmentActivity {
 			DayFragment fragment = new DayFragment();
 
 			WeekDay weekDay = WeekDay.getById(position + 1);
-			Date date = DateHelper.addDays(new Date(), weekDay.getId() - currentWeekDay.getId());
 
 			Bundle args = new Bundle();
 			args.putSerializable(DayFragment.FRAGMENT_PARAMETER_DATA, week);
 			args.putSerializable(DayFragment.FRAGMENT_PARAMETER_WEEKDAY, weekDay);
-			args.putSerializable(DayFragment.FRAGMENT_PARAMETER_DATE, date);
 			fragment.setArguments(args);
 
 			activeFragments.put(position, fragment);

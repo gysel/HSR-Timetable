@@ -14,7 +14,7 @@
     <string name="preferences_password_text">Your password will only be sent to the HSR server.</string>
     <string name="key_login">login</string>
     <string name="key_password">password</string>
-    <string name="label_date_label">Date:</string>
+    <string name="label_date_label">Last update:</string>
     <string name="default_novalue">-</string>
     <string name="button_prev">Prev</string>
     <string name="button_next">Next</string>
@@ -23,5 +23,5 @@
     <string name="label_lesson">Lesson</string>
     <string name="label_room">Room</string>
     <string name="label_lecturer">Lecturer</string>
-    <string name="label_week">Week:</string>
+    <string name="label_week">Current Week:</string>
 </resources>

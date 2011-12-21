@@ -18,14 +18,14 @@
  */
 package ch.scythe.hsr.api;
 
-import java.io.BufferedReader;
 import java.io.Closeable;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.Date;
@@ -52,7 +52,7 @@ public class TimeTableAPI {
 	private static final String NAMESPACE = "\"http://tempuri.org/" + METHOD + "\"";
 	// _Cache details
 	private static final String TIMETABLE_CACHE_XML = "timetable_cache.xml";
-	private static final String TIMETABLE_CACHE_INFO = "timetable_cache.txt";
+	private static final String TIMETABLE_CACHE_TIMESTAMP = "timetable_timestamp.txt";
 	// _Helper
 	private final SaxTimetableParser parser = new SaxTimetableParser();
 	private final Context context;
@@ -75,41 +75,33 @@ public class TimeTableAPI {
 	 * @throws ParseException
 	 *             If result contains not parsable data.
 	 */
-	public TimetableWeek retrieve(Date date, String login, String password, boolean forceRequest)
+	public TimetableWeek retrieve(Date requestedDate, String login, String password, boolean forceRequest)
 			throws RequestException {
 		TimetableWeek result = null;
 
-		String dateString = DateHelper.formatToTechnicalFormat(date);
-		String weekNumber = DateHelper.formatToWeekNumber(date);
-
 		// create cache if the cache is not present yet
-		if (forceRequest || !cacheFilesExist(context.fileList(), TIMETABLE_CACHE_XML, TIMETABLE_CACHE_INFO)) {
+		if (forceRequest || !cacheFilesExist(context.fileList(), TIMETABLE_CACHE_XML, TIMETABLE_CACHE_TIMESTAMP)) {
 			if (forceRequest) {
 				Log.i(LOGGING_TAG, "Started forced cache reloading.");
 			} else {
 				Log.i(LOGGING_TAG, "Started initial cache loading.");
 			}
-			updateCache(dateString, weekNumber, login, password);
+			String dateString = DateHelper.formatToTechnicalFormat(requestedDate);
+			updateCache(dateString, null, login, password);
 		}
 
 		FileInputStream cachedRequest = null;
 		try {
-			// read the cached day
-			String cachedWeek = getCachedWeek();
-
-			// update the cache if necessary
-			if (!weekNumber.equals(cachedWeek)) {
-				Log.i(LOGGING_TAG, "Refreshing cache. (Data was outdated.)");
-				updateCache(dateString, weekNumber, login, password);
-			} else {
-				Log.i(LOGGING_TAG, "Reading data from xml cache.");
-			}
+			// read the cached data
+			Date cacheTimestamp = getCacheTimestamp();
 
 			// parse the timetable from the cache
 			cachedRequest = context.openFileInput(TIMETABLE_CACHE_XML);
 			long before = System.currentTimeMillis();
 			result = parser.parse(cachedRequest);
 			Log.i(LOGGING_TAG, "Parsed xml data in " + new Long(System.currentTimeMillis() - before) + "ms.");
+
+			result.setLastUpdate(cacheTimestamp);
 
 		} catch (FileNotFoundException e) {
 			throw new RequestException(e);
@@ -120,39 +112,39 @@ public class TimeTableAPI {
 		return result;
 	}
 
-	private String getCachedWeek() throws RequestException {
-		String cacheInfo = null;
-		FileInputStream cachedRequestInfo = null;
+	private Date getCacheTimestamp() throws RequestException {
+		Date cacheTimestamp = null;
+		DataInputStream inputStream = null;
 		try {
-			cachedRequestInfo = context.openFileInput(TIMETABLE_CACHE_INFO);
-			BufferedReader reader = new BufferedReader(new InputStreamReader(cachedRequestInfo));
-			cacheInfo = reader.readLine();
+			inputStream = new DataInputStream(context.openFileInput(TIMETABLE_CACHE_TIMESTAMP));
+			cacheTimestamp = new Date(inputStream.readLong());
 		} catch (FileNotFoundException e) {
 			throw new RequestException(e);
 		} catch (IOException e) {
 			throw new RequestException(e);
 		} finally {
-			safeCloseStream(cachedRequestInfo);
+			safeCloseStream(inputStream);
 		}
-		return cacheInfo;
+		return cacheTimestamp;
 	}
 
-	private void updateCache(String dateString, String weekNumber, String login, String password)
+	private void updateCache(String dateString, Date cacheTimestamp, String login, String password)
 			throws RequestException {
 		FileOutputStream xmlCacheOutputStream = null;
-		FileOutputStream cacheInfoOutputStream = null;
+		DataOutputStream cacheTimestampOutputStream = null;
 		InputStream xmlInputStream = null;
 		long before = System.currentTimeMillis();
 		try {
 			xmlInputStream = readTimeTableFromServer(dateString, login, password);
 			xmlCacheOutputStream = context.openFileOutput(TIMETABLE_CACHE_XML, Context.MODE_PRIVATE);
-			cacheInfoOutputStream = context.openFileOutput(TIMETABLE_CACHE_INFO, Context.MODE_PRIVATE);
+			cacheTimestampOutputStream = new DataOutputStream(context.openFileOutput(TIMETABLE_CACHE_TIMESTAMP,
+					Context.MODE_PRIVATE));
 
 			int c;
 			while ((c = xmlInputStream.read()) != -1) {
 				xmlCacheOutputStream.write(c);
 			}
-			cacheInfoOutputStream.write(weekNumber.getBytes());
+			cacheTimestampOutputStream.writeLong(new Date().getTime());
 		} catch (FileNotFoundException e) {
 			throw new RequestException(e);
 		} catch (IOException e) {
@@ -160,7 +152,7 @@ public class TimeTableAPI {
 		} finally {
 			safeCloseStream(xmlCacheOutputStream);
 			safeCloseStream(xmlInputStream);
-			safeCloseStream(cacheInfoOutputStream);
+			safeCloseStream(cacheTimestampOutputStream);
 		}
 		Log.i(LOGGING_TAG, "Read data from the server in " + (System.currentTimeMillis() - before) + "ms.");
 	}

@@ -19,6 +19,7 @@
 package ch.scythe.hsr.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +29,7 @@ import ch.scythe.hsr.enumeration.WeekDay;
 public class TimetableWeek implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	private Date lastUpdate;
 	private final Map<WeekDay, Day> days = new LinkedHashMap<WeekDay, Day>();
 
 	public TimetableWeek(List<Day> days) {
@@ -37,10 +39,19 @@ public class TimetableWeek implements Serializable {
 	}
 
 	public TimetableWeek() {
+		lastUpdate = null;
 	}
 
 	public Day getDay(WeekDay weekDay) {
 		return days.get(weekDay);
+	}
+
+	public void setLastUpdate(Date lastUpdate) {
+		this.lastUpdate = lastUpdate;
+	}
+
+	public Date getLastUpdate() {
+		return lastUpdate;
 	}
 
 }
