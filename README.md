@@ -14,7 +14,9 @@ Wiki
 Participation
 -------
 
-I'm looking for other developers to join this little project. Are you keen to get some Android development hands on? [Get in touch](michi@scythe.ch) with me!
+I'm looking for other developers to join this little project. Are you keen to get some Android development hands on? Get in touch with me! 
+
+Email: <michi@scythe.ch> 
 
 
 License
