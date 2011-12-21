@@ -8,7 +8,7 @@ I will publish it on the Android Market in Feb 2012.
 Wiki
 -------
 
-* [Feature Roadmap](wiki/Feature-Roadmap)
+* [Feature Roadmap](https://github.com/theScythe/HSR-Timetable/wiki/Feature-Roadmap)
 
 
 Participation
