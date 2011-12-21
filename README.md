@@ -5,6 +5,18 @@ HSR Timetable is an Android App providing access to the Timetable of the [Hochsc
 
 I will publish it on the Android Market in Feb 2012.
 
+Wiki
+-------
+
+* [Feature Roadmap](wiki/Feature-Roadmap)
+
+
+Participation
+-------
+
+I'm looking for other developers to join this little project. Are you keen to get some Android development hands on? [Get in touch](michi@scythe.ch) with me!
+
+
 License
 -------
 
