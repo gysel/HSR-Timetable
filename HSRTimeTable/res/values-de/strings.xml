@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_title">HSR Stundenplan</string>
+    <string name="app_name">HSR Stundenplan</string>
+    <string name="button_cancel">Abbrechen</string>
+    <string name="button_ok">Ok</string>
+    <string name="button_today">Heute</string>
+    <string name="button_open_preferences">Einstellungen öffnen</string>
+    <string name="default_novalue">-</string>
+    <string name="label_login">Benutzername</string>
+    <string name="label_passord">Passwort</string>
+    <string name="label_date_label">Letzte Aktual.:</string>
+    <string name="label_week">Aktuelle Woche:</string>
+    <string name="menu_preferences">Einstellungen</string>
+    <string name="menu_refresh">Aktualisieren</string>
+    <string name="message_configure_credentials">Bitte dein Benutzername und dein Passwort in den Einstellungen eingeben.</string>
+    <string name="message_error_while_fetching">Laden der Daten ist fehlgeschlagen.</string>
+    <string name="message_loading_data">Lade Daten...</string>
+    <string name="message_no_data">Keine Daten verfügbar. Bitte neu laden.</string>
+    <string name="preferences_login_credentials">Benutzerdaten</string>
+    <string name="preferences_login">HSR Benutzername</string>
+    <string name="preferences_password">Passwort</string>
+    <string name="preferences_password_text">Dein Passwort wird ausschliesslich an den HSR Server gesendet.</string>
+    <string name="key_login">login</string>
+    <string name="key_password">password</string>
+    <string name="weekday_monday">Montag</string>
+    <string name="weekday_tuesday">Dienstag</string>
+    <string name="weekday_wednesday">Mittwoch</string>
+    <string name="weekday_thursday">Donnerstag</string>
+    <string name="weekday_friday">Freitag</string>
+    <string name="weekday_saturday">Samstag</string>
+    <string name="weekday_sunday">Sonntag</string>
+</resources>
