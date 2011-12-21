@@ -197,7 +197,6 @@ public class TimeTableActivity extends FragmentActivity {
 		protected void onPostExecute(TimetableWeek week) {
 			if (!hasError) {
 				TimeTableActivity.this.week = week;
-
 				for (DayFragment fragment : fragmentPageAdapter.getActiveFragments()) {
 					fragment.updateDate(week);
 				}

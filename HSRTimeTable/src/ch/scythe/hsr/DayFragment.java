@@ -62,11 +62,25 @@ public class DayFragment extends DialogFragment {
 			weekDay = (WeekDay) (arguments.getSerializable(FRAGMENT_PARAMETER_WEEKDAY));
 			date = (Date) (arguments.getSerializable(FRAGMENT_PARAMETER_DATE));
 		}
+	}
 
+	@Override
+	public void onSaveInstanceState(Bundle instanceToSave) {
+		super.onSaveInstanceState(instanceToSave);
+		instanceToSave.putSerializable(FRAGMENT_PARAMETER_DATA, week);
+		instanceToSave.putSerializable(FRAGMENT_PARAMETER_WEEKDAY, weekDay);
+		instanceToSave.putSerializable(FRAGMENT_PARAMETER_DATE, date);
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+		if (savedInstanceState != null && savedInstanceState.containsKey(FRAGMENT_PARAMETER_DATA)) {
+			week = (TimetableWeek) (savedInstanceState.getSerializable(FRAGMENT_PARAMETER_DATA));
+			weekDay = (WeekDay) (savedInstanceState.getSerializable(FRAGMENT_PARAMETER_WEEKDAY));
+			date = (Date) (savedInstanceState.getSerializable(FRAGMENT_PARAMETER_DATE));
+		}
+
 		layoutInflater = getLayoutInflater(savedInstanceState);
 		View v = inflater.inflate(R.layout.timetable_day, container, false);
 		TableLayout timeTable = (TableLayout) v.findViewById(R.id.timeTable);
@@ -75,6 +89,7 @@ public class DayFragment extends DialogFragment {
 		headerCell.setText(DateHelper.formatToUserFriendlyFormat(date));
 
 		updateTable(timeTable);
+
 		return v;
 	}
 
@@ -103,12 +118,10 @@ public class DayFragment extends DialogFragment {
 
 	public void updateDate(TimetableWeek week) {
 		this.week = week;
-
 		TableLayout timeTable = (TableLayout) getView().findViewById(R.id.timeTable);
+		// remove all existing table rows and add them again
 		timeTable.removeAllViews();
-
 		updateTable(timeTable);
-
 	}
 
 	private void createAndFormatTableRow(Lesson lesson, TimeUnit timeUnit, TableLayout timeTable,
