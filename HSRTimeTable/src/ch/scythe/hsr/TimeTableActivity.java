@@ -130,7 +130,7 @@ public class TimeTableActivity extends FragmentActivity {
 		if (inNullOrEmpty(login) || inNullOrEmpty(password)) {
 			showDialog(DIALOG_NO_USER_PASS);
 		} else {
-			progress = ProgressDialog.show(this, "", "Loading data...");
+			progress = ProgressDialog.show(this, "", getString(R.string.message_loading_data));
 			new FetchDataTask().execute(date, login, password, forceRequest);
 		}
 	}
@@ -141,17 +141,20 @@ public class TimeTableActivity extends FragmentActivity {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		switch (id) {
 		case DIALOG_NO_USER_PASS:
-			builder.setMessage("Please enter your username and password in the preferences.").setCancelable(true)
-					.setPositiveButton("Open preferences", new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int which) {
-							startActivity(new Intent(TimeTableActivity.this, UserPreferencesActivity.class));
-						}
-					}).setNegativeButton("Cancel", null);
+			builder.setMessage(getString(R.string.message_configure_credentials))
+					.setCancelable(true)
+					.setPositiveButton(getString(R.string.button_open_preferences),
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog, int which) {
+									startActivity(new Intent(TimeTableActivity.this, UserPreferencesActivity.class));
+								}
+							}).setNegativeButton(getString(R.string.button_cancel), null);
 			result = builder.create();
 			break;
 		case DIALOG_ERROR_PASS:
 			// TODO add option to retry?
-			builder.setMessage("Error while fetching data.").setPositiveButton("Ok", null);
+			builder.setMessage(getString(R.string.message_error_while_fetching)).setPositiveButton(
+					getString(R.string.button_ok), null);
 			result = builder.create();
 			break;
 		default:

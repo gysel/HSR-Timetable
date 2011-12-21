@@ -79,7 +79,7 @@ public class DayFragment extends DialogFragment {
 		TableLayout timeTable = (TableLayout) v.findViewById(R.id.timeTable);
 
 		TextView headerCell = (TextView) v.findViewById(R.id.headerRow);
-		headerCell.setText(weekDay.name());
+		headerCell.setText(getString(weekDay.getResourceReference()));
 
 		updateTable(timeTable);
 
@@ -103,7 +103,7 @@ public class DayFragment extends DialogFragment {
 				}
 			}
 		} else {
-			String message = "No data available. Please refresh.";
+			String message = getString(R.string.message_no_data);
 			TableRow row = createTableRow(message, R.layout.timetable_info_row, layoutInflater);
 			timeTable.addView(row);
 		}

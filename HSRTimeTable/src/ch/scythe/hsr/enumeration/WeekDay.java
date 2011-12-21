@@ -25,15 +25,20 @@ import java.util.EnumSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import ch.scythe.hsr.R;
+
 public enum WeekDay implements Serializable {
 
-	MONDAY(1, 2), TUESDAY(2, 3), WEDNESDAY(3, 4), THURSDAY(4, 5), FRIDAY(5, 6), SATURDAY(6, 7), SUNDAY(7, 1);
+	MONDAY(1, 2, R.string.weekday_monday), TUESDAY(2, 3, R.string.weekday_tuesday), WEDNESDAY(3, 4,
+			R.string.weekday_wednesday), THURSDAY(4, 5, R.string.weekday_thursday), FRIDAY(5, 6,
+			R.string.weekday_friday), SATURDAY(6, 7, R.string.weekday_saturday), SUNDAY(7, 1, R.string.weekday_sunday);
 
 	private final Integer id;
 	private final Integer javaId;
 
 	private static final Map<Integer, WeekDay> lookupByJavaId = new LinkedHashMap<Integer, WeekDay>();
 	private static final Map<Integer, WeekDay> lookupById = new LinkedHashMap<Integer, WeekDay>();
+	private final int resourceReference;
 
 	static {
 		for (WeekDay day : EnumSet.allOf(WeekDay.class)) {
@@ -42,9 +47,10 @@ public enum WeekDay implements Serializable {
 		}
 	}
 
-	private WeekDay(Integer id, Integer javaId) {
+	private WeekDay(Integer id, Integer javaId, int resourceReference) {
 		this.id = id;
 		this.javaId = javaId;
+		this.resourceReference = resourceReference;
 	}
 
 	public Integer getId() {
@@ -67,6 +73,10 @@ public enum WeekDay implements Serializable {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
 		return lookupByJavaId.get(calendar.get(Calendar.DAY_OF_WEEK));
+	}
+
+	public int getResourceReference() {
+		return resourceReference;
 	}
 
 }
