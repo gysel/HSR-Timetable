@@ -42,6 +42,7 @@ import org.apache.http.protocol.HTTP;
 import android.content.Context;
 import android.util.Log;
 import ch.scythe.hsr.entity.TimetableWeek;
+import ch.scythe.hsr.error.ResponseParseException;
 import ch.scythe.hsr.helper.DateHelper;
 import ch.scythe.hsr.xml.SaxTimetableParser;
 
@@ -72,11 +73,11 @@ public class TimeTableAPI {
 	 * 
 	 * @throws RequestException
 	 *             If the timetable could not be successfully requested.
-	 * @throws ParseException
+	 * @throws ResponseParseException
 	 *             If result contains not parsable data.
 	 */
 	public TimetableWeek retrieve(Date requestedDate, String login, String password, boolean forceRequest)
-			throws RequestException {
+			throws RequestException, ResponseParseException {
 		TimetableWeek result = null;
 
 		// create cache if the cache is not present yet

@@ -16,19 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package ch.scythe.hsr.helper;
+package ch.scythe.hsr.error;
 
-import static org.junit.Assert.assertEquals;
+public class ResponseParseException extends Exception {
 
-import java.util.Date;
+	private static final long serialVersionUID = 1L;
 
-import org.junit.Test;
-
-public class DateHelperTest {
-
-	@Test
-	public void testFormatToUserFriendlyFormat() {
-		assertEquals("31.10.2011 0:00", DateHelper.formatToUserFriendlyFormat(new Date(2011 - 1900, 10 - 1, 31)));
+	public ResponseParseException(Exception e) {
+		super(e);
 	}
 
 }

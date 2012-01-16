@@ -44,6 +44,7 @@ import ch.scythe.hsr.api.RequestException;
 import ch.scythe.hsr.api.TimeTableAPI;
 import ch.scythe.hsr.entity.TimetableWeek;
 import ch.scythe.hsr.enumeration.WeekDay;
+import ch.scythe.hsr.error.ResponseParseException;
 import ch.scythe.hsr.helper.DateHelper;
 
 public class TimeTableActivity extends FragmentActivity {
@@ -171,7 +172,6 @@ public class TimeTableActivity extends FragmentActivity {
 
 		private final TimeTableAPI api = new TimeTableAPI(TimeTableActivity.this);
 		private Boolean hasError = false;
-		private String errorMessage = null;
 
 		@Override
 		protected TimetableWeek doInBackground(Object... params) {
@@ -183,10 +183,13 @@ public class TimeTableActivity extends FragmentActivity {
 			TimetableWeek result = null;
 			try {
 				result = api.retrieve(date, login, password, forceRequest);
+			} catch (ResponseParseException e) {
+				e.printStackTrace();
+				hasError = true;
+				result = new TimetableWeek();
 			} catch (RequestException e) {
 				e.printStackTrace();
 				hasError = true;
-				errorMessage = e.getMessage();
 				result = new TimetableWeek();
 			}
 			return result;

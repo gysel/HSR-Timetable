@@ -32,6 +32,7 @@ import ch.scythe.hsr.entity.Lesson;
 import ch.scythe.hsr.entity.TimetableWeek;
 import ch.scythe.hsr.enumeration.TimeUnit;
 import ch.scythe.hsr.enumeration.WeekDay;
+import ch.scythe.hsr.error.ResponseParseException;
 
 public class TimeTableWeekHandlerTest {
 
@@ -55,7 +56,7 @@ public class TimeTableWeekHandlerTest {
 	private static final String DESCRIPTION_EMPTY = "";
 
 	@Test
-	public void testScenarioSunnyPathTESTparseTuesday() throws FileNotFoundException {
+	public void testScenarioSunnyPathTESTparseTuesday() throws FileNotFoundException, ResponseParseException {
 		// Set up fixture
 		Day day = parse("ScenarioSunnyPath.xml", WeekDay.TUESDAY);
 		// Exercise sut
@@ -99,7 +100,7 @@ public class TimeTableWeekHandlerTest {
 		parser = new SaxTimetableParser();
 	}
 
-	private Day parse(String scenarioName, WeekDay weekDay) {
+	private Day parse(String scenarioName, WeekDay weekDay) throws ResponseParseException {
 		TimetableWeek timetableWeek = parser.parse(TimeTableWeekHandlerTest.class.getResourceAsStream(scenarioName));
 		return timetableWeek.getDay(weekDay);
 	}

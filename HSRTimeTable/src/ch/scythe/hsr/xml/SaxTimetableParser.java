@@ -23,11 +23,14 @@ import java.io.InputStream;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import org.xml.sax.SAXException;
+
 import ch.scythe.hsr.entity.TimetableWeek;
+import ch.scythe.hsr.error.ResponseParseException;
 
 public class SaxTimetableParser {
 
-	public TimetableWeek parse(InputStream xml) {
+	public TimetableWeek parse(InputStream xml) throws ResponseParseException {
 
 		SAXParserFactory factory = SAXParserFactory.newInstance();
 		try {
@@ -35,6 +38,8 @@ public class SaxTimetableParser {
 			TimeTableWeekHandler handler = new TimeTableWeekHandler();
 			parser.parse(xml, handler);
 			return handler.getWeek();
+		} catch (SAXException e) {
+			throw new ResponseParseException(e);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
