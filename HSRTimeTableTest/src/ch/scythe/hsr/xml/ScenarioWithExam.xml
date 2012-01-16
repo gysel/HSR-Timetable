@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <soap:Body>
+      <GetOwnTimeTableOfDateResponse xmlns="http://tempuri.org/">
+         <GetOwnTimeTableOfDateResult student="Muster Peter" id="540090">
+            <Days>
+               <Day id="1" description="Montag">
+                  <Lessons>
+                     <Lesson id="35570_P_CN1">
+                        <Description/>
+                        <Type>Prüfung</Type>
+                        <TimeSlots>
+                           <TimeUnit id="-1">
+                              <StartTime>2012-01-16T08:10:00</StartTime>
+                              <EndTime>2012-01-16T11:10:00</EndTime>
+                              <Rooms>
+                                 <Room id="1.205"/>
+                                 <Room id="4.101"/>
+                              </Rooms>
+                           </TimeUnit>
+                        </TimeSlots>
+                        <OccurenceValue>Prf</OccurenceValue>
+                        <Lecturers>
+                           <Lecturer>
+                              <NameShort>FOO</NameShort>
+                              <NameLong>Some Teacher</NameLong>
+                           </Lecturer>
+                        </Lecturers>
+                     </Lesson>
+                  </Lessons>
+               </Day>
+            </Days>
+         </GetOwnTimeTableOfDateResult>
+      </GetOwnTimeTableOfDateResponse>
+   </soap:Body>
+</soap:Envelope>

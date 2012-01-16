@@ -93,6 +93,12 @@ public class TimeTableWeekHandlerTest {
 		assertEquals(1, lessons.get(TimeUnit.LESSON_4).size());
 	}
 
+	@Test
+	public void testScenarioWithExams() throws ResponseParseException {
+		// This should not throw an exception
+		parse("ScenarioWithExam.xml", WeekDay.MONDAY);
+	}
+
 	private SaxTimetableParser parser;
 
 	@Before

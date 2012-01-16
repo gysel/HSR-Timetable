@@ -100,7 +100,10 @@ public class TimeTableWeekHandler extends DefaultHandler {
 				currentLesson.setIdentifier(attributes.getValue(XML_ATTRIBUTE_ID));
 			} else if (currentLesson != null && qName.equalsIgnoreCase(XML_NODE_TIME_UNIT)) {
 				try {
-					currentLesson.addTimeUnit(Integer.parseInt(attributes.getValue(XML_ATTRIBUTE_ID)));
+					Integer timeUnitId = Integer.parseInt(attributes.getValue(XML_ATTRIBUTE_ID));
+					if (timeUnitId > 0) { // exams have negative time unit ids
+						currentLesson.addTimeUnit(timeUnitId);
+					}
 				} catch (EnumNotFoundException e) {
 					throw new SAXException(e);
 				}
