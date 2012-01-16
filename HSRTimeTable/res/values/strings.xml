@@ -15,6 +15,8 @@
     <string name="menu_refresh">Refresh</string>
     <string name="message_configure_credentials">Please enter your username and password in the preferences.</string>
     <string name="message_error_while_fetching">Error while fetching data.</string>
+    <string name="message_error_while_connecting">Error while connecting to server.</string>
+    <string name="message_error_while_parsing">Error while parsing server response.</string>
     <string name="message_loading_data">Loading data...</string>
     <string name="message_no_data">No data available. Please refresh.</string>
     <string name="preferences_login_credentials">Login credentials</string>

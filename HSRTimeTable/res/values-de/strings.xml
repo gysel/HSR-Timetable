@@ -15,6 +15,8 @@
     <string name="menu_refresh">Aktualisieren</string>
     <string name="message_configure_credentials">Bitte dein Benutzername und dein Passwort in den Einstellungen eingeben.</string>
     <string name="message_error_while_fetching">Laden der Daten ist fehlgeschlagen.</string>
+    <string name="message_error_while_connecting">Verbindung zum Server fehlgeschlagen.</string>
+    <string name="message_error_while_parsing">Datenverarbeitung fehlgeschlagen.</string>
     <string name="message_loading_data">Lade Daten...</string>
     <string name="message_no_data">Keine Daten verfügbar. Bitte neu laden.</string>
     <string name="preferences_login_credentials">Benutzerdaten</string>

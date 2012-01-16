@@ -45,6 +45,7 @@ import ch.scythe.hsr.api.TimeTableAPI;
 import ch.scythe.hsr.entity.TimetableWeek;
 import ch.scythe.hsr.enumeration.WeekDay;
 import ch.scythe.hsr.error.ResponseParseException;
+import ch.scythe.hsr.error.ServerConnectionException;
 import ch.scythe.hsr.helper.DateHelper;
 
 public class TimeTableActivity extends FragmentActivity {
@@ -58,7 +59,9 @@ public class TimeTableActivity extends FragmentActivity {
 	private ProgressDialog progress;
 	private SharedPreferences preferences;
 	private static final int DIALOG_NO_USER_PASS = 0;
-	private static final int DIALOG_ERROR_PASS = 1;
+	private static final int DIALOG_ERROR_FETCH = 1;
+	private static final int DIALOG_ERROR_CONNECT = 2;
+	private static final int DIALOG_ERROR_PARSE = 3;
 	// _State
 	public TimetableWeek week = new TimetableWeek();
 
@@ -152,9 +155,19 @@ public class TimeTableActivity extends FragmentActivity {
 							}).setNegativeButton(getString(R.string.button_cancel), null);
 			result = builder.create();
 			break;
-		case DIALOG_ERROR_PASS:
+		case DIALOG_ERROR_CONNECT:
 			// TODO add option to retry?
+			builder.setMessage(getString(R.string.message_error_while_connecting)).setPositiveButton(
+					getString(R.string.button_ok), null);
+			result = builder.create();
+			break;
+		case DIALOG_ERROR_FETCH:
 			builder.setMessage(getString(R.string.message_error_while_fetching)).setPositiveButton(
+					getString(R.string.button_ok), null);
+			result = builder.create();
+			break;
+		case DIALOG_ERROR_PARSE:
+			builder.setMessage(getString(R.string.message_error_while_parsing)).setPositiveButton(
 					getString(R.string.button_ok), null);
 			result = builder.create();
 			break;
@@ -171,7 +184,7 @@ public class TimeTableActivity extends FragmentActivity {
 	class FetchDataTask extends AsyncTask<Object, Integer, TimetableWeek> {
 
 		private final TimeTableAPI api = new TimeTableAPI(TimeTableActivity.this);
-		private Boolean hasError = false;
+		private Integer errorCode = 0;
 
 		@Override
 		protected TimetableWeek doInBackground(Object... params) {
@@ -183,13 +196,18 @@ public class TimeTableActivity extends FragmentActivity {
 			TimetableWeek result = null;
 			try {
 				result = api.retrieve(date, login, password, forceRequest);
+
 			} catch (ResponseParseException e) {
 				e.printStackTrace();
-				hasError = true;
+				errorCode = DIALOG_ERROR_PARSE;
 				result = new TimetableWeek();
 			} catch (RequestException e) {
 				e.printStackTrace();
-				hasError = true;
+				errorCode = DIALOG_ERROR_FETCH;
+				result = new TimetableWeek();
+			} catch (ServerConnectionException e) {
+				e.printStackTrace();
+				errorCode = DIALOG_ERROR_CONNECT;
 				result = new TimetableWeek();
 			}
 			return result;
@@ -197,7 +215,7 @@ public class TimeTableActivity extends FragmentActivity {
 
 		@Override
 		protected void onPostExecute(TimetableWeek week) {
-			if (!hasError) {
+			if (errorCode == 0) {
 				TimeTableActivity.this.week = week;
 				for (DayFragment fragment : fragmentPageAdapter.getActiveFragments()) {
 					fragment.updateDate(week);
@@ -209,8 +227,8 @@ public class TimeTableActivity extends FragmentActivity {
 
 			progress.dismiss();
 
-			if (hasError) {
-				showDialog(DIALOG_ERROR_PASS);
+			if (errorCode != 0) {
+				showDialog(errorCode);
 			}
 
 		}

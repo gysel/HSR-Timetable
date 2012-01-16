@@ -43,6 +43,7 @@ import android.content.Context;
 import android.util.Log;
 import ch.scythe.hsr.entity.TimetableWeek;
 import ch.scythe.hsr.error.ResponseParseException;
+import ch.scythe.hsr.error.ServerConnectionException;
 import ch.scythe.hsr.helper.DateHelper;
 import ch.scythe.hsr.xml.SaxTimetableParser;
 
@@ -75,9 +76,11 @@ public class TimeTableAPI {
 	 *             If the timetable could not be successfully requested.
 	 * @throws ResponseParseException
 	 *             If result contains not parsable data.
+	 * @throws ServerConnectionException
+	 *             If the connection to the server if aborted
 	 */
 	public TimetableWeek retrieve(Date requestedDate, String login, String password, boolean forceRequest)
-			throws RequestException, ResponseParseException {
+			throws RequestException, ResponseParseException, ServerConnectionException {
 		TimetableWeek result = null;
 
 		// create cache if the cache is not present yet
@@ -130,7 +133,7 @@ public class TimeTableAPI {
 	}
 
 	private void updateCache(String dateString, Date cacheTimestamp, String login, String password)
-			throws RequestException {
+			throws RequestException, ServerConnectionException {
 		FileOutputStream xmlCacheOutputStream = null;
 		DataOutputStream cacheTimestampOutputStream = null;
 		InputStream xmlInputStream = null;
@@ -159,7 +162,7 @@ public class TimeTableAPI {
 	}
 
 	private InputStream readTimeTableFromServer(String dateString, String login, String password)
-			throws RequestException {
+			throws RequestException, ServerConnectionException {
 
 		InputStream result;
 		try {
@@ -181,7 +184,7 @@ public class TimeTableAPI {
 		} catch (ClientProtocolException e) {
 			throw new RequestException(e);
 		} catch (IOException e) {
-			throw new RequestException(e);
+			throw new ServerConnectionException(e);
 		}
 		return result;
 	}
