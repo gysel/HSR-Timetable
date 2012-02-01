@@ -39,6 +39,7 @@ import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.TextView;
 import ch.scythe.hsr.api.RequestException;
 import ch.scythe.hsr.api.TimeTableAPI;
@@ -62,6 +63,7 @@ public class TimeTableActivity extends FragmentActivity {
 	private static final int DIALOG_ERROR_FETCH = 1;
 	private static final int DIALOG_ERROR_CONNECT = 2;
 	private static final int DIALOG_ERROR_PARSE = 3;
+	private static final int DIALOG_ABOUT = 4;
 	// _State
 	public TimetableWeek week = new TimetableWeek();
 
@@ -113,6 +115,9 @@ public class TimeTableActivity extends FragmentActivity {
 			break;
 		case R.id.refresh:
 			startRequest(new Date(), true);
+			break;
+		case R.id.about:
+			showDialog(DIALOG_ABOUT);
 			break;
 		}
 		return true;
@@ -170,6 +175,15 @@ public class TimeTableActivity extends FragmentActivity {
 			builder.setMessage(getString(R.string.message_error_while_parsing)).setPositiveButton(
 					getString(R.string.button_ok), null);
 			result = builder.create();
+			break;
+		case DIALOG_ABOUT:
+			TextView text = new TextView(getBaseContext());
+			text.setText("About this app");
+			result = new Dialog(this);
+			result.setTitle("Adunis Timetable");
+			LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+			result.setContentView(text, params);
+			result.show();
 			break;
 		default:
 			result = null;

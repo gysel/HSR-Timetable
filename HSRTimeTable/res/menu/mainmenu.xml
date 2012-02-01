@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     
-    <item android:id="@+id/refresh" android:title="@string/menu_refresh"></item>
-    <item android:title="@string/menu_preferences" android:id="@+id/preferences"></item>
+    <item android:id="@+id/refresh" android:title="@string/menu_refresh" />
+    <item android:title="@string/menu_preferences" android:id="@+id/preferences" />
+    <item android:title="@string/menu_about" android:id="@+id/about" />
     
 </menu>
