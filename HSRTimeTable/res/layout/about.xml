@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:isScrollContainer="true" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <TextView
+            style="@style/aboutTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Adunis Timetable provides students and lecturers at the Hochschule für Technik Rapperswil (HSR) access to their timetable." />
+
+        <TextView
+            android:id="@+id/aboutAuthor"
+            style="@style/aboutTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="The app is written and maintained by Michael Gysel and published under an open-source license on GitHub (https://github.com/theScythe/HSR-Timetable). Even though the source code is accessible, please do not republish the app in the Android Market as this version is officially supported and monitored by Michael Gysel and the HSR staff." />
+
+        <TextView
+            style="@style/aboutTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="All data is provided by ADUNIS." />
+
+        <ImageView
+            style="@style/aboutTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF"
+            android:padding="5dp"
+            android:src="@drawable/adunis" />
+
+        <TextView
+            style="@style/aboutTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Configured credentials are stored in a protected file and only sent to the HSR server." />
+
+        <TextView
+            android:id="@+id/aboutContact"
+            style="@style/aboutTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Contact: \nMichael Gysel (mgysel@hsr.ch) for free beers, bug reports and features requests \nHSR Business Applications Team (businessapps@hsr.ch) for everything else" />
+
+        <TextView
+            style="@style/aboutTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Changelog: \n0.6 (10.2.2012) \n- First public version \n- Redesigned user interface" />
+    </LinearLayout>
+
+</ScrollView>

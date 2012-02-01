@@ -28,6 +28,8 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -36,10 +38,10 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.util.Linkify;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.TextView;
 import ch.scythe.hsr.api.RequestException;
 import ch.scythe.hsr.api.TimeTableAPI;
@@ -91,6 +93,7 @@ public class TimeTableActivity extends FragmentActivity {
 		} else {
 			// there was a screen orientation change. we can just continue...
 			week = lastInstance;
+			// TODO last update date can be null!
 			datebox.setText(DateHelper.formatToUserFriendlyFormat(week.getLastUpdate()));
 		}
 
@@ -177,16 +180,33 @@ public class TimeTableActivity extends FragmentActivity {
 			result = builder.create();
 			break;
 		case DIALOG_ABOUT:
-			TextView text = new TextView(getBaseContext());
-			text.setText("About this app");
 			result = new Dialog(this);
-			result.setTitle("Adunis Timetable");
-			LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-			result.setContentView(text, params);
-			result.show();
+			result.setContentView(R.layout.about);
+			result.setTitle(getString(R.string.app_title) + " v" + getPackageInfo().versionName);
+			linkify((TextView) result.findViewById(R.id.aboutAuthor));
+			linkify((TextView) result.findViewById(R.id.aboutContact));
+
+			// LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT,
+			// LayoutParams.MATCH_PARENT);
+			// result.setContentView(text, params);
+			// result.show();
 			break;
 		default:
 			result = null;
+		}
+		return result;
+	}
+
+	private void linkify(TextView textViewWithLinks) {
+		Linkify.addLinks(textViewWithLinks, Linkify.ALL);
+	}
+
+	private PackageInfo getPackageInfo() {
+		PackageInfo result = null;
+		try {
+			result = getPackageManager().getPackageInfo(getPackageName(), 0);
+		} catch (NameNotFoundException e) {
+			// do nothing
 		}
 		return result;
 	}
