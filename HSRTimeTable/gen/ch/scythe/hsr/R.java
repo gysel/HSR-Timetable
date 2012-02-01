@@ -15,30 +15,37 @@ public final class R {
         public static final int icon=0x7f020001;
     }
     public static final class id {
-        public static final int about=0x7f08000f;
+        public static final int about=0x7f080017;
         public static final int aboutAuthor=0x7f080000;
         public static final int aboutContact=0x7f080001;
-        public static final int button_today=0x7f08000b;
-        public static final int date_label=0x7f080007;
-        public static final int date_value=0x7f080008;
-        public static final int day_pager=0x7f08000c;
+        public static final int button_today=0x7f080008;
+        public static final int date_label=0x7f080009;
+        public static final int date_value=0x7f08000a;
+        public static final int day_pager=0x7f08000d;
         public static final int headerRow=0x7f080002;
+        public static final int linearLayout1=0x7f080006;
         public static final int linearLayout3=0x7f080004;
-        public static final int preferences=0x7f08000e;
-        public static final int refresh=0x7f08000d;
+        public static final int preferences=0x7f080016;
+        public static final int refresh=0x7f080015;
+        public static final int rowDescription=0x7f080014;
+        public static final int rowLecturer=0x7f080012;
+        public static final int rowLesson=0x7f08000f;
+        public static final int rowRoom=0x7f080013;
+        public static final int rowTimeunit=0x7f08000e;
+        public static final int rowType=0x7f080010;
         public static final int scrollView1=0x7f080003;
+        public static final int secondRow=0x7f080011;
         public static final int timeTable=0x7f080005;
-        public static final int title=0x7f080006;
-        public static final int week_label=0x7f080009;
-        public static final int week_value=0x7f08000a;
+        public static final int title=0x7f080007;
+        public static final int week_label=0x7f08000b;
+        public static final int week_value=0x7f08000c;
     }
     public static final class layout {
         public static final int about=0x7f030000;
-        public static final int timetable_cell=0x7f030001;
-        public static final int timetable_day=0x7f030002;
-        public static final int timetable_description_row=0x7f030003;
-        public static final int timetable_info_row=0x7f030004;
-        public static final int timetable_main=0x7f030005;
+        public static final int timetable_day=0x7f030001;
+        public static final int timetable_info_row=0x7f030002;
+        public static final int timetable_main=0x7f030003;
+        public static final int timetable_row=0x7f030004;
     }
     public static final class menu {
         public static final int mainmenu=0x7f070000;
@@ -81,6 +88,7 @@ public final class R {
     public static final class style {
         public static final int aboutTextView=0x7f060004;
         public static final int app_title=0x7f060000;
+        public static final int rowStyle=0x7f060005;
         public static final int table_cell=0x7f060001;
         public static final int table_cell_small=0x7f060002;
         public static final int table_header=0x7f060003;

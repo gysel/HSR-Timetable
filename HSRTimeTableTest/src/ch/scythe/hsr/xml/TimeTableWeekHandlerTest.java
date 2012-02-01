@@ -38,7 +38,7 @@ public class TimeTableWeekHandlerTest {
 
 	private static final String LECTURER_AN1 = "AUG";
 	private static final String LECTURER_CN1_EXERCISE = "RIN, HEI";
-	private static final String LECTURER_CN1_LAB = "RIN, HEI …";
+	private static final String LECTURER_CN1_LAB = "RIN, HEI, SFF, WIP";
 	//
 	private static final String IDENTIFIER_CN1_PRAK_P10 = "35272_CN1Prak-p10";
 	private static final String IDENTIFIER_CN1_EXCERCISE = "35025_CN1-u15";

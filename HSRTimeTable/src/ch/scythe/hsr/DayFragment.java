@@ -21,7 +21,6 @@ package ch.scythe.hsr;
 import java.util.List;
 import java.util.Map.Entry;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -104,7 +103,12 @@ public class DayFragment extends DialogFragment {
 			}
 		} else {
 			String message = getString(R.string.message_no_data);
-			TableRow row = createTableRow(message, R.layout.timetable_info_row, layoutInflater);
+			// TODO refactor this
+			TableRow descriptionRow = (TableRow) layoutInflater.inflate(R.layout.timetable_info_row, null);
+			// TODO can we use an id here?
+			TextView infoField = (TextView) descriptionRow.getChildAt(0);
+			infoField.setText(message);
+			TableRow row = descriptionRow;
 			timeTable.addView(row);
 		}
 	}
@@ -119,56 +123,39 @@ public class DayFragment extends DialogFragment {
 
 	private void createAndFormatTableRow(Lesson lesson, TimeUnit timeUnit, TableLayout timeTable,
 			LayoutInflater layoutInflater) {
-		// init row
-		TableRow row = new TableRow(getActivity());
-		formatRowBackground(timeUnit, row);
-		timeTable.addView(row);
 
-		TextView timeUnitField = createTableColumn(row, layoutInflater);
-		TextView lessonField = createTableColumn(row, layoutInflater);
-		TextView roomField = createTableColumn(row, layoutInflater);
-		TextView lecturerField = createTableColumn(row, layoutInflater);
+		View row = layoutInflater.inflate(R.layout.timetable_row, null);
+
+		TextView timeUnitField = (TextView) row.findViewById(R.id.rowTimeunit);
+		TextView lessonField = (TextView) row.findViewById(R.id.rowLesson);
+		TextView lecturerField = (TextView) row.findViewById(R.id.rowLecturer);
+		TextView roomField = (TextView) row.findViewById(R.id.rowRoom);
+		TextView descriptionField = (TextView) row.findViewById(R.id.rowDescription);
+		TextView typeField = (TextView) row.findViewById(R.id.rowType);
+
 		// fill values into row
 		timeUnitField.setText(timeUnit.toDurationString(" - "));
+		timeTable.addView(row);
 		if (lesson != null) {
 			lessonField.setText(lesson.getIdentifierShort());
 			roomField.setText(lesson.getRoom());
 			lecturerField.setText(lesson.getLecturersAsString(", "));
+			typeField.setText(lesson.getType());
 
 			if (lesson.hasDescription()) {
-
-				String text = lesson.getDescription();
-				TableRow descriptionRow = createTableRow(text, R.layout.timetable_description_row, layoutInflater);
-				formatRowBackground(timeUnit, descriptionRow);
-
-				timeTable.addView(descriptionRow);
-
+				descriptionField.setText(lesson.getDescription());
+			} else {
+				descriptionField.setVisibility(View.GONE);
 			}
-
 		} else {
-			lessonField.setText(getString(R.string.default_novalue));
+			// TODO don't show anything (not even the time...) and merge with
+			// the info row
+			View secondRow = row.findViewById(R.id.secondRow);
+			secondRow.setVisibility(View.GONE);
+			descriptionField.setVisibility(View.GONE);
+			typeField.setVisibility(View.GONE);
 		}
 
-	}
-
-	private TableRow createTableRow(String text, int layout, LayoutInflater layoutInflater) {
-		TableRow descriptionRow = (TableRow) layoutInflater.inflate(layout, null);
-		// TODO can we use an id here?
-		TextView infoField = (TextView) descriptionRow.getChildAt(0);
-		infoField.setText(text);
-		return descriptionRow;
-	}
-
-	private void formatRowBackground(TimeUnit timeUnit, TableRow row) {
-		if (timeUnit.getId() % 2 == 1) { // hightlight every other row
-			row.setBackgroundColor(Color.rgb(0xdd, 0xdd, 0xdd));
-		}
-	}
-
-	private TextView createTableColumn(TableRow row, LayoutInflater layoutInflater) {
-		TextView field = (TextView) layoutInflater.inflate(R.layout.timetable_cell, null);
-		row.addView(field);
-		return field;
 	}
 
 }

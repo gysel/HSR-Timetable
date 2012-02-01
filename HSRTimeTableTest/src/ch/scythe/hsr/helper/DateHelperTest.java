@@ -28,7 +28,7 @@ public class DateHelperTest {
 
 	@Test
 	public void testFormatToUserFriendlyFormat() {
-		assertEquals("31.10.2011 0:00", DateHelper.formatToUserFriendlyFormat(new Date(2011 - 1900, 10 - 1, 31)));
+		assertEquals("31.10.11 0:00", DateHelper.formatToUserFriendlyFormat(new Date(2011 - 1900, 10 - 1, 31)));
 	}
 
 }

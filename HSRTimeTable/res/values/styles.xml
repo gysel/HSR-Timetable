@@ -26,4 +26,7 @@
         <item name="android:layout_marginBottom">7dp</item>
         <item name="android:lineSpacingMultiplier">1.2</item>
     </style>
+    <style name="rowStyle" parent="android:Widget.TextView">
+        <item name="android:layout_margin">3dp</item>
+    </style>
 </resources>

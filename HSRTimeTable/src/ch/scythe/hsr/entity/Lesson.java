@@ -97,10 +97,6 @@ public class Lesson implements Serializable {
 		for (Iterator<String> i = lecturers.iterator(); i.hasNext();) {
 			result.append(i.next());
 			if (i.hasNext()) {
-				if (result.length() >= 8) {
-					result.append(" …");
-					break;
-				}
 				result.append(delimiter);
 			}
 		}
