@@ -47,7 +47,7 @@
             style="@style/aboutTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Contact: \nMichael Gysel (mgysel@hsr.ch) for free beers, bug reports and features requests \nHSR Business Applications Team (businessapps@hsr.ch) for everything else" />
+            android:text="Contact: \nMichael Gysel (mgysel@hsr.ch) for spending beers, bug reports and features requests. \nHSR Business Applications Team (businessapps@hsr.ch) for everything else." />
 
         <TextView
             style="@style/aboutTextView"
