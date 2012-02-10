@@ -58,8 +58,8 @@ public final class R {
         public static final int button_open_preferences=0x7f050005;
         public static final int button_today=0x7f050004;
         public static final int default_novalue=0x7f050006;
-        public static final int key_login=0x7f050018;
-        public static final int key_password=0x7f050019;
+        public static final int key_login=0x7f050019;
+        public static final int key_password=0x7f05001a;
         public static final int label_date_label=0x7f050009;
         public static final int label_login=0x7f050007;
         public static final int label_passord=0x7f050008;
@@ -73,17 +73,18 @@ public final class R {
         public static final int message_error_while_parsing=0x7f050011;
         public static final int message_loading_data=0x7f050012;
         public static final int message_no_data=0x7f050013;
-        public static final int preferences_login=0x7f050015;
-        public static final int preferences_login_credentials=0x7f050014;
-        public static final int preferences_password=0x7f050016;
-        public static final int preferences_password_text=0x7f050017;
-        public static final int weekday_friday=0x7f05001e;
-        public static final int weekday_monday=0x7f05001a;
-        public static final int weekday_saturday=0x7f05001f;
-        public static final int weekday_sunday=0x7f050020;
-        public static final int weekday_thursday=0x7f05001d;
-        public static final int weekday_tuesday=0x7f05001b;
-        public static final int weekday_wednesday=0x7f05001c;
+        public static final int message_no_lessons=0x7f050014;
+        public static final int preferences_login=0x7f050016;
+        public static final int preferences_login_credentials=0x7f050015;
+        public static final int preferences_password=0x7f050017;
+        public static final int preferences_password_text=0x7f050018;
+        public static final int weekday_friday=0x7f05001f;
+        public static final int weekday_monday=0x7f05001b;
+        public static final int weekday_saturday=0x7f050020;
+        public static final int weekday_sunday=0x7f050021;
+        public static final int weekday_thursday=0x7f05001e;
+        public static final int weekday_tuesday=0x7f05001c;
+        public static final int weekday_wednesday=0x7f05001d;
     }
     public static final class style {
         public static final int aboutTextView=0x7f060004;

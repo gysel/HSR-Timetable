@@ -19,6 +19,7 @@
 package ch.scythe.hsr;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import android.os.Bundle;
@@ -88,29 +89,38 @@ public class DayFragment extends DialogFragment {
 	private void updateTable(TableLayout timeTable) {
 		Day day = week.getDay(weekDay);
 		if (day != null) {
-			for (Entry<TimeUnit, List<Lesson>> entry : day.getLessons().entrySet()) {
-				TimeUnit timeUnit = entry.getKey();
-				List<Lesson> lessonsPerTimeUnit = entry.getValue();
+			Map<TimeUnit, List<Lesson>> lessons = day.getLessonsCompact();
+			if (lessons.size() > 0) {
+				for (Entry<TimeUnit, List<Lesson>> entry : lessons.entrySet()) {
+					TimeUnit timeUnit = entry.getKey();
+					List<Lesson> lessonsPerTimeUnit = entry.getValue();
 
-				if (lessonsPerTimeUnit == null || lessonsPerTimeUnit.isEmpty()) {
-					// no lessons at the given time slot
-					createAndFormatTableRow(null, timeUnit, timeTable, layoutInflater);
-				} else {
-					for (Lesson lesson : lessonsPerTimeUnit) {
-						createAndFormatTableRow(lesson, timeUnit, timeTable, layoutInflater);
+					if (lessonsPerTimeUnit == null || lessonsPerTimeUnit.isEmpty()) {
+						// no lessons at the given time slot
+						createAndFormatTableRow(null, timeUnit, timeTable, layoutInflater);
+					} else {
+						for (Lesson lesson : lessonsPerTimeUnit) {
+							createAndFormatTableRow(lesson, timeUnit, timeTable, layoutInflater);
+						}
 					}
 				}
+			} else {
+				String message = getString(R.string.message_no_lessons);
+				showInfoRow(timeTable, message);
 			}
 		} else {
 			String message = getString(R.string.message_no_data);
 			// TODO refactor this
-			TableRow descriptionRow = (TableRow) layoutInflater.inflate(R.layout.timetable_info_row, null);
-			// TODO can we use an id here?
-			TextView infoField = (TextView) descriptionRow.getChildAt(0);
-			infoField.setText(message);
-			TableRow row = descriptionRow;
-			timeTable.addView(row);
+			showInfoRow(timeTable, message);
 		}
+	}
+
+	private void showInfoRow(TableLayout timeTable, String message) {
+		TableRow descriptionRow = (TableRow) layoutInflater.inflate(R.layout.timetable_info_row, null);
+		// TODO can we use an id here?
+		TextView infoField = (TextView) descriptionRow.getChildAt(0);
+		infoField.setText(message);
+		timeTable.addView(descriptionRow);
 	}
 
 	public void updateDate(TimetableWeek week) {

@@ -19,6 +19,7 @@
     <string name="message_error_while_parsing">Datenverarbeitung fehlgeschlagen.</string>
     <string name="message_loading_data">Lade Daten...</string>
     <string name="message_no_data">Keine Daten verfügbar. Bitte neu laden.</string>
+    <string name="message_no_lessons">Keine Lektionen an diesem Tag.</string>
     <string name="preferences_login_credentials">Benutzerdaten</string>
     <string name="preferences_login">HSR Benutzername</string>
     <string name="preferences_password">Passwort</string>

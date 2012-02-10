@@ -22,6 +22,7 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -70,6 +71,59 @@ public class DayTest {
 		sut = new Day(lessons, WeekDay.TUESDAY);
 		// Verify outcome
 		assertEquals(2, sut.getLessons().get(TimeUnit.LESSON_2).size());
+	}
+
+	@Test
+	public void testGetLessonsCompact() throws Exception {
+		// Set up fixture
+		Collection<Lesson> lessons = new ArrayList<Lesson>();
+		addLesson(lessons, TimeUnit.LESSON_3);
+		addLesson(lessons, TimeUnit.LESSON_4);
+		// Exercise sut
+		sut = new Day(lessons, WeekDay.TUESDAY);
+		Map<TimeUnit, List<Lesson>> lessonsCompact = sut.getLessonsCompact();
+		// Verify outcome
+		assertEquals(2, lessonsCompact.size());
+		Iterator<TimeUnit> iterator = lessonsCompact.keySet().iterator();
+		assertEquals(TimeUnit.LESSON_3, iterator.next());
+		assertEquals(TimeUnit.LESSON_4, iterator.next());
+
+	}
+
+	@Test
+	public void testGetLessonsCompactTESTnoEmptySlots() throws Exception {
+		// Set up fixture
+		Collection<Lesson> lessons = new ArrayList<Lesson>();
+		addLesson(lessons, TimeUnit.LESSON_1);
+		addLesson(lessons, TimeUnit.LESSON_2);
+		addLesson(lessons, TimeUnit.LESSON_3);
+		addLesson(lessons, TimeUnit.LESSON_4);
+		addLesson(lessons, TimeUnit.LESSON_5);
+		addLesson(lessons, TimeUnit.LESSON_6);
+		addLesson(lessons, TimeUnit.LESSON_7);
+		addLesson(lessons, TimeUnit.LESSON_8);
+		addLesson(lessons, TimeUnit.LESSON_9);
+		addLesson(lessons, TimeUnit.LESSON_10);
+		addLesson(lessons, TimeUnit.LESSON_11);
+		addLesson(lessons, TimeUnit.LESSON_12);
+		// Exercise sut
+		sut = new Day(lessons, WeekDay.TUESDAY);
+		Map<TimeUnit, List<Lesson>> lessonsCompact = sut.getLessonsCompact();
+		// Verify outcome
+		assertEquals(12, lessonsCompact.size());
+
+	}
+
+	@Test
+	public void testGetLessonsCompactTESTnoLessons() throws Exception {
+		// Set up fixture
+		Collection<Lesson> lessons = new ArrayList<Lesson>();
+		// Exercise sut
+		sut = new Day(lessons, WeekDay.TUESDAY);
+		Map<TimeUnit, List<Lesson>> lessonsCompact = sut.getLessonsCompact();
+		// Verify outcome
+		assertEquals(0, lessonsCompact.size());
+
 	}
 
 	private Day sut;

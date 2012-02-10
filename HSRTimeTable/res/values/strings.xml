@@ -20,6 +20,7 @@
     <string name="message_error_while_parsing">Error while parsing server response.</string>
     <string name="message_loading_data">Loading data...</string>
     <string name="message_no_data">No data available. Please refresh.</string>
+    <string name="message_no_lessons">No lessons on this day.</string>
     <string name="preferences_login_credentials">Login credentials</string>
     <string name="preferences_login">HSR Login</string>
     <string name="preferences_password">Password</string>

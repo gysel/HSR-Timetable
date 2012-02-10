@@ -22,9 +22,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import ch.scythe.hsr.enumeration.TimeUnit;
 import ch.scythe.hsr.enumeration.WeekDay;
@@ -59,6 +61,37 @@ public class Day implements Serializable {
 
 	public Map<TimeUnit, List<Lesson>> getLessons() {
 		return Collections.unmodifiableMap(lessons);
+	}
+
+	/**
+	 * 
+	 * @return All {@link Lesson}s without empty {@link TimeUnit}s before the
+	 *         the first lesson and after the last lesson.
+	 */
+	public Map<TimeUnit, List<Lesson>> getLessonsCompact() {
+		Map<TimeUnit, List<Lesson>> result = new LinkedHashMap<TimeUnit, List<Lesson>>(lessons);
+		List<TimeUnit> keys = TimeUnit.getAll();
+		Set<TimeUnit> keysToRemove = new HashSet<TimeUnit>();
+		for (int i = 0; i < keys.size(); i++) {
+			TimeUnit key = keys.get(i);
+			if (result.get(key) == null) {
+				keysToRemove.add(key);
+			} else {
+				break;
+			}
+		}
+		for (int i = keys.size() - 1; i >= 0; i--) {
+			TimeUnit key = keys.get(i);
+			if (result.get(key) == null) {
+				keysToRemove.add(key);
+			} else {
+				break;
+			}
+		}
+		for (TimeUnit timeUnit : keysToRemove) {
+			result.remove(timeUnit);
+		}
+		return result;
 	}
 
 	public WeekDay getWeekDay() {
