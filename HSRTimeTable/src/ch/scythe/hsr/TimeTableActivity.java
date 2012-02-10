@@ -93,8 +93,11 @@ public class TimeTableActivity extends FragmentActivity {
 		} else {
 			// there was a screen orientation change. we can just continue...
 			week = lastInstance;
-			// TODO last update date can be null!
-			datebox.setText(DateHelper.formatToUserFriendlyFormat(week.getLastUpdate()));
+			Date lastUpdate = week.getLastUpdate();
+			String lastUpdateAsString = (lastUpdate == null) ? getString(R.string.default_novalue) : DateHelper
+					.formatToUserFriendlyFormat(lastUpdate);
+			// lastUpdate can be null just after entering the credentials
+			datebox.setText(lastUpdateAsString);
 		}
 
 	}

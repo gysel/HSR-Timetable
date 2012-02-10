@@ -66,8 +66,6 @@ public class TimeTableAPI {
 	}
 
 	/**
-	 * TODO implement Exception handling
-	 * 
 	 * @param forceRequest
 	 *            Skips the caching mechanism and loads the data always from the
 	 *            web.

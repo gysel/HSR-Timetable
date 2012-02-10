@@ -64,7 +64,6 @@ public class Day implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @return All {@link Lesson}s without empty {@link TimeUnit}s before the
 	 *         the first lesson and after the last lesson.
 	 */
