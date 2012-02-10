@@ -7,8 +7,6 @@
     <string name="button_today">Heute</string>
     <string name="button_open_preferences">Einstellungen öffnen</string>
     <string name="default_novalue">-</string>
-    <string name="label_login">Benutzername</string>
-    <string name="label_passord">Passwort</string>
     <string name="label_date_label">Letzte Aktual.:</string>
     <string name="label_week">Aktuelle Woche:</string>
     <string name="menu_preferences">Einstellungen</string>
@@ -17,7 +15,7 @@
     <string name="message_error_while_fetching">Laden der Daten ist fehlgeschlagen.</string>
     <string name="message_error_while_connecting">Verbindung zum Server fehlgeschlagen.</string>
     <string name="message_error_while_parsing">Datenverarbeitung fehlgeschlagen.</string>
-    <string name="message_loading_data">Lade Daten...</string>
+    <string name="message_loading_data">Lade Daten…</string>
     <string name="message_no_data">Keine Daten verfügbar. Bitte neu laden.</string>
     <string name="message_no_lessons">Keine Lektionen an diesem Tag.</string>
     <string name="preferences_login_credentials">Benutzerdaten</string>

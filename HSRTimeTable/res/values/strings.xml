@@ -7,8 +7,6 @@
     <string name="button_today">Today</string>
     <string name="button_open_preferences">Open preferences</string>
     <string name="default_novalue">-</string>
-    <string name="label_login">Login</string>
-    <string name="label_passord">Password</string>
     <string name="label_date_label">Last update:</string>
     <string name="label_week">Current week:</string>
     <string name="menu_preferences">Preferences</string>
@@ -18,7 +16,7 @@
     <string name="message_error_while_fetching">Error while fetching data.</string>
     <string name="message_error_while_connecting">Error while connecting to server.</string>
     <string name="message_error_while_parsing">Error while parsing server response.</string>
-    <string name="message_loading_data">Loading data...</string>
+    <string name="message_loading_data">Loading data…</string>
     <string name="message_no_data">No data available. Please refresh.</string>
     <string name="message_no_lessons">No lessons on this day.</string>
     <string name="preferences_login_credentials">Login credentials</string>

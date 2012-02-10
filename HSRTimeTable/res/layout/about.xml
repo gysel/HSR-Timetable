@@ -34,7 +34,8 @@
             android:layout_height="wrap_content"
             android:background="#FFFFFF"
             android:padding="5dp"
-            android:src="@drawable/adunis" />
+            android:src="@drawable/adunis"
+            android:contentDescription="Adunis Logo" />
 
         <TextView
             style="@style/aboutTextView"
@@ -53,7 +54,7 @@
             style="@style/aboutTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Changelog: \n0.6 (10.2.2012) \n- First public version \n- Redesigned user interface" />
+            android:text="Changelog: \n0.6 (10.2.2012) \n- First public version" />
     </LinearLayout>
 
 </ScrollView>
