@@ -13,7 +13,7 @@
             style="@style/aboutTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Adunis Timetable provides students and lecturers at the Hochschule für Technik Rapperswil (HSR) access to their timetable." />
+            android:text="ADUNIS Timetable provides students and lecturers at the Hochschule für Technik Rapperswil (HSR) access to their timetable." />
 
         <TextView
             android:id="@+id/aboutAuthor"
