@@ -135,6 +135,9 @@ public class TimeTableActivity extends FragmentActivity {
 
 	private void scrollToToday() {
 		WeekDay today = WeekDay.getByDate(new Date());
+		if (today == WeekDay.SUNDAY) {
+			today = WeekDay.MONDAY;
+		}
 		dayPager.setCurrentItem(today.getId() - 1);
 	}
 
