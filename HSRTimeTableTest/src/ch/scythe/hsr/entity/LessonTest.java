@@ -54,7 +54,7 @@ public class LessonTest {
 	@Test(expected = EnumNotFoundException.class)
 	public void testAddTimeUnitTESTvalueTooHigh() throws EnumNotFoundException {
 		// Set up fixture
-		int timeUnitId = TimeUnit.LESSON_12.getId() + 1;
+		int timeUnitId = TimeUnit.LESSON_14.getId() + 1;
 		// Exercise sut
 		sut.addTimeUnit(timeUnitId);
 	}

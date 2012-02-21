@@ -99,6 +99,12 @@ public class TimeTableWeekHandlerTest {
 		parse("ScenarioWithExam.xml", WeekDay.MONDAY);
 	}
 
+	@Test
+	public void testScenarioWithVeryLongDay() throws ResponseParseException {
+		// This should not throw an exception
+		parse("ScenarioLongDay.xml", WeekDay.THURSDAY);
+	}
+
 	private SaxTimetableParser parser;
 
 	@Before

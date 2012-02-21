@@ -30,10 +30,20 @@ import ch.scythe.hsr.error.EnumNotFoundException;
 
 public enum TimeUnit implements Serializable {
 
-	LESSON_1(2, "07:05", "07:50"), LESSON_2(3, "08:10", "08:55"), LESSON_3(4, "09:05", "09:50"), LESSON_4(5, "10:10",
-			"10:55"), LESSON_5(6, "11:05", "11:50"), LESSON_6(7, "12:10", "12:55"), LESSON_7(8, "13:10", "13:55"), LESSON_8(
-			9, "14:05", "14:50"), LESSON_9(10, "15:10", "15:55"), LESSON_10(11, "16:05", "16:50"), LESSON_11(12,
-			"17:00", "17:45"), LESSON_12(13, "17:55", "18:40");
+	LESSON_1(2, "07:05", "07:50"), //
+	LESSON_2(3, "08:10", "08:55"), //
+	LESSON_3(4, "09:05", "09:50"), //
+	LESSON_4(5, "10:10", "10:55"), //
+	LESSON_5(6, "11:05", "11:50"), //
+	LESSON_6(7, "12:10", "12:55"), //
+	LESSON_7(8, "13:10", "13:55"), //
+	LESSON_8(9, "14:05", "14:50"), //
+	LESSON_9(10, "15:10", "15:55"), //
+	LESSON_10(11, "16:05", "16:50"), //
+	LESSON_11(12, "17:00", "17:45"), //
+	LESSON_12(13, "17:55", "18:40"), //
+	LESSON_13(14, "19:10", "19:55"), //
+	LESSON_14(15, "20:05", "20:50");
 
 	private final Integer id;
 	private final String startTime;
