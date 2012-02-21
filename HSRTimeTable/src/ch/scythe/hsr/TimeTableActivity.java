@@ -218,7 +218,7 @@ public class TimeTableActivity extends FragmentActivity {
 	}
 
 	private boolean inNullOrEmpty(String login) {
-		return login == null || login == "";
+		return login == null || login.length() == 0;
 	}
 
 	class FetchDataTask extends AsyncTask<Object, Integer, TimetableWeek> {
