@@ -112,6 +112,6 @@ public class Lesson implements Serializable {
 	}
 
 	public boolean hasDescription() {
-		return description != null && !description.isEmpty();
+		return description != null && description != "";
 	}
 }

@@ -6,7 +6,7 @@
 
     <LinearLayout
         android:id="@+id/linearLayout1"
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content" >
 
         <TextView
@@ -17,7 +17,7 @@
             android:text="@string/app_title" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="right" >
 
@@ -31,7 +31,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
 
@@ -80,7 +80,7 @@
 
     <android.support.v4.view.ViewPager
         android:id="@+id/day_pager"
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="0px"
         android:layout_weight="1" >
     </android.support.v4.view.ViewPager>

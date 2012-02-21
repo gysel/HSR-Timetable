@@ -86,7 +86,11 @@ public class TimeTableWeekHandler extends DefaultHandler {
 	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
 		super.startElement(uri, localName, qName, attributes);
 
-		if (qName.equalsIgnoreCase(XML_NODE_DAY)) {
+		if (localName == null || localName == "") {
+			localName = qName;
+		}
+
+		if (localName.equalsIgnoreCase(XML_NODE_DAY)) {
 
 			currentLessons.clear();
 
@@ -95,10 +99,10 @@ public class TimeTableWeekHandler extends DefaultHandler {
 
 		} else if (currentDay != null) {
 
-			if (qName.equalsIgnoreCase(XML_NODE_LESSON)) {
+			if (localName.equalsIgnoreCase(XML_NODE_LESSON)) {
 				currentLesson = new Lesson();
 				currentLesson.setIdentifier(attributes.getValue(XML_ATTRIBUTE_ID));
-			} else if (currentLesson != null && qName.equalsIgnoreCase(XML_NODE_TIME_UNIT)) {
+			} else if (currentLesson != null && localName.equalsIgnoreCase(XML_NODE_TIME_UNIT)) {
 				try {
 					Integer timeUnitId = Integer.parseInt(attributes.getValue(XML_ATTRIBUTE_ID));
 					if (timeUnitId > 0) { // exams have negative time unit ids
@@ -108,7 +112,7 @@ public class TimeTableWeekHandler extends DefaultHandler {
 					throw new SAXException(e);
 				}
 
-			} else if (currentLesson != null && qName.equalsIgnoreCase(XML_NODE_ROOM)) {
+			} else if (currentLesson != null && localName.equalsIgnoreCase(XML_NODE_ROOM)) {
 				// TODO one lesson can have several rooms.
 				currentLesson.setRoom(attributes.getValue(XML_ATTRIBUTE_ID));
 			}
@@ -121,7 +125,11 @@ public class TimeTableWeekHandler extends DefaultHandler {
 	public void endElement(String uri, String localName, String qName) throws SAXException {
 		super.endElement(uri, localName, qName);
 
-		if (XML_NODE_DAY.equalsIgnoreCase(qName)) {
+		if (localName == null || localName == "") {
+			localName = qName;
+		}
+
+		if (XML_NODE_DAY.equalsIgnoreCase(localName)) {
 
 			days.add(new Day(currentLessons, currentDay));
 			currentDay = null;
@@ -130,13 +138,13 @@ public class TimeTableWeekHandler extends DefaultHandler {
 		} else if (currentDay != null) {
 
 			if (this.currentLesson != null) {
-				if (qName.equalsIgnoreCase(XML_NODE_TYPE)) {
+				if (localName.equalsIgnoreCase(XML_NODE_TYPE)) {
 					currentLesson.setType(builder.toString().trim());
-				} else if (qName.equalsIgnoreCase(XML_NODE_NAME_SHORT)) {
+				} else if (localName.equalsIgnoreCase(XML_NODE_NAME_SHORT)) {
 					currentLesson.addLecturer(builder.toString().trim());
-				} else if (qName.equalsIgnoreCase(XML_NODE_LESSON)) {
+				} else if (localName.equalsIgnoreCase(XML_NODE_LESSON)) {
 					currentLessons.add(currentLesson);
-				} else if (qName.equalsIgnoreCase(XML_NODE_DESCRIPTION)) {
+				} else if (localName.equalsIgnoreCase(XML_NODE_DESCRIPTION)) {
 					currentLesson.setDescription(builder.toString().trim());
 				}
 			}
