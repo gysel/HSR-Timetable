@@ -89,9 +89,9 @@ public class TimeTableActivity extends FragmentActivity {
 		TimetableWeek lastInstance = (TimetableWeek) getLastCustomNonConfigurationInstance();
 		if (lastInstance == null) {
 			startRequest(date, false);
-			scrollToToday();
 		} else {
-			// there was a screen orientation change. we can just continue...
+			// there was a screen orientation change.
+			// we can don't have to create the ui...
 			week = lastInstance;
 			Date lastUpdate = week.getLastUpdate();
 			String lastUpdateAsString = (lastUpdate == null) ? getString(R.string.default_novalue) : DateHelper
@@ -100,6 +100,12 @@ public class TimeTableActivity extends FragmentActivity {
 			datebox.setText(lastUpdateAsString);
 		}
 
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		scrollToToday();
 	}
 
 	@Override
