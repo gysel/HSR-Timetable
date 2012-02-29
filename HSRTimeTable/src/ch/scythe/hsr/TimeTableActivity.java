@@ -194,14 +194,9 @@ public class TimeTableActivity extends FragmentActivity {
 		case DIALOG_ABOUT:
 			result = new Dialog(this);
 			result.setContentView(R.layout.about);
-			result.setTitle(getString(R.string.app_title) + " v" + getPackageInfo().versionName);
+			result.setTitle(getString(R.string.app_name) + " v" + getPackageInfo().versionName);
 			linkify((TextView) result.findViewById(R.id.aboutAuthor));
 			linkify((TextView) result.findViewById(R.id.aboutContact));
-
-			// LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT,
-			// LayoutParams.MATCH_PARENT);
-			// result.setContentView(text, params);
-			// result.show();
 			break;
 		default:
 			result = null;

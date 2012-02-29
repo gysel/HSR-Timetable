@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_title">ADUNIS Timetable</string>
-    <string name="app_name">Timetable</string>
+    <string name="app_name">HSR Timetable</string>
     <string name="button_cancel">Cancel</string>
     <string name="button_ok">Ok</string>
     <string name="button_today">Today</string>
