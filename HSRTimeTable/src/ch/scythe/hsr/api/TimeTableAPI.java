@@ -46,6 +46,7 @@ import ch.scythe.hsr.error.ResponseParseException;
 import ch.scythe.hsr.error.ServerConnectionException;
 import ch.scythe.hsr.helper.DateHelper;
 import ch.scythe.hsr.xml.SaxTimetableParser;
+import ch.scythe.hsr.xml.XmlHelper;
 
 public class TimeTableAPI {
 	// _SOAP Webservice info
@@ -204,9 +205,9 @@ public class TimeTableAPI {
 		result += "   <soapenv:Body>";
 		result += "      <tem:" + METHOD + ">";
 		result += "         <!--Optional:-->";
-		result += "         <tem:strUserName>" + login + "</tem:strUserName>";
+		result += "         <tem:strUserName>" + XmlHelper.escapeXml(login) + "</tem:strUserName>";
 		result += "         <!--Optional:-->";
-		result += "         <tem:strPassword>" + password + "</tem:strPassword>";
+		result += "         <tem:strPassword>" + XmlHelper.escapeXml(password) + "</tem:strPassword>";
 		result += "         <tem:reqDate>" + date + "</tem:reqDate>";
 		result += "      </tem:" + METHOD + ">";
 		result += "   </soapenv:Body>";
