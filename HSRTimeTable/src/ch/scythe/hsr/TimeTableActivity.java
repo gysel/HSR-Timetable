@@ -103,7 +103,7 @@ public class TimeTableActivity extends FragmentActivity {
 	}
 
 	@Override
-	protected void onStart() {
+	protected void onResume() {
 		super.onStart();
 		scrollToToday();
 	}
