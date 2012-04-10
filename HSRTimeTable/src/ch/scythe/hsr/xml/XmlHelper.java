@@ -1,5 +1,3 @@
-package ch.scythe.hsr.xml;
-
 /* 
  * Copyright (C) 2011 - 2012 Michi Gysel <michael.gysel@gmail.com>
  *
@@ -18,6 +16,7 @@ package ch.scythe.hsr.xml;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package ch.scythe.hsr.xml;
 
 public class XmlHelper {
 
