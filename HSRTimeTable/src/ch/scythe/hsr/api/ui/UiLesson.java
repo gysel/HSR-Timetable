@@ -16,23 +16,19 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package ch.scythe.hsr.json;
+package ch.scythe.hsr.api.ui;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.Serializable;
 
-import com.google.gson.annotations.SerializedName;
+public class UiLesson implements Serializable {
 
-public class JsonLesson {
-
-	@SerializedName("Name")
+	private static final long serialVersionUID = 1L;
 	private String name;
-	@SerializedName("Type")
+	private String timeSlot;
+	private String lecturer;
 	private String type;
-	@SerializedName("Lecturers")
-	private List<JsonLecturer> lecturers = new ArrayList<JsonLecturer>();
-	@SerializedName("CourseAllocations")
-	private List<JsonCourseAllocation> courseAllocations = new ArrayList<JsonCourseAllocation>();
+	private String room;
+	private String description;
 
 	public String getName() {
 		return name;
@@ -40,6 +36,22 @@ public class JsonLesson {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getTimeSlot() {
+		return timeSlot;
+	}
+
+	public void setTimeSlot(String timeSlot) {
+		this.timeSlot = timeSlot;
+	}
+
+	public String getLecturer() {
+		return lecturer;
+	}
+
+	public void setLecturer(String lecturer) {
+		this.lecturer = lecturer;
 	}
 
 	public String getType() {
@@ -50,20 +62,24 @@ public class JsonLesson {
 		this.type = type;
 	}
 
-	public List<JsonLecturer> getLecturers() {
-		return lecturers;
+	public String getRoom() {
+		return room;
 	}
 
-	public void setLecturers(List<JsonLecturer> lecturers) {
-		this.lecturers = lecturers;
+	public void setRoom(String room) {
+		this.room = room;
 	}
 
-	public List<JsonCourseAllocation> getCourseAllocations() {
-		return courseAllocations;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setCourseAllocations(List<JsonCourseAllocation> courseAllocations) {
-		this.courseAllocations = courseAllocations;
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public boolean hasDescription() {
+		return description != null && description.length() > 0;
 	}
 
 }

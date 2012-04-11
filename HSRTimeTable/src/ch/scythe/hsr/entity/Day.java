@@ -31,6 +31,7 @@ import java.util.Set;
 import ch.scythe.hsr.enumeration.TimeUnit;
 import ch.scythe.hsr.enumeration.WeekDay;
 
+@Deprecated
 public class Day implements Serializable {
 
 	private static final long serialVersionUID = 1L;

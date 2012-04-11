@@ -18,6 +18,7 @@
  */
 package ch.scythe.hsr.json;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gson.annotations.SerializedName;
@@ -29,7 +30,7 @@ public class JsonCourseAllocation {
 	@SerializedName("ExamType")
 	private String examType;
 	@SerializedName("RoomAllocations")
-	private List<JsonRoomAllocation> roomAllocations;
+	private List<JsonRoomAllocation> roomAllocations = new ArrayList<JsonRoomAllocation>();
 	@SerializedName("Timeslot")
 	private String timeslot;
 	@SerializedName("Type")

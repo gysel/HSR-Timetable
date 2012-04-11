@@ -27,11 +27,12 @@ import java.util.Map;
 
 import ch.scythe.hsr.R;
 
+// TODO rename to Weekday
 public enum WeekDay implements Serializable {
 
-	MONDAY(1, 2, R.string.weekday_monday), TUESDAY(2, 3, R.string.weekday_tuesday), WEDNESDAY(3, 4,
-			R.string.weekday_wednesday), THURSDAY(4, 5, R.string.weekday_thursday), FRIDAY(5, 6,
-			R.string.weekday_friday), SATURDAY(6, 7, R.string.weekday_saturday), SUNDAY(7, 1, R.string.weekday_sunday);
+	MONDAY(1, 2, R.string.weekday_monday), TUESDAY(2, 3, R.string.weekday_tuesday), WEDNESDAY(3, 4, R.string.weekday_wednesday), THURSDAY(4, 5,
+			R.string.weekday_thursday), FRIDAY(5, 6, R.string.weekday_friday), SATURDAY(6, 7, R.string.weekday_saturday), SUNDAY(7, 1,
+			R.string.weekday_sunday);
 
 	private final Integer id;
 	private final Integer javaId;

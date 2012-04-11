@@ -78,11 +78,14 @@ public class GsonParserTest {
 		JsonTimetableWeek week = sut.parse(createScenario("Timetable.json"));
 		JsonCourseAllocation actualCourseAlloction = week.getDays().get(1).getLessons().get(0).getCourseAllocations()
 				.get(0);
+		JsonCourseAllocation actualCourseAlloctionWithDescription = week.getDays().get(3).getLessons().get(2)
+				.getCourseAllocations().get(0);
 		// Verify outcome
 		assertEquals(1, actualCourseAlloction.getRoomAllocations().size());
 		assertEquals("3.008", actualCourseAlloction.getRoomAllocations().get(0).getNumber());
 		assertEquals("8:10 - 8:55", actualCourseAlloction.getTimeslot());
 		assertEquals("wöchentlich", actualCourseAlloction.getType());
+		assertEquals("CN KW 9,11,14,16,18,20,22", actualCourseAlloctionWithDescription.getDescription());
 	}
 
 	private GsonParser sut;

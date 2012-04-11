@@ -28,6 +28,7 @@ import java.util.regex.Pattern;
 import ch.scythe.hsr.enumeration.TimeUnit;
 import ch.scythe.hsr.error.EnumNotFoundException;
 
+@Deprecated
 public class Lesson implements Serializable {
 
 	private static final long serialVersionUID = 1L;

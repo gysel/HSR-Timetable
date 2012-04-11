@@ -45,10 +45,9 @@ import android.view.View;
 import android.widget.TextView;
 import ch.scythe.hsr.api.RequestException;
 import ch.scythe.hsr.api.TimeTableAPI;
-import ch.scythe.hsr.entity.TimetableWeek;
+import ch.scythe.hsr.api.ui.UiWeek;
 import ch.scythe.hsr.enumeration.WeekDay;
 import ch.scythe.hsr.error.ResponseParseException;
-import ch.scythe.hsr.error.ServerConnectionException;
 import ch.scythe.hsr.helper.DateHelper;
 
 public class TimeTableActivity extends FragmentActivity {
@@ -67,7 +66,7 @@ public class TimeTableActivity extends FragmentActivity {
 	private static final int DIALOG_ERROR_PARSE = 3;
 	private static final int DIALOG_ABOUT = 4;
 	// _State
-	public TimetableWeek week = new TimetableWeek();
+	public UiWeek week = new UiWeek();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -86,18 +85,18 @@ public class TimeTableActivity extends FragmentActivity {
 		Date date = new Date();
 		weekbox.setText(DateHelper.formatToWeekNumber(date));
 
-		TimetableWeek lastInstance = (TimetableWeek) getLastCustomNonConfigurationInstance();
+		UiWeek lastInstance = (UiWeek) getLastCustomNonConfigurationInstance();
 		if (lastInstance == null) {
 			startRequest(date, false);
 		} else {
 			// there was a screen orientation change.
 			// we can don't have to create the ui...
 			week = lastInstance;
-			Date lastUpdate = week.getLastUpdate();
-			String lastUpdateAsString = (lastUpdate == null) ? getString(R.string.default_novalue) : DateHelper
-					.formatToUserFriendlyFormat(lastUpdate);
+			//			Date lastUpdate = week.getLastUpdate();
+			//			String lastUpdateAsString = (lastUpdate == null) ? getString(R.string.default_novalue) : DateHelper
+			//					.formatToUserFriendlyFormat(lastUpdate);
 			// lastUpdate can be null just after entering the credentials
-			datebox.setText(lastUpdateAsString);
+			//			datebox.setText(lastUpdateAsString);
 		}
 
 	}
@@ -165,30 +164,25 @@ public class TimeTableActivity extends FragmentActivity {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		switch (id) {
 		case DIALOG_NO_USER_PASS:
-			builder.setMessage(getString(R.string.message_configure_credentials))
-					.setCancelable(true)
-					.setPositiveButton(getString(R.string.button_open_preferences),
-							new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog, int which) {
-									startActivity(new Intent(TimeTableActivity.this, UserPreferencesActivity.class));
-								}
-							}).setNegativeButton(getString(R.string.button_cancel), null);
+			builder.setMessage(getString(R.string.message_configure_credentials)).setCancelable(true)
+					.setPositiveButton(getString(R.string.button_open_preferences), new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int which) {
+							startActivity(new Intent(TimeTableActivity.this, UserPreferencesActivity.class));
+						}
+					}).setNegativeButton(getString(R.string.button_cancel), null);
 			result = builder.create();
 			break;
 		case DIALOG_ERROR_CONNECT:
 			// TODO add option to retry?
-			builder.setMessage(getString(R.string.message_error_while_connecting)).setPositiveButton(
-					getString(R.string.button_ok), null);
+			builder.setMessage(getString(R.string.message_error_while_connecting)).setPositiveButton(getString(R.string.button_ok), null);
 			result = builder.create();
 			break;
 		case DIALOG_ERROR_FETCH:
-			builder.setMessage(getString(R.string.message_error_while_fetching)).setPositiveButton(
-					getString(R.string.button_ok), null);
+			builder.setMessage(getString(R.string.message_error_while_fetching)).setPositiveButton(getString(R.string.button_ok), null);
 			result = builder.create();
 			break;
 		case DIALOG_ERROR_PARSE:
-			builder.setMessage(getString(R.string.message_error_while_parsing)).setPositiveButton(
-					getString(R.string.button_ok), null);
+			builder.setMessage(getString(R.string.message_error_while_parsing)).setPositiveButton(getString(R.string.button_ok), null);
 			result = builder.create();
 			break;
 		case DIALOG_ABOUT:
@@ -222,46 +216,44 @@ public class TimeTableActivity extends FragmentActivity {
 		return login == null || login.length() == 0;
 	}
 
-	class FetchDataTask extends AsyncTask<Object, Integer, TimetableWeek> {
+	class FetchDataTask extends AsyncTask<Object, Integer, UiWeek> {
 
 		private final TimeTableAPI api = new TimeTableAPI(TimeTableActivity.this);
 		private Integer errorCode = 0;
 
 		@Override
-		protected TimetableWeek doInBackground(Object... params) {
+		protected UiWeek doInBackground(Object... params) {
 			Date date = (Date) params[0];
 			String login = (String) params[1];
 			String password = (String) params[2];
-			boolean forceRequest = (Boolean) params[3];
+			//			boolean forceRequest = (Boolean) params[3];
 
-			TimetableWeek result = null;
+			UiWeek result = new UiWeek();
 			try {
-				result = api.retrieve(date, login, password, forceRequest);
+				result = api.retrieve(date, login, password);
+				//				result = api.retrieve(date, login, password, forceRequest);
 
 			} catch (ResponseParseException e) {
 				e.printStackTrace();
 				errorCode = DIALOG_ERROR_PARSE;
-				result = new TimetableWeek();
 			} catch (RequestException e) {
 				e.printStackTrace();
 				errorCode = DIALOG_ERROR_FETCH;
-				result = new TimetableWeek();
-			} catch (ServerConnectionException e) {
-				e.printStackTrace();
-				errorCode = DIALOG_ERROR_CONNECT;
-				result = new TimetableWeek();
+				//			} catch (ServerConnectionException e) {
+				//				e.printStackTrace();
+				//				errorCode = DIALOG_ERROR_CONNECT;
 			}
 			return result;
 		}
 
 		@Override
-		protected void onPostExecute(TimetableWeek week) {
+		protected void onPostExecute(UiWeek week) {
 			if (errorCode == 0) {
 				TimeTableActivity.this.week = week;
 				for (DayFragment fragment : fragmentPageAdapter.getActiveFragments()) {
 					fragment.updateDate(week);
 				}
-				datebox.setText(DateHelper.formatToUserFriendlyFormat(week.getLastUpdate()));
+				//				datebox.setText(DateHelper.formatToUserFriendlyFormat(week.getLastUpdate()));
 			} else {
 				datebox.setText(getString(R.string.default_novalue));
 			}

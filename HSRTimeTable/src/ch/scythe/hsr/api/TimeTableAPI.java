@@ -31,8 +31,11 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import net.iharder.base64.Base64;
+
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -41,10 +44,14 @@ import org.apache.http.protocol.HTTP;
 
 import android.content.Context;
 import android.util.Log;
+import ch.scythe.hsr.api.ui.DataAssembler;
+import ch.scythe.hsr.api.ui.UiWeek;
 import ch.scythe.hsr.entity.TimetableWeek;
 import ch.scythe.hsr.error.ResponseParseException;
 import ch.scythe.hsr.error.ServerConnectionException;
 import ch.scythe.hsr.helper.DateHelper;
+import ch.scythe.hsr.json.GsonParser;
+import ch.scythe.hsr.json.JsonTimetableWeek;
 import ch.scythe.hsr.xml.SaxTimetableParser;
 import ch.scythe.hsr.xml.XmlHelper;
 
@@ -66,6 +73,39 @@ public class TimeTableAPI {
 		this.context = context;
 	}
 
+	public UiWeek retrieve(Date date, String login, String password) throws RequestException, ResponseParseException {
+		UiWeek result = new UiWeek();
+		try {
+
+			HttpGet httppost = createHttpGet("https://stundenplanws.hsr.ch:4443/api/Timetable/" + login, login, password);
+			HttpClient httpclient = new DefaultHttpClient();
+
+			BasicHttpResponse httpResponse = (BasicHttpResponse) httpclient.execute(httppost);
+			InputStream jsonStream = null;
+			int httpStatus = httpResponse.getStatusLine().getStatusCode();
+			if (httpStatus == 200) {
+				jsonStream = httpResponse.getEntity().getContent();
+			} else {
+				throw new RequestException("Request not successful. \nHTTP Status: " + httpStatus);
+			}
+
+			JsonTimetableWeek serverData = new GsonParser().parse(jsonStream);
+
+			result = DataAssembler.convert(serverData);
+
+		} catch (UnsupportedEncodingException e) {
+
+		} catch (ClientProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return result;
+	}
+
 	/**
 	 * @param forceRequest
 	 *            Skips the caching mechanism and loads the data always from the
@@ -78,8 +118,9 @@ public class TimeTableAPI {
 	 * @throws ServerConnectionException
 	 *             If the connection to the server if aborted
 	 */
-	public TimetableWeek retrieve(Date requestedDate, String login, String password, boolean forceRequest)
-			throws RequestException, ResponseParseException, ServerConnectionException {
+	@Deprecated
+	public TimetableWeek retrieve(Date requestedDate, String login, String password, boolean forceRequest) throws RequestException,
+			ResponseParseException, ServerConnectionException {
 		TimetableWeek result = null;
 
 		// create cache if the cache is not present yet
@@ -131,8 +172,8 @@ public class TimeTableAPI {
 		return cacheTimestamp;
 	}
 
-	private void updateCache(String dateString, Date cacheTimestamp, String login, String password)
-			throws RequestException, ServerConnectionException {
+	private void updateCache(String dateString, Date cacheTimestamp, String login, String password) throws RequestException,
+			ServerConnectionException {
 		FileOutputStream xmlCacheOutputStream = null;
 		DataOutputStream cacheTimestampOutputStream = null;
 		InputStream xmlInputStream = null;
@@ -140,8 +181,7 @@ public class TimeTableAPI {
 		try {
 			xmlInputStream = readTimeTableFromServer(dateString, login, password);
 			xmlCacheOutputStream = context.openFileOutput(TIMETABLE_CACHE_XML, Context.MODE_PRIVATE);
-			cacheTimestampOutputStream = new DataOutputStream(context.openFileOutput(TIMETABLE_CACHE_TIMESTAMP,
-					Context.MODE_PRIVATE));
+			cacheTimestampOutputStream = new DataOutputStream(context.openFileOutput(TIMETABLE_CACHE_TIMESTAMP, Context.MODE_PRIVATE));
 
 			int c;
 			while ((c = xmlInputStream.read()) != -1) {
@@ -160,8 +200,7 @@ public class TimeTableAPI {
 		Log.i(LOGGING_TAG, "Read data from the server in " + (System.currentTimeMillis() - before) + "ms.");
 	}
 
-	private InputStream readTimeTableFromServer(String dateString, String login, String password)
-			throws RequestException, ServerConnectionException {
+	private InputStream readTimeTableFromServer(String dateString, String login, String password) throws RequestException, ServerConnectionException {
 
 		InputStream result;
 		try {
@@ -186,6 +225,16 @@ public class TimeTableAPI {
 			throw new ServerConnectionException(e);
 		}
 		return result;
+	}
+
+	private HttpGet createHttpGet(String url, String login, String password) throws UnsupportedEncodingException {
+		String basicAuth = "Basic " + Base64.encodeBytes((login + ":" + password).getBytes());
+		HttpGet get = new HttpGet(url);
+		get.setHeader("Content-Type", "text/json;charset=UTF-8");
+		get.setHeader("User-Agent", "HSRAndroidTimetable"); // TODO add app version
+		get.setHeader("Operating-System", "Android"); // TODO add android version
+		get.setHeader("Authorization", basicAuth);
+		return get;
 	}
 
 	private HttpPost createHttpPost(String xml) throws UnsupportedEncodingException {

@@ -19,8 +19,6 @@
 package ch.scythe.hsr;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -30,10 +28,9 @@ import android.view.ViewGroup;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import ch.scythe.hsr.entity.Day;
-import ch.scythe.hsr.entity.Lesson;
-import ch.scythe.hsr.entity.TimetableWeek;
-import ch.scythe.hsr.enumeration.TimeUnit;
+import ch.scythe.hsr.api.ui.UiDay;
+import ch.scythe.hsr.api.ui.UiLesson;
+import ch.scythe.hsr.api.ui.UiWeek;
 import ch.scythe.hsr.enumeration.WeekDay;
 
 public class DayFragment extends DialogFragment {
@@ -41,7 +38,7 @@ public class DayFragment extends DialogFragment {
 	public static final String FRAGMENT_PARAMETER_DATA = "week";
 	public static final String FRAGMENT_PARAMETER_WEEKDAY = "position";
 
-	private TimetableWeek week;
+	private UiWeek week;
 	private WeekDay weekDay;
 	private LayoutInflater layoutInflater;
 
@@ -54,7 +51,7 @@ public class DayFragment extends DialogFragment {
 
 		Bundle arguments = getArguments();
 		if (arguments != null) {
-			week = (TimetableWeek) (arguments.getSerializable(FRAGMENT_PARAMETER_DATA));
+			week = (UiWeek) (arguments.getSerializable(FRAGMENT_PARAMETER_DATA));
 			weekDay = (WeekDay) (arguments.getSerializable(FRAGMENT_PARAMETER_WEEKDAY));
 		}
 	}
@@ -70,7 +67,7 @@ public class DayFragment extends DialogFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		if (savedInstanceState != null && savedInstanceState.containsKey(FRAGMENT_PARAMETER_DATA)) {
-			week = (TimetableWeek) (savedInstanceState.getSerializable(FRAGMENT_PARAMETER_DATA));
+			week = (UiWeek) (savedInstanceState.getSerializable(FRAGMENT_PARAMETER_DATA));
 			weekDay = (WeekDay) (savedInstanceState.getSerializable(FRAGMENT_PARAMETER_WEEKDAY));
 		}
 
@@ -87,22 +84,22 @@ public class DayFragment extends DialogFragment {
 	}
 
 	private void updateTable(TableLayout timeTable) {
-		Day day = week.getDay(weekDay);
+		UiDay day = week.getDay(weekDay);
 		if (day != null) {
-			Map<TimeUnit, List<Lesson>> lessons = day.getLessonsCompact();
+			List<UiLesson> lessons = day.getLessons();
 			if (lessons.size() > 0) {
-				for (Entry<TimeUnit, List<Lesson>> entry : lessons.entrySet()) {
-					TimeUnit timeUnit = entry.getKey();
-					List<Lesson> lessonsPerTimeUnit = entry.getValue();
-
-					if (lessonsPerTimeUnit == null || lessonsPerTimeUnit.isEmpty()) {
-						// no lessons at the given time slot
-						createAndFormatTableRow(null, timeUnit, timeTable, layoutInflater);
-					} else {
-						for (Lesson lesson : lessonsPerTimeUnit) {
-							createAndFormatTableRow(lesson, timeUnit, timeTable, layoutInflater);
-						}
-					}
+				for (UiLesson lesson : lessons) {
+					//					String timeslot = lesson.getTimeSlot();
+					//					List<Lesson> lessonsPerTimeUnit = entry.getValue();
+					createAndFormatTableRow(lesson, timeTable, layoutInflater);
+					//					if (lessonsPerTimeUnit == null || lessonsPerTimeUnit.isEmpty()) {
+					//						// no lessons at the given time slot
+					//						createAndFormatTableRow(null, timeUnit, timeTable, layoutInflater);
+					//					} else {
+					//						for (Lesson lesson : lessonsPerTimeUnit) {
+					//							createAndFormatTableRow(lesson, timeUnit, timeTable, layoutInflater);
+					//						}
+					//					}
 				}
 			} else {
 				String message = getString(R.string.message_no_lessons);
@@ -123,7 +120,7 @@ public class DayFragment extends DialogFragment {
 		timeTable.addView(descriptionRow);
 	}
 
-	public void updateDate(TimetableWeek week) {
+	public void updateDate(UiWeek week) {
 		this.week = week;
 		TableLayout timeTable = (TableLayout) getView().findViewById(R.id.timeTable);
 		// remove all existing table rows and add them again
@@ -131,8 +128,7 @@ public class DayFragment extends DialogFragment {
 		updateTable(timeTable);
 	}
 
-	private void createAndFormatTableRow(Lesson lesson, TimeUnit timeUnit, TableLayout timeTable,
-			LayoutInflater layoutInflater) {
+	private void createAndFormatTableRow(UiLesson lesson, TableLayout timeTable, LayoutInflater layoutInflater) {
 
 		View row = layoutInflater.inflate(R.layout.timetable_row, null);
 
@@ -144,12 +140,12 @@ public class DayFragment extends DialogFragment {
 		TextView typeField = (TextView) row.findViewById(R.id.rowType);
 
 		// fill values into row
-		timeUnitField.setText(timeUnit.toDurationString(" - "));
+		timeUnitField.setText(lesson.getTimeSlot());
 		timeTable.addView(row);
 		if (lesson != null) {
-			lessonField.setText(lesson.getIdentifierShort());
+			lessonField.setText(lesson.getName());
 			roomField.setText(lesson.getRoom());
-			lecturerField.setText(lesson.getLecturersAsString(", "));
+			lecturerField.setText(lesson.getLecturer());
 			typeField.setText(lesson.getType());
 
 			if (lesson.hasDescription()) {

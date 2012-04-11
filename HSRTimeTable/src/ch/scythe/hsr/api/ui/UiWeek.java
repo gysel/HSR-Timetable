@@ -16,43 +16,30 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package ch.scythe.hsr.entity;
+package ch.scythe.hsr.api.ui;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
 import ch.scythe.hsr.enumeration.WeekDay;
 
-@Deprecated
-public class TimetableWeek implements Serializable {
+public class UiWeek implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private Date lastUpdate;
-	private final Map<WeekDay, Day> days = new LinkedHashMap<WeekDay, Day>();
+	private final Map<WeekDay, UiDay> days = new HashMap<WeekDay, UiDay>();
 
-	public TimetableWeek(List<Day> days) {
-		for (Day day : days) {
-			this.days.put(day.getWeekDay(), day);
-		}
+	public Map<WeekDay, UiDay> getDays() {
+		return days;
 	}
 
-	public TimetableWeek() {
-		lastUpdate = null;
+	public UiDay getDay(WeekDay weekday) {
+		return days.get(weekday);
 	}
 
-	public Day getDay(WeekDay weekDay) {
-		return days.get(weekDay);
-	}
+	public void putDay(UiDay uiDay) {
+		days.put(uiDay.getWeekday(), uiDay);
 
-	public void setLastUpdate(Date lastUpdate) {
-		this.lastUpdate = lastUpdate;
-	}
-
-	public Date getLastUpdate() {
-		return lastUpdate;
 	}
 
 }
