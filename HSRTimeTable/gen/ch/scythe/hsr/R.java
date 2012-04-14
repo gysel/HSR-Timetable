@@ -15,43 +15,51 @@ public final class R {
         public static final int icon=0x7f020001;
     }
     public static final class id {
-        public static final int about=0x7f080017;
+        public static final int about=0x7f08001d;
         public static final int aboutAuthor=0x7f080000;
         public static final int aboutContact=0x7f080001;
-        public static final int button_today=0x7f080008;
-        public static final int date_label=0x7f080009;
-        public static final int date_value=0x7f08000a;
-        public static final int day_pager=0x7f08000d;
-        public static final int headerRow=0x7f080002;
-        public static final int linearLayout1=0x7f080006;
-        public static final int linearLayout3=0x7f080004;
-        public static final int preferences=0x7f080016;
-        public static final int refresh=0x7f080015;
-        public static final int rowDescription=0x7f080014;
-        public static final int rowLecturer=0x7f080012;
-        public static final int rowLesson=0x7f08000f;
-        public static final int rowRoom=0x7f080013;
-        public static final int rowTimeunit=0x7f08000e;
-        public static final int rowType=0x7f080010;
-        public static final int scrollView1=0x7f080003;
-        public static final int secondRow=0x7f080011;
-        public static final int timeTable=0x7f080005;
-        public static final int title=0x7f080007;
-        public static final int week_label=0x7f08000b;
-        public static final int week_value=0x7f08000c;
+        public static final int button_today=0x7f08000e;
+        public static final int date_label=0x7f08000f;
+        public static final int date_value=0x7f080010;
+        public static final int day_pager=0x7f080013;
+        public static final int headerRow=0x7f080008;
+        public static final int linearLayout1=0x7f08000c;
+        public static final int linearLayout3=0x7f08000a;
+        public static final int message=0x7f080002;
+        public static final int message_bottom=0x7f080006;
+        public static final int ok_button=0x7f080007;
+        public static final int password_edit=0x7f080005;
+        public static final int preferences=0x7f08001c;
+        public static final int refresh=0x7f08001b;
+        public static final int rowDescription=0x7f08001a;
+        public static final int rowLecturer=0x7f080018;
+        public static final int rowLesson=0x7f080015;
+        public static final int rowRoom=0x7f080019;
+        public static final int rowTimeunit=0x7f080014;
+        public static final int rowType=0x7f080016;
+        public static final int scrollView1=0x7f080009;
+        public static final int secondRow=0x7f080017;
+        public static final int timeTable=0x7f08000b;
+        public static final int title=0x7f08000d;
+        public static final int username_edit=0x7f080003;
+        public static final int username_fixed=0x7f080004;
+        public static final int week_label=0x7f080011;
+        public static final int week_value=0x7f080012;
     }
     public static final class layout {
         public static final int about=0x7f030000;
-        public static final int timetable_day=0x7f030001;
-        public static final int timetable_info_row=0x7f030002;
-        public static final int timetable_main=0x7f030003;
-        public static final int timetable_row=0x7f030004;
+        public static final int login_activity=0x7f030001;
+        public static final int timetable_day=0x7f030002;
+        public static final int timetable_info_row=0x7f030003;
+        public static final int timetable_main=0x7f030004;
+        public static final int timetable_row=0x7f030005;
     }
     public static final class menu {
         public static final int mainmenu=0x7f070000;
     }
     public static final class string {
         public static final int app_name=0x7f050000;
+        public static final int authentication_label=0x7f050025;
         public static final int button_cancel=0x7f050001;
         public static final int button_ok=0x7f050002;
         public static final int button_open_preferences=0x7f050004;
@@ -61,6 +69,11 @@ public final class R {
         public static final int key_password=0x7f050017;
         public static final int label_date_label=0x7f050006;
         public static final int label_week=0x7f050007;
+        public static final int login_activity_loginfail_text_pwmissing=0x7f050022;
+        public static final int login_activity_newaccount_text=0x7f050021;
+        public static final int login_activity_ok_button=0x7f050023;
+        public static final int login_activity_password_label=0x7f050020;
+        public static final int login_activity_username_label=0x7f05001f;
         public static final int menu_about=0x7f05000a;
         public static final int menu_preferences=0x7f050008;
         public static final int menu_refresh=0x7f050009;
@@ -75,6 +88,7 @@ public final class R {
         public static final int preferences_login_credentials=0x7f050012;
         public static final int preferences_password=0x7f050014;
         public static final int preferences_password_text=0x7f050015;
+        public static final int ui_activity_authenticating=0x7f050024;
         public static final int weekday_friday=0x7f05001c;
         public static final int weekday_monday=0x7f050018;
         public static final int weekday_saturday=0x7f05001d;
@@ -92,6 +106,8 @@ public final class R {
         public static final int table_header=0x7f060003;
     }
     public static final class xml {
-        public static final int user_preferences=0x7f040000;
+        public static final int authenticator=0x7f040000;
+        public static final int syncadapter=0x7f040001;
+        public static final int user_preferences=0x7f040002;
     }
 }

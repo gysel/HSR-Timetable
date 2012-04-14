@@ -25,6 +25,7 @@ import java.util.Date;
 
 import net.iharder.base64.Base64;
 
+import org.apache.http.HttpStatus;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -72,7 +73,7 @@ public class TimeTableAPI {
 			BasicHttpResponse httpResponse = (BasicHttpResponse) httpclient.execute(httppost);
 			InputStream jsonStream = null;
 			int httpStatus = httpResponse.getStatusLine().getStatusCode();
-			if (httpStatus == 200) {
+			if (httpStatus == HttpStatus.SC_OK) {
 				jsonStream = httpResponse.getEntity().getContent();
 			} else {
 				throw new RequestException("Request not successful. \nHTTP Status: " + httpStatus);
@@ -97,8 +98,8 @@ public class TimeTableAPI {
 		String basicAuth = "Basic " + Base64.encodeBytes((login + ":" + password).getBytes());
 		HttpGet get = new HttpGet(url);
 		get.setHeader("Content-Type", "text/json;charset=UTF-8");
-		get.setHeader("User-Agent", userAgent); // TODO add app version
-		get.setHeader("Operating-System", operatingSystem); // TODO add android version
+		get.setHeader("User-Agent", userAgent);
+		get.setHeader("Operating-System", operatingSystem);
 		get.setHeader("Authorization", basicAuth);
 		return get;
 	}

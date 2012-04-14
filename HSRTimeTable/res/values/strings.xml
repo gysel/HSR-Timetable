@@ -31,4 +31,12 @@
     <string name="weekday_friday">Friday</string>
     <string name="weekday_saturday">Saturday</string>
     <string name="weekday_sunday">Sunday</string>
+    <string name="login_activity_username_label">Login</string>
+    <string name="login_activity_password_label">Password</string>
+    <string name="login_activity_newaccount_text">Sign in to your HSR account.</string>
+    <string name="login_activity_loginfail_text_pwmissing">Type the password for this account.</string>
+    <string name="login_activity_ok_button">Sign in</string>
+    <string name="ui_activity_authenticating">Authenticating\u2026</string>
+    <string name="authentication_label">HSR Login</string>
+    
 </resources>

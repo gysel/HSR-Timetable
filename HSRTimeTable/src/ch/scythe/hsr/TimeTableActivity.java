@@ -18,10 +18,15 @@
  */
 package ch.scythe.hsr;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.accounts.AuthenticatorException;
+import android.accounts.OperationCanceledException;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -65,6 +70,8 @@ public class TimeTableActivity extends FragmentActivity {
 	private static final int DIALOG_ERROR_CONNECT = 2;
 	private static final int DIALOG_ERROR_PARSE = 3;
 	private static final int DIALOG_ABOUT = 4;
+	// _Android
+	private AccountManager accountManager;
 	// _State
 	public UiWeek week = new UiWeek();
 
@@ -74,6 +81,7 @@ public class TimeTableActivity extends FragmentActivity {
 		setContentView(R.layout.timetable_main);
 
 		fragmentPageAdapter = new MyAdapter(getSupportFragmentManager());
+		accountManager = AccountManager.get(getApplicationContext());
 
 		dayPager = (ViewPager) findViewById(R.id.day_pager);
 		dayPager.setAdapter(fragmentPageAdapter);
@@ -142,14 +150,20 @@ public class TimeTableActivity extends FragmentActivity {
 	}
 
 	private synchronized void startRequest(Date date, boolean forceRequest) {
-		String login = preferences.getString(getString(R.string.key_login), null);
-		String password = preferences.getString(getString(R.string.key_password), null);
+		//		String login = preferences.getString(getString(R.string.key_login), null);
+		//		String password = preferences.getString(getString(R.string.key_password), null);
+		Account account = null;
+		Account[] accounts = accountManager.getAccountsByType(Constants.ACCOUNT_TYPE);
+		if (accounts.length == 1) {
+			account = accounts[0];
+			//			login = acc.name;
+		}
 
-		if (inNullOrEmpty(login) || inNullOrEmpty(password)) {
+		if (inNullOrEmpty(account.name) /* || inNullOrEmpty(password)*/) {
 			showDialog(DIALOG_NO_USER_PASS);
 		} else {
 			progress = ProgressDialog.show(this, "", getString(R.string.message_loading_data));
-			new FetchDataTask().execute(date, login, password);
+			new FetchDataTask().execute(date, account);
 		}
 	}
 
@@ -209,12 +223,26 @@ public class TimeTableActivity extends FragmentActivity {
 		@Override
 		protected UiWeek doInBackground(Object... params) {
 			Date date = (Date) params[0];
-			String login = (String) params[1];
-			String password = (String) params[2];
+			Account account = (Account) params[1];
+			//			String password = (String) params[2];
+
+			String password = null;
+			try {
+				password = accountManager.blockingGetAuthToken(account, Constants.AUTHTOKEN_TYPE, true);
+			} catch (OperationCanceledException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (AuthenticatorException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 			UiWeek result = new UiWeek();
 			try {
-				result = api.retrieve(date, login, password);
+				result = api.retrieve(date, account.name, password);
 
 			} catch (ResponseParseException e) {
 				e.printStackTrace();
