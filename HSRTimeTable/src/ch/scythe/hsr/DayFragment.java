@@ -89,17 +89,7 @@ public class DayFragment extends DialogFragment {
 			List<UiLesson> lessons = day.getLessons();
 			if (lessons.size() > 0) {
 				for (UiLesson lesson : lessons) {
-					//					String timeslot = lesson.getTimeSlot();
-					//					List<Lesson> lessonsPerTimeUnit = entry.getValue();
 					createAndFormatTableRow(lesson, timeTable, layoutInflater);
-					//					if (lessonsPerTimeUnit == null || lessonsPerTimeUnit.isEmpty()) {
-					//						// no lessons at the given time slot
-					//						createAndFormatTableRow(null, timeUnit, timeTable, layoutInflater);
-					//					} else {
-					//						for (Lesson lesson : lessonsPerTimeUnit) {
-					//							createAndFormatTableRow(lesson, timeUnit, timeTable, layoutInflater);
-					//						}
-					//					}
 				}
 			} else {
 				String message = getString(R.string.message_no_lessons);

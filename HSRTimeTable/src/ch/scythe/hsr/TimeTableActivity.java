@@ -28,8 +28,6 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -48,6 +46,8 @@ import ch.scythe.hsr.api.TimeTableAPI;
 import ch.scythe.hsr.api.ui.UiWeek;
 import ch.scythe.hsr.enumeration.WeekDay;
 import ch.scythe.hsr.error.ResponseParseException;
+import ch.scythe.hsr.error.ServerConnectionException;
+import ch.scythe.hsr.helper.AndroidHelper;
 import ch.scythe.hsr.helper.DateHelper;
 
 public class TimeTableActivity extends FragmentActivity {
@@ -92,11 +92,6 @@ public class TimeTableActivity extends FragmentActivity {
 			// there was a screen orientation change.
 			// we can don't have to create the ui...
 			week = lastInstance;
-			//			Date lastUpdate = week.getLastUpdate();
-			//			String lastUpdateAsString = (lastUpdate == null) ? getString(R.string.default_novalue) : DateHelper
-			//					.formatToUserFriendlyFormat(lastUpdate);
-			// lastUpdate can be null just after entering the credentials
-			//			datebox.setText(lastUpdateAsString);
 		}
 
 	}
@@ -154,7 +149,7 @@ public class TimeTableActivity extends FragmentActivity {
 			showDialog(DIALOG_NO_USER_PASS);
 		} else {
 			progress = ProgressDialog.show(this, "", getString(R.string.message_loading_data));
-			new FetchDataTask().execute(date, login, password, forceRequest);
+			new FetchDataTask().execute(date, login, password);
 		}
 	}
 
@@ -188,7 +183,7 @@ public class TimeTableActivity extends FragmentActivity {
 		case DIALOG_ABOUT:
 			result = new Dialog(this);
 			result.setContentView(R.layout.about);
-			result.setTitle(getString(R.string.app_name) + " v" + getPackageInfo().versionName);
+			result.setTitle(getString(R.string.app_name) + " v" + AndroidHelper.getAppVersionName(getApplicationContext()));
 			linkify((TextView) result.findViewById(R.id.aboutAuthor));
 			linkify((TextView) result.findViewById(R.id.aboutContact));
 			break;
@@ -200,16 +195,6 @@ public class TimeTableActivity extends FragmentActivity {
 
 	private void linkify(TextView textViewWithLinks) {
 		Linkify.addLinks(textViewWithLinks, Linkify.ALL);
-	}
-
-	private PackageInfo getPackageInfo() {
-		PackageInfo result = null;
-		try {
-			result = getPackageManager().getPackageInfo(getPackageName(), 0);
-		} catch (NameNotFoundException e) {
-			// do nothing
-		}
-		return result;
 	}
 
 	private boolean inNullOrEmpty(String login) {
@@ -226,12 +211,10 @@ public class TimeTableActivity extends FragmentActivity {
 			Date date = (Date) params[0];
 			String login = (String) params[1];
 			String password = (String) params[2];
-			//			boolean forceRequest = (Boolean) params[3];
 
 			UiWeek result = new UiWeek();
 			try {
 				result = api.retrieve(date, login, password);
-				//				result = api.retrieve(date, login, password, forceRequest);
 
 			} catch (ResponseParseException e) {
 				e.printStackTrace();
@@ -239,9 +222,9 @@ public class TimeTableActivity extends FragmentActivity {
 			} catch (RequestException e) {
 				e.printStackTrace();
 				errorCode = DIALOG_ERROR_FETCH;
-				//			} catch (ServerConnectionException e) {
-				//				e.printStackTrace();
-				//				errorCode = DIALOG_ERROR_CONNECT;
+			} catch (ServerConnectionException e) {
+				e.printStackTrace();
+				errorCode = DIALOG_ERROR_CONNECT;
 			}
 			return result;
 		}
@@ -253,7 +236,6 @@ public class TimeTableActivity extends FragmentActivity {
 				for (DayFragment fragment : fragmentPageAdapter.getActiveFragments()) {
 					fragment.updateDate(week);
 				}
-				//				datebox.setText(DateHelper.formatToUserFriendlyFormat(week.getLastUpdate()));
 			} else {
 				datebox.setText(getString(R.string.default_novalue));
 			}
