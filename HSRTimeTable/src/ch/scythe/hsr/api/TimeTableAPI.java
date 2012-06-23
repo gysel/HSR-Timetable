@@ -34,6 +34,7 @@ import org.apache.http.message.BasicHttpResponse;
 
 import android.content.Context;
 import android.os.Build;
+import android.util.Log;
 import ch.scythe.hsr.api.ui.DataAssembler;
 import ch.scythe.hsr.api.ui.UiWeek;
 import ch.scythe.hsr.error.ResponseParseException;
@@ -67,6 +68,8 @@ public class TimeTableAPI {
 		UiWeek result = new UiWeek();
 		try {
 
+			long start = System.currentTimeMillis();
+
 			HttpGet httppost = createHttpGet(URL + login, login, password);
 			HttpClient httpclient = new DefaultHttpClient();
 
@@ -79,15 +82,40 @@ public class TimeTableAPI {
 				throw new RequestException("Request not successful. \nHTTP Status: " + httpStatus);
 			}
 
-			JsonTimetableWeek serverData = new GsonParser().parse(jsonStream);
+			long duration = System.currentTimeMillis() - start;
+			Log.i(getClass().getName(), "Loaded timetable data in " + duration + "ms.");
+			start = System.currentTimeMillis();
 
+			JsonTimetableWeek serverData = new GsonParser().parse(jsonStream);
 			result = DataAssembler.convert(serverData);
+
+			duration = System.currentTimeMillis() - start;
+			Log.i(getClass().getName(), "Parsed JSON result in " + duration + "ms.");
 
 		} catch (UnsupportedEncodingException e) {
 			throw new RequestException(e);
 		} catch (ClientProtocolException e) {
 			throw new RequestException(e);
 		} catch (IOException e) {
+			throw new ServerConnectionException(e);
+		}
+
+		return result;
+	}
+
+	public boolean validateCredentials(String login, String password) throws ServerConnectionException {
+		boolean result = false;
+		try {
+			// TODO refactor url
+			HttpGet get = createHttpGet("https://stundenplanws.hsr.ch:4443/api/Timeperiod", login, password);
+			HttpClient httpclient = new DefaultHttpClient();
+
+			BasicHttpResponse httpResponse = (BasicHttpResponse) httpclient.execute(get);
+			int httpStatus = httpResponse.getStatusLine().getStatusCode();
+
+			result = HttpStatus.SC_OK == httpStatus;
+
+		} catch (Exception e) {
 			throw new ServerConnectionException(e);
 		}
 

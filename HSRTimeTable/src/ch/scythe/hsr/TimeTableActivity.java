@@ -49,6 +49,7 @@ import android.widget.TextView;
 import ch.scythe.hsr.api.RequestException;
 import ch.scythe.hsr.api.TimeTableAPI;
 import ch.scythe.hsr.api.ui.UiWeek;
+import ch.scythe.hsr.authenticator.AuthenticatorActivity;
 import ch.scythe.hsr.enumeration.WeekDay;
 import ch.scythe.hsr.error.ResponseParseException;
 import ch.scythe.hsr.error.ServerConnectionException;
@@ -124,9 +125,9 @@ public class TimeTableActivity extends FragmentActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case R.id.preferences:
-			startActivity(new Intent(this, UserPreferencesActivity.class));
-			break;
+		//		case R.id.preferences:
+		//			startActivity(new Intent(this, UserPreferencesActivity.class));
+		//			break;
 		case R.id.refresh:
 			startRequest(new Date(), true);
 			break;
@@ -159,7 +160,7 @@ public class TimeTableActivity extends FragmentActivity {
 			//			login = acc.name;
 		}
 
-		if (inNullOrEmpty(account.name) /* || inNullOrEmpty(password)*/) {
+		if (account == null /* || inNullOrEmpty(password)*/) {
 			showDialog(DIALOG_NO_USER_PASS);
 		} else {
 			progress = ProgressDialog.show(this, "", getString(R.string.message_loading_data));
@@ -174,9 +175,9 @@ public class TimeTableActivity extends FragmentActivity {
 		switch (id) {
 		case DIALOG_NO_USER_PASS:
 			builder.setMessage(getString(R.string.message_configure_credentials)).setCancelable(true)
-					.setPositiveButton(getString(R.string.button_open_preferences), new DialogInterface.OnClickListener() {
+					.setPositiveButton(getString(R.string.button_add_login), new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int which) {
-							startActivity(new Intent(TimeTableActivity.this, UserPreferencesActivity.class));
+							startActivity(new Intent(TimeTableActivity.this, AuthenticatorActivity.class));
 						}
 					}).setNegativeButton(getString(R.string.button_cancel), null);
 			result = builder.create();

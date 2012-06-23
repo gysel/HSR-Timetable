@@ -36,6 +36,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import ch.scythe.hsr.Constants;
 import ch.scythe.hsr.R;
+import ch.scythe.hsr.api.TimeTableAPI;
+import ch.scythe.hsr.error.ServerConnectionException;
 
 /**
  * Activity which displays login screen to the user.
@@ -136,7 +138,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 			mMessage.setText(getMessage());
 		} else {
 			showProgress();
-			new AttemptAuthTask().execute(mUsername, mPassword);
+			new AttemptAuthTask(new TimeTableAPI(getApplicationContext())).execute(mUsername, mPassword);
 			// Start authenticating...
 			//						mAuthThread = NetworkUtilities.attemptAuth(mUsername, mPassword, mHandler, AuthenticatorActivity.this);
 		}
@@ -144,13 +146,23 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 
 	private class AttemptAuthTask extends AsyncTask<String, Object, Boolean> {
 
+		private final TimeTableAPI api;
+
+		public AttemptAuthTask(TimeTableAPI api) {
+			this.api = api;
+		}
+
 		@Override
 		protected Boolean doInBackground(String... params) {
+			String username = params[0];
+			String password = params[1];
+			Boolean result = null;
 			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
+				result = api.validateCredentials(username, password);
+			} catch (ServerConnectionException e) {
+				// return null;
 			}
-			return true;
+			return result;
 		}
 
 		@Override
@@ -228,16 +240,16 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 		// Hide the progress dialog
 		hideProgress();
 		if (result) {
-			if (!mConfirmCredentials) {
-				finishLogin();
-			} else {
-				finishConfirmCredentials(true);
-			}
+			//			if (!mConfirmCredentials) {
+			finishLogin();
+			//			} else {
+			//				finishConfirmCredentials(true);
+			//			}
 		} else {
 			Log.e(TAG, "onAuthenticationResult: failed to authenticate");
 			if (mRequestNewAccount) {
 				// "Please enter a valid username/password.
-				//				mMessage.setText(getText(R.string.login_activity_loginfail_text_both));
+				mMessage.setText(getText(R.string.login_activity_loginfail_text_both));
 			} else {
 				// "Please enter a valid password." (Used when the
 				// account is already in the database but the password

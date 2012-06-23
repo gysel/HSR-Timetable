@@ -15,7 +15,7 @@ public final class R {
         public static final int icon=0x7f020001;
     }
     public static final class id {
-        public static final int about=0x7f08001d;
+        public static final int about=0x7f08001c;
         public static final int aboutAuthor=0x7f080000;
         public static final int aboutContact=0x7f080001;
         public static final int button_today=0x7f08000e;
@@ -29,7 +29,6 @@ public final class R {
         public static final int message_bottom=0x7f080006;
         public static final int ok_button=0x7f080007;
         public static final int password_edit=0x7f080005;
-        public static final int preferences=0x7f08001c;
         public static final int refresh=0x7f08001b;
         public static final int rowDescription=0x7f08001a;
         public static final int rowLecturer=0x7f080018;
@@ -59,16 +58,17 @@ public final class R {
     }
     public static final class string {
         public static final int app_name=0x7f050000;
-        public static final int authentication_label=0x7f050025;
+        public static final int authentication_label=0x7f050026;
+        public static final int button_add_login=0x7f050004;
         public static final int button_cancel=0x7f050001;
         public static final int button_ok=0x7f050002;
-        public static final int button_open_preferences=0x7f050004;
         public static final int button_today=0x7f050003;
         public static final int default_novalue=0x7f050005;
         public static final int key_login=0x7f050016;
         public static final int key_password=0x7f050017;
         public static final int label_date_label=0x7f050006;
         public static final int label_week=0x7f050007;
+        public static final int login_activity_loginfail_text_both=0x7f050024;
         public static final int login_activity_loginfail_text_pwmissing=0x7f050022;
         public static final int login_activity_newaccount_text=0x7f050021;
         public static final int login_activity_ok_button=0x7f050023;
@@ -88,7 +88,7 @@ public final class R {
         public static final int preferences_login_credentials=0x7f050012;
         public static final int preferences_password=0x7f050014;
         public static final int preferences_password_text=0x7f050015;
-        public static final int ui_activity_authenticating=0x7f050024;
+        public static final int ui_activity_authenticating=0x7f050025;
         public static final int weekday_friday=0x7f05001c;
         public static final int weekday_monday=0x7f050018;
         public static final int weekday_saturday=0x7f05001d;
