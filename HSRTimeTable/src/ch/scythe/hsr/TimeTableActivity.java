@@ -32,10 +32,8 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -65,7 +63,7 @@ public class TimeTableActivity extends FragmentActivity {
 	private TextView datebox;
 	private TextView weekbox;
 	private ProgressDialog progress;
-	private SharedPreferences preferences;
+	//	private SharedPreferences preferences;
 	private static final int DIALOG_NO_USER_PASS = 0;
 	private static final int DIALOG_ERROR_FETCH = 1;
 	private static final int DIALOG_ERROR_CONNECT = 2;
@@ -89,7 +87,7 @@ public class TimeTableActivity extends FragmentActivity {
 
 		datebox = (TextView) findViewById(R.id.date_value);
 		weekbox = (TextView) findViewById(R.id.week_value);
-		preferences = PreferenceManager.getDefaultSharedPreferences(this);
+		//		preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
 		Date date = new Date();
 		weekbox.setText(DateHelper.formatToWeekNumber(date));
@@ -206,10 +204,6 @@ public class TimeTableActivity extends FragmentActivity {
 		Linkify.addLinks(textViewWithLinks, Linkify.ALL);
 	}
 
-	private boolean inNullOrEmpty(String login) {
-		return login == null || login.length() == 0;
-	}
-
 	class FetchDataTask extends AsyncTask<Object, Integer, UiWeek> {
 
 		private final TimeTableAPI api = new TimeTableAPI(TimeTableActivity.this);
@@ -219,7 +213,6 @@ public class TimeTableActivity extends FragmentActivity {
 		protected UiWeek doInBackground(Object... params) {
 			Date date = (Date) params[0];
 			Account account = (Account) params[1];
-			//			String password = (String) params[2];
 
 			String password = null;
 			try {

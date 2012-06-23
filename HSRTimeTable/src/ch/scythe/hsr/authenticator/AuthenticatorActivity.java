@@ -26,7 +26,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.util.Log;
@@ -59,10 +58,10 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 	 * If set we are just checking that the user knows their credentials; this
 	 * doesn't cause the user's password to be changed on the device.
 	 */
-	private Boolean mConfirmCredentials = false;
+	//	private Boolean mConfirmCredentials = false;
 
 	/** for posting authentication attempts back to UI thread */
-	private final Handler mHandler = new Handler();
+	//	private final Handler mHandler = new Handler();
 	private TextView mMessage;
 	private String mPassword;
 	private EditText mPasswordEdit;
@@ -86,7 +85,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 		mUsername = intent.getStringExtra(PARAM_USERNAME);
 		mAuthtokenType = intent.getStringExtra(PARAM_AUTHTOKEN_TYPE);
 		mRequestNewAccount = mUsername == null;
-		mConfirmCredentials = intent.getBooleanExtra(PARAM_CONFIRMCREDENTIALS, false);
+		//		mConfirmCredentials = intent.getBooleanExtra(PARAM_CONFIRMCREDENTIALS, false);
 
 		Log.i(TAG, "    request new: " + mRequestNewAccount);
 		requestWindowFeature(Window.FEATURE_LEFT_ICON);
