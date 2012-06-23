@@ -125,9 +125,9 @@ public class TimeTableActivity extends FragmentActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		//		case R.id.preferences:
-		//			startActivity(new Intent(this, UserPreferencesActivity.class));
-		//			break;
+		case R.id.preferences:
+			startActivity(new Intent(this, UserPreferencesActivity.class));
+			break;
 		case R.id.refresh:
 			startRequest(new Date(), true);
 			break;
@@ -151,14 +151,8 @@ public class TimeTableActivity extends FragmentActivity {
 	}
 
 	private synchronized void startRequest(Date date, boolean forceRequest) {
-		//		String login = preferences.getString(getString(R.string.key_login), null);
-		//		String password = preferences.getString(getString(R.string.key_password), null);
-		Account account = null;
-		Account[] accounts = accountManager.getAccountsByType(Constants.ACCOUNT_TYPE);
-		if (accounts.length == 1) {
-			account = accounts[0];
-			//			login = acc.name;
-		}
+
+		Account account = AndroidHelper.getAccount(accountManager);
 
 		if (account == null /* || inNullOrEmpty(password)*/) {
 			showDialog(DIALOG_NO_USER_PASS);

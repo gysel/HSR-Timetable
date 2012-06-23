@@ -1,9 +1,12 @@
 package ch.scythe.hsr.helper;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import ch.scythe.hsr.Constants;
 
 public class AndroidHelper {
 
@@ -18,6 +21,15 @@ public class AndroidHelper {
 			result = packageManager.getPackageInfo(packageName, 0);
 		} catch (NameNotFoundException e) {
 			// do nothing
+		}
+		return result;
+	}
+
+	public static Account getAccount(AccountManager accountManager) {
+		Account result = null;
+		Account[] accounts = accountManager.getAccountsByType(Constants.ACCOUNT_TYPE);
+		if (accounts.length == 1) {
+			result = accounts[0];
 		}
 		return result;
 	}

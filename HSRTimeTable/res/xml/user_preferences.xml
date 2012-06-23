@@ -2,14 +2,19 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <PreferenceCategory android:title="@string/preferences_login_credentials" >
-        <EditTextPreference
+        <Preference
             android:key="@string/key_login"
             android:title="@string/preferences_login" />
-        <EditTextPreference
-            android:key="@string/key_password"
-            android:password="true"
-            android:summary="@string/preferences_password_text"
-            android:title="@string/preferences_password" />
+<!--         <Preference -->
+<!--             android:key="@string/key_removeaccount" -->
+<!--             android:title="@string/preferences_account_remove" -->
+<!--             /> -->
+    </PreferenceCategory>
+    
+    <PreferenceCategory android:title="@string/preferences_sync" >
+        <Preference
+            android:key="SyncSchedule"
+            android:title="@string/preferences_sync_schedule" />
     </PreferenceCategory>
 
 </PreferenceScreen>
