@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceScreen
+        android:key="key1"
+        android:title="@string/authentication_title"
+        android:summary="@string/authentication_summary" >
+        <intent
+            android:action="key1.ACTION"
+            android:targetClass="ch.scythe.hsr.UserPreferencesActivity"
+            android:targetPackage="ch.scythe.hsr" />
+    </PreferenceScreen>
+
+</PreferenceScreen>

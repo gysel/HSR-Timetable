@@ -59,6 +59,8 @@ public final class R {
     public static final class string {
         public static final int app_name=0x7f050000;
         public static final int authentication_label=0x7f050026;
+        public static final int authentication_summary=0x7f050028;
+        public static final int authentication_title=0x7f050027;
         public static final int button_add_login=0x7f050004;
         public static final int button_cancel=0x7f050001;
         public static final int button_ok=0x7f050002;
@@ -107,7 +109,8 @@ public final class R {
     }
     public static final class xml {
         public static final int authenticator=0x7f040000;
-        public static final int syncadapter=0x7f040001;
-        public static final int user_preferences=0x7f040002;
+        public static final int preferences=0x7f040001;
+        public static final int synctimetable=0x7f040002;
+        public static final int user_preferences=0x7f040003;
     }
 }

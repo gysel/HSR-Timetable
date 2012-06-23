@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen
-  xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory android:title="@string/preferences_login_credentials">
-        <EditTextPreference android:title="@string/preferences_login" android:key="@string/key_login"/>
-        <EditTextPreference android:title="@string/preferences_password" android:summary="@string/preferences_password_text" android:password="true" android:key="@string/key_password"/>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory android:title="@string/preferences_login_credentials" >
+        <EditTextPreference
+            android:key="@string/key_login"
+            android:title="@string/preferences_login" />
+        <EditTextPreference
+            android:key="@string/key_password"
+            android:password="true"
+            android:summary="@string/preferences_password_text"
+            android:title="@string/preferences_password" />
     </PreferenceCategory>
-    
+
 </PreferenceScreen>
