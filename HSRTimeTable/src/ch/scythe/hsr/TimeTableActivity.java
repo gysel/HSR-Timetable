@@ -51,6 +51,7 @@ import ch.scythe.hsr.error.AccessDeniedException;
 import ch.scythe.hsr.error.ResponseParseException;
 import ch.scythe.hsr.error.ServerConnectionException;
 import ch.scythe.hsr.helper.DateHelper;
+import ch.scythe.hsr.helper.TextHelper;
 
 public class TimeTableActivity extends FragmentActivity {
 	// _Pager
@@ -153,6 +154,9 @@ public class TimeTableActivity extends FragmentActivity {
 	private synchronized void startRequest(Date date, boolean forceRequest) {
 		String login = preferences.getString(getString(R.string.key_login), null);
 		String password = preferences.getString(getString(R.string.key_password), null);
+
+		login = TextHelper.sanitize(login);
+		password = TextHelper.sanitize(password);
 
 		if (inNullOrEmpty(login) || inNullOrEmpty(password)) {
 			showDialog(DIALOG_NO_USER_PASS);

@@ -1,8 +1,7 @@
 package ch.scythe.hsr.helper;
 
 public class TextHelper {
-	/**
-	 * Method to join array elements of type string
+	/** Method to join array elements of type string
 	 * 
 	 * @author Hendrik Will, imwill.com
 	 * 
@@ -10,8 +9,7 @@ public class TextHelper {
 	 *            Array which contains strings
 	 * @param glueString
 	 *            String between each array element
-	 * @return String containing all array elements separated by glue string
-	 */
+	 * @return String containing all array elements separated by glue string */
 	public static String implodeArray(String[] inputArray, String glueString) {
 
 		/** Output variable */
@@ -31,4 +29,12 @@ public class TextHelper {
 
 		return output;
 	}
+
+	/** Will remove some unwanted characters from the string parameter.
+	 * 
+	 * @return a sanitized version of the string */
+	public static String sanitize(String string) {
+		return string.replace("\n", "");
+	}
+
 }
