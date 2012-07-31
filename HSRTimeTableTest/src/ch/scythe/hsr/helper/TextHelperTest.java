@@ -39,7 +39,7 @@ public class TextHelperTest {
 	@Test
 	public void sanitizeTESTnull() {
 		// Exercise sut
-		String actual = TextHelper.sanitize(null);
+		TextHelper.sanitize(null);
 	}
 
 }
