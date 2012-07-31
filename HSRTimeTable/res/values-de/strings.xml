@@ -7,7 +7,7 @@
     <string name="button_open_preferences">Einstellungen öffnen</string>
     <string name="default_novalue">-</string>
     <string name="label_date_label">Letzte Aktual.:</string>
-    <string name="label_week">Akt. Woche:</string>
+    <string name="label_week">Akt. Wo:</string>
     <string name="menu_preferences">Einstellungen</string>
     <string name="menu_refresh">Aktualisieren</string>
     <string name="menu_about">Über</string>

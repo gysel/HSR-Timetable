@@ -7,7 +7,7 @@
     <string name="button_open_preferences">Open preferences</string>
     <string name="default_novalue">-</string>
     <string name="label_date_label">Last update:</string>
-    <string name="label_week">Current week:</string>
+    <string name="label_week">Curr. week:</string>
     <string name="menu_preferences">Preferences</string>
     <string name="menu_refresh">Refresh</string>
     <string name="menu_about">About</string>
