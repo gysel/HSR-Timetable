@@ -34,7 +34,12 @@ public class TextHelper {
 	 * 
 	 * @return a sanitized version of the string */
 	public static String sanitize(String string) {
-		return string.replace("\n", "");
+		if (string == null) {
+			return null;
+		}
+		String result = string.replace("\n", "");
+		result = result.replaceAll(" ", "");
+		return result;
 	}
 
 }

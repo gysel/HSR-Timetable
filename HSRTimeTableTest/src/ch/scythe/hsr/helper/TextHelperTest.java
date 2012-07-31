@@ -26,4 +26,10 @@ public class TextHelperTest {
 		assertEquals(string, actual);
 	}
 
+	@Test
+	public void sanitizeTESTnull() {
+		// Exercise sut
+		String actual = TextHelper.sanitize(null);
+	}
+
 }
