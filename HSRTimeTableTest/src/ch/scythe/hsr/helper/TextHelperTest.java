@@ -27,6 +27,16 @@ public class TextHelperTest {
 	}
 
 	@Test
+	public void sanitizeTESTspace() {
+		// Set up fixture
+		String string = "foobar";
+		// Exercise sut
+		String actual = TextHelper.sanitize(string + " ");
+		// Verify outcome
+		assertEquals(string, actual);
+	}
+
+	@Test
 	public void sanitizeTESTnull() {
 		// Exercise sut
 		String actual = TextHelper.sanitize(null);
