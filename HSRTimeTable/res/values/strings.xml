@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">HSR Timetable</string>
     <string name="button_cancel">Cancel</string>
-    <string name="button_ok">Ok</string>
+    <string name="button_ok">OK</string>
     <string name="button_today">Today</string>
     <string name="button_open_preferences">Open preferences</string>
     <string name="default_novalue">-</string>
@@ -12,6 +12,7 @@
     <string name="menu_refresh">Refresh</string>
     <string name="menu_about">About</string>
     <string name="message_configure_credentials">Please enter your username and password in the preferences.</string>
+    <string name="message_check_credentials">Unable to login on the HSR server, please check your username and password.</string>
     <string name="message_error_while_fetching">Error while fetching data.</string>
     <string name="message_error_while_connecting">Error while connecting to server.</string>
     <string name="message_error_while_parsing">Error while parsing server response.</string>

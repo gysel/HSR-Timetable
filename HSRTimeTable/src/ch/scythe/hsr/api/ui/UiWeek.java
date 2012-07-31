@@ -19,6 +19,7 @@
 package ch.scythe.hsr.api.ui;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,6 +29,7 @@ public class UiWeek implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private final Map<WeekDay, UiDay> days = new HashMap<WeekDay, UiDay>();
+	private Date lastUpdate;
 
 	public Map<WeekDay, UiDay> getDays() {
 		return days;
@@ -39,6 +41,15 @@ public class UiWeek implements Serializable {
 
 	public void putDay(UiDay uiDay) {
 		days.put(uiDay.getWeekday(), uiDay);
+
+	}
+
+	public Date getLastUpdate() {
+		return lastUpdate;
+	}
+
+	public void setLastUpdate(Date lastUpdate) {
+		this.lastUpdate = lastUpdate;
 
 	}
 

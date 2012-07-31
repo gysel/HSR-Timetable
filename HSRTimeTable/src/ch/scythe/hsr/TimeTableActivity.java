@@ -47,7 +47,9 @@ import ch.scythe.hsr.api.RequestException;
 import ch.scythe.hsr.api.TimeTableAPI;
 import ch.scythe.hsr.api.ui.UiWeek;
 import ch.scythe.hsr.enumeration.WeekDay;
+import ch.scythe.hsr.error.AccessDeniedException;
 import ch.scythe.hsr.error.ResponseParseException;
+import ch.scythe.hsr.error.ServerConnectionException;
 import ch.scythe.hsr.helper.DateHelper;
 
 public class TimeTableActivity extends FragmentActivity {
@@ -64,7 +66,8 @@ public class TimeTableActivity extends FragmentActivity {
 	private static final int DIALOG_ERROR_FETCH = 1;
 	private static final int DIALOG_ERROR_CONNECT = 2;
 	private static final int DIALOG_ERROR_PARSE = 3;
-	private static final int DIALOG_ABOUT = 4;
+	private static final int DIALOG_WRONG_CREDENTIALS = 4;
+	private static final int DIALOG_ABOUT = 5;
 	// _State
 	public UiWeek week = new UiWeek();
 
@@ -92,11 +95,12 @@ public class TimeTableActivity extends FragmentActivity {
 			// there was a screen orientation change.
 			// we can don't have to create the ui...
 			week = lastInstance;
-			//			Date lastUpdate = week.getLastUpdate();
-			//			String lastUpdateAsString = (lastUpdate == null) ? getString(R.string.default_novalue) : DateHelper
-			//					.formatToUserFriendlyFormat(lastUpdate);
+			// Date lastUpdate = week.getLastUpdate();
+			// String lastUpdateAsString = (lastUpdate == null) ?
+			// getString(R.string.default_novalue) : DateHelper
+			// .formatToUserFriendlyFormat(lastUpdate);
 			// lastUpdate can be null just after entering the credentials
-			//			datebox.setText(lastUpdateAsString);
+			datebox.setText(DateHelper.formatToUserFriendlyFormat(week.getLastUpdate()));
 		}
 
 	}
@@ -164,13 +168,10 @@ public class TimeTableActivity extends FragmentActivity {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		switch (id) {
 		case DIALOG_NO_USER_PASS:
-			builder.setMessage(getString(R.string.message_configure_credentials)).setCancelable(true)
-					.setPositiveButton(getString(R.string.button_open_preferences), new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int which) {
-							startActivity(new Intent(TimeTableActivity.this, UserPreferencesActivity.class));
-						}
-					}).setNegativeButton(getString(R.string.button_cancel), null);
-			result = builder.create();
+			result = createDialogToOpenPreferences(R.string.message_configure_credentials, builder);
+			break;
+		case DIALOG_WRONG_CREDENTIALS:
+			result = createDialogToOpenPreferences(R.string.message_check_credentials, builder);
 			break;
 		case DIALOG_ERROR_CONNECT:
 			// TODO add option to retry?
@@ -195,6 +196,18 @@ public class TimeTableActivity extends FragmentActivity {
 		default:
 			result = null;
 		}
+		return result;
+	}
+
+	private Dialog createDialogToOpenPreferences(int messageConfigureCredentials, AlertDialog.Builder builder) {
+		Dialog result;
+		builder.setMessage(getString(messageConfigureCredentials)).setCancelable(true)
+				.setPositiveButton(getString(R.string.button_open_preferences), new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						startActivity(new Intent(TimeTableActivity.this, UserPreferencesActivity.class));
+					}
+				}).setNegativeButton(getString(R.string.button_cancel), null);
+		result = builder.create();
 		return result;
 	}
 
@@ -226,12 +239,12 @@ public class TimeTableActivity extends FragmentActivity {
 			Date date = (Date) params[0];
 			String login = (String) params[1];
 			String password = (String) params[2];
-			//			boolean forceRequest = (Boolean) params[3];
+			boolean forceRequest = (Boolean) params[3];
 
 			UiWeek result = new UiWeek();
 			try {
-				result = api.retrieve(date, login, password);
-				//				result = api.retrieve(date, login, password, forceRequest);
+				result = api.retrieve(date, login, password, forceRequest);
+				// result = api.retrieve(date, login, password, forceRequest);
 
 			} catch (ResponseParseException e) {
 				e.printStackTrace();
@@ -239,9 +252,12 @@ public class TimeTableActivity extends FragmentActivity {
 			} catch (RequestException e) {
 				e.printStackTrace();
 				errorCode = DIALOG_ERROR_FETCH;
-				//			} catch (ServerConnectionException e) {
-				//				e.printStackTrace();
-				//				errorCode = DIALOG_ERROR_CONNECT;
+			} catch (ServerConnectionException e) {
+				e.printStackTrace();
+				errorCode = DIALOG_ERROR_CONNECT;
+			} catch (AccessDeniedException e) {
+				e.printStackTrace();
+				errorCode = DIALOG_WRONG_CREDENTIALS;
 			}
 			return result;
 		}
@@ -253,7 +269,7 @@ public class TimeTableActivity extends FragmentActivity {
 				for (DayFragment fragment : fragmentPageAdapter.getActiveFragments()) {
 					fragment.updateDate(week);
 				}
-				//				datebox.setText(DateHelper.formatToUserFriendlyFormat(week.getLastUpdate()));
+				datebox.setText(DateHelper.formatToUserFriendlyFormat(week.getLastUpdate()));
 			} else {
 				datebox.setText(getString(R.string.default_novalue));
 			}

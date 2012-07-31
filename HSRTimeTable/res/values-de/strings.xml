@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">HSR Stundenplan</string>
     <string name="button_cancel">Abbrechen</string>
-    <string name="button_ok">Ok</string>
+    <string name="button_ok">OK</string>
     <string name="button_today">Heute</string>
     <string name="button_open_preferences">Einstellungen öffnen</string>
     <string name="default_novalue">-</string>
@@ -10,7 +10,9 @@
     <string name="label_week">Akt. Woche:</string>
     <string name="menu_preferences">Einstellungen</string>
     <string name="menu_refresh">Aktualisieren</string>
+    <string name="menu_about">Über</string>
     <string name="message_configure_credentials">Bitte dein Benutzername und dein Passwort in den Einstellungen eingeben.</string>
+    <string name="message_check_credentials">Login auf dem HSR server nicht möglich, bitte Benutzernamen und Password überprüfen.</string>
     <string name="message_error_while_fetching">Laden der Daten ist fehlgeschlagen.</string>
     <string name="message_error_while_connecting">Verbindung zum Server fehlgeschlagen.</string>
     <string name="message_error_while_parsing">Datenverarbeitung fehlgeschlagen.</string>
