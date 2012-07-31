@@ -41,7 +41,7 @@
             style="@style/aboutTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Configured credentials are stored in a protected file and only sent to the HSR server." />
+            android:text="Configured credentials are stored in a protected file and only sent to the HSR server encrypted via SSL." />
 
         <TextView
             android:id="@+id/aboutContact"
