@@ -27,6 +27,7 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.accounts.AuthenticatorException;
 import android.accounts.OperationCanceledException;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -49,6 +50,7 @@ import ch.scythe.hsr.api.TimeTableAPI;
 import ch.scythe.hsr.api.ui.UiWeek;
 import ch.scythe.hsr.authenticator.AuthenticatorActivity;
 import ch.scythe.hsr.enumeration.WeekDay;
+import ch.scythe.hsr.error.AccessDeniedException;
 import ch.scythe.hsr.error.ResponseParseException;
 import ch.scythe.hsr.error.ServerConnectionException;
 import ch.scythe.hsr.helper.AndroidHelper;
@@ -63,7 +65,7 @@ public class TimeTableActivity extends FragmentActivity {
 	private TextView datebox;
 	private TextView weekbox;
 	private ProgressDialog progress;
-	//	private SharedPreferences preferences;
+	// private SharedPreferences preferences;
 	private static final int DIALOG_NO_USER_PASS = 0;
 	private static final int DIALOG_ERROR_FETCH = 1;
 	private static final int DIALOG_ERROR_CONNECT = 2;
@@ -87,7 +89,7 @@ public class TimeTableActivity extends FragmentActivity {
 
 		datebox = (TextView) findViewById(R.id.date_value);
 		weekbox = (TextView) findViewById(R.id.week_value);
-		//		preferences = PreferenceManager.getDefaultSharedPreferences(this);
+		// preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
 		Date date = new Date();
 		weekbox.setText(DateHelper.formatToWeekNumber(date));
@@ -99,6 +101,7 @@ public class TimeTableActivity extends FragmentActivity {
 			// there was a screen orientation change.
 			// we can don't have to create the ui...
 			week = lastInstance;
+			datebox.setText(DateHelper.formatToUserFriendlyFormat(week.getLastUpdate()));
 		}
 
 	}
@@ -156,7 +159,7 @@ public class TimeTableActivity extends FragmentActivity {
 			showDialog(DIALOG_NO_USER_PASS);
 		} else {
 			progress = ProgressDialog.show(this, "", getString(R.string.message_loading_data));
-			new FetchDataTask().execute(date, account);
+			new FetchDataTask().execute(date, account, forceRequest);
 		}
 	}
 
@@ -213,6 +216,7 @@ public class TimeTableActivity extends FragmentActivity {
 		protected UiWeek doInBackground(Object... params) {
 			Date date = (Date) params[0];
 			Account account = (Account) params[1];
+			boolean forceRequest = (Boolean) params[2];
 
 			String password = null;
 			try {
@@ -230,7 +234,7 @@ public class TimeTableActivity extends FragmentActivity {
 
 			UiWeek result = new UiWeek();
 			try {
-				result = api.retrieve(date, account.name, password);
+				result = api.retrieve(date, account.name, password, forceRequest);
 
 			} catch (ResponseParseException e) {
 				e.printStackTrace();
@@ -241,6 +245,10 @@ public class TimeTableActivity extends FragmentActivity {
 			} catch (ServerConnectionException e) {
 				e.printStackTrace();
 				errorCode = DIALOG_ERROR_CONNECT;
+			} catch (AccessDeniedException e) {
+				e.printStackTrace();
+				// TODO add better error message
+				errorCode = DIALOG_ERROR_FETCH;
 			}
 			return result;
 		}
@@ -252,6 +260,7 @@ public class TimeTableActivity extends FragmentActivity {
 				for (DayFragment fragment : fragmentPageAdapter.getActiveFragments()) {
 					fragment.updateDate(week);
 				}
+				datebox.setText(DateHelper.formatToUserFriendlyFormat(week.getLastUpdate()));
 			} else {
 				datebox.setText(getString(R.string.default_novalue));
 			}
@@ -267,6 +276,7 @@ public class TimeTableActivity extends FragmentActivity {
 
 	public class MyAdapter extends FragmentStatePagerAdapter {
 
+		@SuppressLint("UseSparseArrays")
 		private final HashMap<Integer, DayFragment> activeFragments = new HashMap<Integer, DayFragment>();
 
 		public MyAdapter(FragmentManager fm) {

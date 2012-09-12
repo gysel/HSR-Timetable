@@ -38,9 +38,7 @@ import ch.scythe.hsr.R;
 import ch.scythe.hsr.api.TimeTableAPI;
 import ch.scythe.hsr.error.ServerConnectionException;
 
-/**
- * Activity which displays login screen to the user.
- */
+/** Activity which displays login screen to the user. */
 public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 	public static final String PARAM_CONFIRMCREDENTIALS = "confirmCredentials";
 	public static final String PARAM_PASSWORD = "password";
@@ -54,14 +52,11 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 	private String mAuthtoken;
 	private String mAuthtokenType;
 
-	/**
-	 * If set we are just checking that the user knows their credentials; this
-	 * doesn't cause the user's password to be changed on the device.
-	 */
-	//	private Boolean mConfirmCredentials = false;
+	/** If set we are just checking that the user knows their credentials; this doesn't cause the user's password to be changed on the device. */
+	// private Boolean mConfirmCredentials = false;
 
 	/** for posting authentication attempts back to UI thread */
-	//	private final Handler mHandler = new Handler();
+	// private final Handler mHandler = new Handler();
 	private TextView mMessage;
 	private String mPassword;
 	private EditText mPasswordEdit;
@@ -72,9 +67,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 	private String mUsername;
 	private EditText mUsernameEdit;
 
-	/**
-	 * {@inheritDoc}
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public void onCreate(Bundle icicle) {
 		Log.i(TAG, "onCreate(" + icicle + ")");
@@ -85,7 +78,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 		mUsername = intent.getStringExtra(PARAM_USERNAME);
 		mAuthtokenType = intent.getStringExtra(PARAM_AUTHTOKEN_TYPE);
 		mRequestNewAccount = mUsername == null;
-		//		mConfirmCredentials = intent.getBooleanExtra(PARAM_CONFIRMCREDENTIALS, false);
+		// mConfirmCredentials = intent.getBooleanExtra(PARAM_CONFIRMCREDENTIALS, false);
 
 		Log.i(TAG, "    request new: " + mRequestNewAccount);
 		requestWindowFeature(Window.FEATURE_LEFT_ICON);
@@ -121,13 +114,10 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 		return dialog;
 	}
 
-	/**
-	 * Handles onClick event on the Submit button. Sends username/password to
-	 * the server for authentication.
+	/** Handles onClick event on the Submit button. Sends username/password to the server for authentication.
 	 * 
 	 * @param view
-	 *            The Submit button for which this method is invoked
-	 */
+	 *            The Submit button for which this method is invoked */
 	public void handleLogin(View view) {
 		if (mRequestNewAccount) {
 			mUsername = mUsernameEdit.getText().toString();
@@ -139,7 +129,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 			showProgress();
 			new AttemptAuthTask(new TimeTableAPI(getApplicationContext())).execute(mUsername, mPassword);
 			// Start authenticating...
-			//						mAuthThread = NetworkUtilities.attemptAuth(mUsername, mPassword, mHandler, AuthenticatorActivity.this);
+			// mAuthThread = NetworkUtilities.attemptAuth(mUsername, mPassword, mHandler, AuthenticatorActivity.this);
 		}
 	}
 
@@ -171,14 +161,11 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 
 	}
 
-	/**
-	 * Called when response is received from the server for confirm credentials
-	 * request. See onAuthenticationResult(). Sets the
-	 * AccountAuthenticatorResult which is sent back to the caller.
+	/** Called when response is received from the server for confirm credentials request. See onAuthenticationResult(). Sets the AccountAuthenticatorResult which
+	 * is sent back to the caller.
 	 * 
 	 * @param the
-	 *            confirmCredentials result.
-	 */
+	 *            confirmCredentials result. */
 	protected void finishConfirmCredentials(boolean result) {
 		Log.i(TAG, "finishConfirmCredentials()");
 		final Account account = new Account(mUsername, Constants.ACCOUNT_TYPE);
@@ -190,16 +177,11 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 		finish();
 	}
 
-	/**
-	 * 
-	 * Called when response is received from the server for authentication
-	 * request. See onAuthenticationResult(). Sets the
-	 * AccountAuthenticatorResult which is sent back to the caller. Also sets
-	 * the authToken in AccountManager for this account.
+	/** Called when response is received from the server for authentication request. See onAuthenticationResult(). Sets the AccountAuthenticatorResult which is
+	 * sent back to the caller. Also sets the authToken in AccountManager for this account.
 	 * 
 	 * @param the
-	 *            confirmCredentials result.
-	 */
+	 *            confirmCredentials result. */
 
 	protected void finishLogin() {
 		Log.i(TAG, "finishLogin()");
@@ -224,43 +206,33 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 		finish();
 	}
 
-	/**
-	 * Hides the progress UI for a lengthy operation.
-	 */
+	/** Hides the progress UI for a lengthy operation. */
 	protected void hideProgress() {
 		dismissDialog(0);
 	}
 
-	/**
-	 * Called when the authentication process completes (see attemptLogin()).
-	 */
-	public void onAuthenticationResult(boolean result) {
+	/** Called when the authentication process completes (see attemptLogin()). */
+	public void onAuthenticationResult(Boolean result) {
 		Log.i(TAG, "onAuthenticationResult(" + result + ")");
 		// Hide the progress dialog
 		hideProgress();
-		if (result) {
-			//			if (!mConfirmCredentials) {
+		if (Boolean.TRUE == result) {
+			// if (!mConfirmCredentials) {
 			finishLogin();
-			//			} else {
-			//				finishConfirmCredentials(true);
-			//			}
+			// } else {
+			// finishConfirmCredentials(true);
+			// }
 		} else {
 			Log.e(TAG, "onAuthenticationResult: failed to authenticate");
-			if (mRequestNewAccount) {
-				// "Please enter a valid username/password.
+			if (Boolean.FALSE == result) {
 				mMessage.setText(getText(R.string.login_activity_loginfail_text_both));
 			} else {
-				// "Please enter a valid password." (Used when the
-				// account is already in the database but the password
-				// doesn't work.)
-				//				mMessage.setText(getText(R.string.login_activity_loginfail_text_pwonly));
+				mMessage.setText(getText(R.string.message_error_while_connecting));
 			}
 		}
 	}
 
-	/**
-	 * Returns the message to be displayed at the top of the login dialog box.
-	 */
+	/** Returns the message to be displayed at the top of the login dialog box. */
 	private CharSequence getMessage() {
 		getString(R.string.app_name);
 		if (TextUtils.isEmpty(mUsername)) {
@@ -275,9 +247,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 		return null;
 	}
 
-	/**
-	 * Shows the progress UI for a lengthy operation.
-	 */
+	/** Shows the progress UI for a lengthy operation. */
 	protected void showProgress() {
 		showDialog(0);
 	}

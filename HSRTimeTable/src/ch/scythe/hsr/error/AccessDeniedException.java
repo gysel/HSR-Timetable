@@ -16,41 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package ch.scythe.hsr.api.ui;
+package ch.scythe.hsr.error;
 
-import java.io.Serializable;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
-import ch.scythe.hsr.enumeration.WeekDay;
-
-public class UiWeek implements Serializable {
+public class AccessDeniedException extends Exception {
 
 	private static final long serialVersionUID = 1L;
-	private final Map<WeekDay, UiDay> days = new HashMap<WeekDay, UiDay>();
-	private Date lastUpdate;
-
-	public Map<WeekDay, UiDay> getDays() {
-		return days;
-	}
-
-	public UiDay getDay(WeekDay weekday) {
-		return days.get(weekday);
-	}
-
-	public void putDay(UiDay uiDay) {
-		days.put(uiDay.getWeekday(), uiDay);
-
-	}
-
-	public Date getLastUpdate() {
-		return lastUpdate;
-	}
-
-	public void setLastUpdate(Date lastUpdate) {
-		this.lastUpdate = lastUpdate;
-
-	}
 
 }
