@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import ch.scythe.hsr.enumeration.WeekDay;
+import ch.scythe.hsr.enumeration.Weekday;
 import ch.scythe.hsr.json.JsonCourseAllocation;
 import ch.scythe.hsr.json.JsonDay;
 import ch.scythe.hsr.json.JsonLecturer;
@@ -48,7 +48,7 @@ public class DataAssembler {
 	}
 
 	private static UiDay mapDay(JsonDay jsonDay) {
-		WeekDay weekday = WeekDay.getById(jsonDay.getId());
+		Weekday weekday = Weekday.getById(jsonDay.getId());
 		UiDay result = new UiDay(weekday);
 		result.setLessons(mapLessons(jsonDay.getLessons()));
 		return result;

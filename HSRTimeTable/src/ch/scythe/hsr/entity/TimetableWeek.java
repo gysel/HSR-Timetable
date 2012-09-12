@@ -24,14 +24,14 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import ch.scythe.hsr.enumeration.WeekDay;
+import ch.scythe.hsr.enumeration.Weekday;
 
 @Deprecated
 public class TimetableWeek implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private Date lastUpdate;
-	private final Map<WeekDay, Day> days = new LinkedHashMap<WeekDay, Day>();
+	private final Map<Weekday, Day> days = new LinkedHashMap<Weekday, Day>();
 
 	public TimetableWeek(List<Day> days) {
 		for (Day day : days) {
@@ -43,7 +43,7 @@ public class TimetableWeek implements Serializable {
 		lastUpdate = null;
 	}
 
-	public Day getDay(WeekDay weekDay) {
+	public Day getDay(Weekday weekDay) {
 		return days.get(weekDay);
 	}
 

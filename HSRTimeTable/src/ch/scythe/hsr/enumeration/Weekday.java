@@ -27,28 +27,26 @@ import java.util.Map;
 
 import ch.scythe.hsr.R;
 
-// TODO rename to Weekday
-public enum WeekDay implements Serializable {
+public enum Weekday implements Serializable {
 
 	MONDAY(1, 2, R.string.weekday_monday), TUESDAY(2, 3, R.string.weekday_tuesday), WEDNESDAY(3, 4, R.string.weekday_wednesday), THURSDAY(4, 5,
-			R.string.weekday_thursday), FRIDAY(5, 6, R.string.weekday_friday), SATURDAY(6, 7, R.string.weekday_saturday), SUNDAY(7, 1,
-			R.string.weekday_sunday);
+			R.string.weekday_thursday), FRIDAY(5, 6, R.string.weekday_friday), SATURDAY(6, 7, R.string.weekday_saturday), SUNDAY(7, 1, R.string.weekday_sunday);
 
 	private final Integer id;
 	private final Integer javaId;
 
-	private static final Map<Integer, WeekDay> lookupByJavaId = new LinkedHashMap<Integer, WeekDay>();
-	private static final Map<Integer, WeekDay> lookupById = new LinkedHashMap<Integer, WeekDay>();
+	private static final Map<Integer, Weekday> lookupByJavaId = new LinkedHashMap<Integer, Weekday>();
+	private static final Map<Integer, Weekday> lookupById = new LinkedHashMap<Integer, Weekday>();
 	private final int resourceReference;
 
 	static {
-		for (WeekDay day : EnumSet.allOf(WeekDay.class)) {
+		for (Weekday day : EnumSet.allOf(Weekday.class)) {
 			lookupByJavaId.put(day.getJavaId(), day);
 			lookupById.put(day.getId(), day);
 		}
 	}
 
-	private WeekDay(Integer id, Integer javaId, int resourceReference) {
+	private Weekday(Integer id, Integer javaId, int resourceReference) {
 		this.id = id;
 		this.javaId = javaId;
 		this.resourceReference = resourceReference;
@@ -58,19 +56,17 @@ public enum WeekDay implements Serializable {
 		return id;
 	}
 
-	/**
-	 * @see Calendar#DAY_OF_WEEK
-	 */
+	/** @see Calendar#DAY_OF_WEEK */
 	public Integer getJavaId() {
 		return javaId;
 	}
 
-	public static WeekDay getById(Integer id) {
+	public static Weekday getById(Integer id) {
 		return lookupById.get(id);
 
 	}
 
-	public static WeekDay getByDate(Date date) {
+	public static Weekday getByDate(Date date) {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
 		return lookupByJavaId.get(calendar.get(Calendar.DAY_OF_WEEK));

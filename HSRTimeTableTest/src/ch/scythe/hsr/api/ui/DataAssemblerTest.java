@@ -8,7 +8,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import ch.scythe.hsr.enumeration.WeekDay;
+import ch.scythe.hsr.enumeration.Weekday;
 import ch.scythe.hsr.helper.TextHelper;
 import ch.scythe.hsr.json.JsonCourseAllocation;
 import ch.scythe.hsr.json.JsonDay;
@@ -28,9 +28,9 @@ public class DataAssemblerTest {
 		// Exercise sut
 		UiWeek uiData = DataAssembler.convert(jsonData);
 		// Verify outcome
-		assertNotNull(uiData.getDay(WeekDay.MONDAY));
-		assertNull(uiData.getDay(WeekDay.TUESDAY));
-		assertNotNull(uiData.getDay(WeekDay.WEDNESDAY));
+		assertNotNull(uiData.getDay(Weekday.MONDAY));
+		assertNull(uiData.getDay(Weekday.TUESDAY));
+		assertNotNull(uiData.getDay(Weekday.WEDNESDAY));
 	}
 
 	@Test
@@ -46,7 +46,7 @@ public class DataAssemblerTest {
 		// Exercise sut
 		UiWeek uiData = DataAssembler.convert(jsonData);
 		// Verify outcome
-		UiDay day = uiData.getDay(WeekDay.WEDNESDAY);
+		UiDay day = uiData.getDay(Weekday.WEDNESDAY);
 		assertNotNull(day);
 		List<UiLesson> lessons = day.getLessons();
 		//
@@ -69,7 +69,7 @@ public class DataAssemblerTest {
 		// Exercise sut
 		UiWeek uiData = DataAssembler.convert(jsonData);
 		// Verify outcome
-		UiDay day = uiData.getDay(WeekDay.WEDNESDAY);
+		UiDay day = uiData.getDay(Weekday.WEDNESDAY);
 		assertNotNull(day);
 		List<UiLesson> lessons = day.getLessons();
 		//
@@ -94,7 +94,7 @@ public class DataAssemblerTest {
 		// Exercise sut
 		UiWeek uiData = DataAssembler.convert(jsonData);
 		// Verify outcome
-		UiDay day = uiData.getDay(WeekDay.WEDNESDAY);
+		UiDay day = uiData.getDay(Weekday.WEDNESDAY);
 		assertNotNull(day);
 		List<UiLesson> lessons = day.getLessons();
 		//

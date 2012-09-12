@@ -22,15 +22,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.scythe.hsr.enumeration.WeekDay;
+import ch.scythe.hsr.enumeration.Weekday;
 
 public class UiDay implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private final WeekDay weekday;
+	private final Weekday weekday;
 	private List<UiLesson> lessons = new ArrayList<UiLesson>();
 
-	public UiDay(WeekDay weekday) {
+	public UiDay(Weekday weekday) {
 		this.weekday = weekday;
 	}
 
@@ -42,7 +42,7 @@ public class UiDay implements Serializable {
 		this.lessons = lessons;
 	}
 
-	public WeekDay getWeekday() {
+	public Weekday getWeekday() {
 		return weekday;
 	}
 

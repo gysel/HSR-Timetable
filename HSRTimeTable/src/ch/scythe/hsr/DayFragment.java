@@ -31,7 +31,7 @@ import android.widget.TextView;
 import ch.scythe.hsr.api.ui.UiDay;
 import ch.scythe.hsr.api.ui.UiLesson;
 import ch.scythe.hsr.api.ui.UiWeek;
-import ch.scythe.hsr.enumeration.WeekDay;
+import ch.scythe.hsr.enumeration.Weekday;
 
 public class DayFragment extends DialogFragment {
 
@@ -39,7 +39,7 @@ public class DayFragment extends DialogFragment {
 	public static final String FRAGMENT_PARAMETER_WEEKDAY = "position";
 
 	private UiWeek week;
-	private WeekDay weekDay;
+	private Weekday weekDay;
 	private LayoutInflater layoutInflater;
 
 	public DayFragment() {
@@ -52,7 +52,7 @@ public class DayFragment extends DialogFragment {
 		Bundle arguments = getArguments();
 		if (arguments != null) {
 			week = (UiWeek) (arguments.getSerializable(FRAGMENT_PARAMETER_DATA));
-			weekDay = (WeekDay) (arguments.getSerializable(FRAGMENT_PARAMETER_WEEKDAY));
+			weekDay = (Weekday) (arguments.getSerializable(FRAGMENT_PARAMETER_WEEKDAY));
 		}
 	}
 
@@ -68,7 +68,7 @@ public class DayFragment extends DialogFragment {
 
 		if (savedInstanceState != null && savedInstanceState.containsKey(FRAGMENT_PARAMETER_DATA)) {
 			week = (UiWeek) (savedInstanceState.getSerializable(FRAGMENT_PARAMETER_DATA));
-			weekDay = (WeekDay) (savedInstanceState.getSerializable(FRAGMENT_PARAMETER_WEEKDAY));
+			weekDay = (Weekday) (savedInstanceState.getSerializable(FRAGMENT_PARAMETER_WEEKDAY));
 		}
 
 		layoutInflater = getLayoutInflater(savedInstanceState);

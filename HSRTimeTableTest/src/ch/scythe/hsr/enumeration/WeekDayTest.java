@@ -33,8 +33,8 @@ public class WeekDayTest {
 		Date monday = new Date(2011 - 1900, 10 - 1, 31);
 		Date tuesday = new Date(2011 - 1900, 11 - 1, 1);
 		// Exercise sut & verify outcome
-		assertEquals(WeekDay.SUNDAY, WeekDay.getByDate(sunday));
-		assertEquals(WeekDay.MONDAY, WeekDay.getByDate(monday));
-		assertEquals(WeekDay.TUESDAY, WeekDay.getByDate(tuesday));
+		assertEquals(Weekday.SUNDAY, Weekday.getByDate(sunday));
+		assertEquals(Weekday.MONDAY, Weekday.getByDate(monday));
+		assertEquals(Weekday.TUESDAY, Weekday.getByDate(tuesday));
 	}
 }

@@ -49,7 +49,7 @@ import ch.scythe.hsr.api.RequestException;
 import ch.scythe.hsr.api.TimeTableAPI;
 import ch.scythe.hsr.api.ui.UiWeek;
 import ch.scythe.hsr.authenticator.AuthenticatorActivity;
-import ch.scythe.hsr.enumeration.WeekDay;
+import ch.scythe.hsr.enumeration.Weekday;
 import ch.scythe.hsr.error.AccessDeniedException;
 import ch.scythe.hsr.error.ResponseParseException;
 import ch.scythe.hsr.error.ServerConnectionException;
@@ -144,9 +144,9 @@ public class TimeTableActivity extends FragmentActivity {
 	}
 
 	private void scrollToToday() {
-		WeekDay today = WeekDay.getByDate(new Date());
-		if (today == WeekDay.SUNDAY) {
-			today = WeekDay.MONDAY;
+		Weekday today = Weekday.getByDate(new Date());
+		if (today == Weekday.SUNDAY) {
+			today = Weekday.MONDAY;
 		}
 		dayPager.setCurrentItem(today.getId() - 1);
 	}
@@ -292,7 +292,7 @@ public class TimeTableActivity extends FragmentActivity {
 		public Fragment getItem(int position) {
 			DayFragment fragment = new DayFragment();
 
-			WeekDay weekDay = WeekDay.getById(position + 1);
+			Weekday weekDay = Weekday.getById(position + 1);
 
 			Bundle args = new Bundle();
 			args.putSerializable(DayFragment.FRAGMENT_PARAMETER_DATA, week);

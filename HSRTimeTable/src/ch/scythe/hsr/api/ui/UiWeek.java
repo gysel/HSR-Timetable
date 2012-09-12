@@ -23,19 +23,19 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import ch.scythe.hsr.enumeration.WeekDay;
+import ch.scythe.hsr.enumeration.Weekday;
 
 public class UiWeek implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private final Map<WeekDay, UiDay> days = new HashMap<WeekDay, UiDay>();
+	private final Map<Weekday, UiDay> days = new HashMap<Weekday, UiDay>();
 	private Date lastUpdate;
 
-	public Map<WeekDay, UiDay> getDays() {
+	public Map<Weekday, UiDay> getDays() {
 		return days;
 	}
 
-	public UiDay getDay(WeekDay weekday) {
+	public UiDay getDay(Weekday weekday) {
 		return days.get(weekday);
 	}
 

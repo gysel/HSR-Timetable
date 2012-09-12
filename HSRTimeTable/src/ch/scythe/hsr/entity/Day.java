@@ -29,7 +29,7 @@ import java.util.Map;
 import java.util.Set;
 
 import ch.scythe.hsr.enumeration.TimeUnit;
-import ch.scythe.hsr.enumeration.WeekDay;
+import ch.scythe.hsr.enumeration.Weekday;
 
 @Deprecated
 public class Day implements Serializable {
@@ -37,9 +37,9 @@ public class Day implements Serializable {
 	private static final long serialVersionUID = 1L;
 	// the LinkedHashMap has a defined ordering of the keys
 	private final Map<TimeUnit, List<Lesson>> lessons = new LinkedHashMap<TimeUnit, List<Lesson>>();
-	private final WeekDay weekDay;
+	private final Weekday weekDay;
 
-	public Day(Collection<Lesson> lessons, WeekDay weekDay) {
+	public Day(Collection<Lesson> lessons, Weekday weekDay) {
 		this.weekDay = weekDay;
 		putLessonsIntoTimeslots(lessons);
 	}
@@ -94,7 +94,7 @@ public class Day implements Serializable {
 		return result;
 	}
 
-	public WeekDay getWeekDay() {
+	public Weekday getWeekDay() {
 		return weekDay;
 	}
 
