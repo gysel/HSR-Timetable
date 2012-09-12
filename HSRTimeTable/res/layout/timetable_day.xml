@@ -1,35 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/headerRow"
-        style="@style/table_header"
+    <ScrollView
+        android:id="@+id/linearLayout3"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="3dp"
-        android:background="#0053A2" />
+        android:orientation="vertical"
+        tools:ignore="UselessParent" > <!-- TODO remove the ScrollView entirely -->
 
-    <ScrollView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/scrollView1"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
-
-        <LinearLayout
-            android:id="@+id/linearLayout3"
+        <TableLayout
+            android:id="@+id/timeTable"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:layout_height="wrap_content" />
 
-            <TableLayout
-                android:id="@+id/timeTable"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
     </ScrollView>
 
 </LinearLayout>

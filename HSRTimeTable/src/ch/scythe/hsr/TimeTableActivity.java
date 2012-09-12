@@ -56,6 +56,8 @@ import ch.scythe.hsr.error.ServerConnectionException;
 import ch.scythe.hsr.helper.AndroidHelper;
 import ch.scythe.hsr.helper.DateHelper;
 
+import com.viewpagerindicator.TitlePageIndicator;
+
 public class TimeTableActivity extends FragmentActivity {
 	// _Pager
 	public static final int NUM_ITEMS = 6;
@@ -86,6 +88,14 @@ public class TimeTableActivity extends FragmentActivity {
 
 		dayPager = (ViewPager) findViewById(R.id.day_pager);
 		dayPager.setAdapter(fragmentPageAdapter);
+
+		// Set the pager with an adapter
+		// ViewPager pager = (ViewPager)findViewById(R.id.pager);
+		// dayPager.setAdapter(new TestAdapter(getSupportFragmentManager()));
+
+		// Bind the title indicator to the adapter
+		TitlePageIndicator titleIndicator = (TitlePageIndicator) findViewById(R.id.titles);
+		titleIndicator.setViewPager(dayPager);
 
 		datebox = (TextView) findViewById(R.id.date_value);
 		weekbox = (TextView) findViewById(R.id.week_value);
@@ -284,6 +294,11 @@ public class TimeTableActivity extends FragmentActivity {
 		}
 
 		@Override
+		public CharSequence getPageTitle(int position) {
+			return getString(getWeekday(position).getResourceReference());
+		}
+
+		@Override
 		public int getCount() {
 			return NUM_ITEMS;
 		}
@@ -292,7 +307,7 @@ public class TimeTableActivity extends FragmentActivity {
 		public Fragment getItem(int position) {
 			DayFragment fragment = new DayFragment();
 
-			Weekday weekDay = Weekday.getById(position + 1);
+			Weekday weekDay = getWeekday(position);
 
 			Bundle args = new Bundle();
 			args.putSerializable(DayFragment.FRAGMENT_PARAMETER_DATA, week);
@@ -302,6 +317,10 @@ public class TimeTableActivity extends FragmentActivity {
 			activeFragments.put(position, fragment);
 
 			return fragment;
+		}
+
+		private Weekday getWeekday(int position) {
+			return Weekday.getById(position + 1);
 		}
 
 		@Override

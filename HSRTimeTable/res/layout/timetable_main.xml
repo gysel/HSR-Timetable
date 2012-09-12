@@ -78,6 +78,11 @@
         </LinearLayout>
     </LinearLayout>
 
+    <com.viewpagerindicator.TitlePageIndicator
+		android:id="@+id/titles"
+		android:layout_height="wrap_content"
+		android:layout_width="fill_parent" />
+    
     <android.support.v4.view.ViewPager
         android:id="@+id/day_pager"
         android:layout_width="fill_parent"

@@ -75,9 +75,6 @@ public class DayFragment extends DialogFragment {
 		View v = inflater.inflate(R.layout.timetable_day, container, false);
 		TableLayout timeTable = (TableLayout) v.findViewById(R.id.timeTable);
 
-		TextView headerCell = (TextView) v.findViewById(R.id.headerRow);
-		headerCell.setText(getString(weekDay.getResourceReference()));
-
 		updateTable(timeTable);
 
 		return v;
