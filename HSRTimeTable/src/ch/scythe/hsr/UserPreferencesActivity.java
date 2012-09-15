@@ -22,27 +22,28 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.os.Bundle;
 import android.preference.Preference;
-import android.preference.PreferenceActivity;
 import ch.scythe.hsr.helper.AndroidHelper;
 
-public class UserPreferencesActivity extends PreferenceActivity {
+import com.actionbarsherlock.app.SherlockPreferenceActivity;
+
+public class UserPreferencesActivity extends SherlockPreferenceActivity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.user_preferences);
 
-		//		Preference removeAccount = findPreference(getString(R.string.key_removeaccount));
+		// Preference removeAccount = findPreference(getString(R.string.key_removeaccount));
 
 		Preference login = findPreference(getString(R.string.key_login));
 
 		Account account = AndroidHelper.getAccount(AccountManager.get(getApplicationContext()));
 		if (account != null) {
 			login.setSummary(account.name);
-			//			removeAccount.setEnabled(true);
+			// removeAccount.setEnabled(true);
 		} else {
 			login.setSummary(getString(R.string.preferences_account_not_there));
-			//			removeAccount.setEnabled(false);
+			// removeAccount.setEnabled(false);
 		}
 
 	}

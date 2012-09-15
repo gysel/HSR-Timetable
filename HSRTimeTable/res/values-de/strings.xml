@@ -3,13 +3,13 @@
     <string name="app_name">HSR Stundenplan</string>
     <string name="button_cancel">Abbrechen</string>
     <string name="button_ok">Ok</string>
-    <string name="button_today">Heute</string>
     <string name="button_add_login">Login hinzufügen</string>
     <string name="default_novalue">-</string>
     <string name="label_date_label">Letzte Aktual.:</string>
     <string name="label_week">Akt. Woche:</string>
     <string name="menu_preferences">Einstellungen</string>
     <string name="menu_refresh">Aktualisieren</string>
+    <string name="menu_today">Heute</string>
     <string name="message_configure_credentials">Bitte hinterlege deinen HSR Login.</string>
     <string name="message_error_while_fetching">Laden der Daten ist fehlgeschlagen.</string>
     <string name="message_error_while_connecting">Verbindung zum Server fehlgeschlagen.</string>
@@ -19,6 +19,7 @@
     <string name="message_no_lessons">Keine Lektionen an diesem Tag.</string>
     <string name="preferences_login_credentials">Benutzerdaten</string>
     <string name="preferences_login">HSR Benutzername</string>
+    <string name="preferences_account_remove">Benutzername löschen</string>
     <string name="preferences_password">Passwort</string>
     <string name="preferences_password_text">Dein Passwort wird ausschliesslich an den HSR Server gesendet.</string>
     <string name="key_login">login</string>

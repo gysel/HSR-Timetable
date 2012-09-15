@@ -2,13 +2,13 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <PreferenceCategory android:title="@string/preferences_login_credentials" >
-        <Preference
+        <Preference android:enabled="false"
             android:key="@string/key_login"
             android:title="@string/preferences_login" />
-<!--         <Preference -->
-<!--             android:key="@string/key_removeaccount" -->
-<!--             android:title="@string/preferences_account_remove" -->
-<!--             /> -->
+        <Preference android:enabled="false"
+            android:key="@string/key_removeaccount"
+            android:title="@string/preferences_account_remove"
+            />
     </PreferenceCategory>
     
     <PreferenceCategory android:title="@string/preferences_sync" >

@@ -21,7 +21,7 @@
         <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
     </style>
     <style name="aboutTextView" parent="android:Widget.TextView">
-<!--         <item name="android:layout_margin">7dp</item> -->
+		<!--         <item name="android:layout_margin">7dp</item> -->
         <item name="android:layout_marginLeft">7dp</item>
         <item name="android:layout_marginBottom">7dp</item>
         <item name="android:lineSpacingMultiplier">1.2</item>

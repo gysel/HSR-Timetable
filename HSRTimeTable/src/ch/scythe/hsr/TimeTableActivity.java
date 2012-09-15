@@ -36,13 +36,10 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.util.Linkify;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import ch.scythe.hsr.api.RequestException;
@@ -56,9 +53,12 @@ import ch.scythe.hsr.error.ServerConnectionException;
 import ch.scythe.hsr.helper.AndroidHelper;
 import ch.scythe.hsr.helper.DateHelper;
 
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 import com.viewpagerindicator.TitlePageIndicator;
 
-public class TimeTableActivity extends FragmentActivity {
+public class TimeTableActivity extends SherlockFragmentActivity {
 	// _Pager
 	public static final int NUM_ITEMS = 6;
 	private ViewPager dayPager;
@@ -129,7 +129,7 @@ public class TimeTableActivity extends FragmentActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.mainmenu, menu);
+		getSupportMenuInflater().inflate(R.menu.mainmenu, menu);
 		return true;
 	}
 
@@ -143,12 +143,17 @@ public class TimeTableActivity extends FragmentActivity {
 			startRequest(new Date(), true);
 			break;
 		case R.id.about:
+			// TODO dont show as dialog
 			showDialog(DIALOG_ABOUT);
+			break;
+		case R.id.today:
+			scrollToToday();
 			break;
 		}
 		return true;
 	}
 
+	// TODO remove
 	public void showToday(View view) {
 		scrollToToday();
 	}

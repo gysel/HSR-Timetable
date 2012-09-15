@@ -4,83 +4,52 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-        <TextView
-            android:id="@+id/title"
-            style="@style/app_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/app_name" />
-
-        <TableLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
-
-            <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" >
-
-                <TextView
-                    android:id="@+id/date_label"
-                    style="@style/table_cell"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/label_date_label" />
-
-                <TextView
-                    android:id="@+id/date_value"
-                    style="@style/table_cell"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/default_novalue" />
-            </TableRow>
-
-            <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" >
-
-                <TextView
-                    android:id="@+id/week_label"
-                    style="@style/table_cell"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="0dp"
-                    android:text="@string/label_week" />
-
-                <TextView
-                    android:id="@+id/week_value"
-                    style="@style/table_cell"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="0dp"
-                    android:text="@string/default_novalue" />
-            </TableRow>
-        </TableLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="right" >
-
-            <Button
-                android:id="@+id/button_today"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="showToday"
-                android:text="@string/button_today" >
-            </Button>
-        </LinearLayout>
-    </LinearLayout>
-
+    <com.viewpagerindicator.TitlePageIndicator 
+        android:id="@+id/titles" 
+        android:layout_height="wrap_content" 
+        android:layout_width="fill_parent" />
+    
     <android.support.v4.view.ViewPager
         android:id="@+id/day_pager"
         android:layout_width="fill_parent"
         android:layout_height="0px"
         android:layout_weight="1" >
     </android.support.v4.view.ViewPager>
+    
+	<LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
 
+     <TextView
+         android:id="@+id/date_label"
+         style="@style/table_cell"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:text="@string/label_date_label" />
+
+     <TextView
+         android:id="@+id/date_value"
+         style="@style/table_cell"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:text="@string/default_novalue" />
+     
+     <TextView
+         android:id="@+id/week_label"
+         style="@style/table_cell"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:paddingTop="0dp"
+         android:text="@string/label_week" />
+
+     <TextView
+         android:id="@+id/week_value"
+         style="@style/table_cell"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:paddingTop="0dp"
+         android:text="@string/default_novalue" />
+
+    </LinearLayout>
 </LinearLayout>
