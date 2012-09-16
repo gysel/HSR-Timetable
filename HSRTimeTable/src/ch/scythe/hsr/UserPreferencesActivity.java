@@ -20,11 +20,14 @@ package ch.scythe.hsr;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.preference.Preference;
 import ch.scythe.hsr.helper.AndroidHelper;
 
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
+import com.actionbarsherlock.view.MenuItem;
 
 public class UserPreferencesActivity extends SherlockPreferenceActivity {
 
@@ -32,6 +35,8 @@ public class UserPreferencesActivity extends SherlockPreferenceActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.user_preferences);
+		final ActionBar ab = getSupportActionBar();
+		ab.setDisplayHomeAsUpEnabled(true);
 
 		// Preference removeAccount = findPreference(getString(R.string.key_removeaccount));
 
@@ -46,6 +51,18 @@ public class UserPreferencesActivity extends SherlockPreferenceActivity {
 			// removeAccount.setEnabled(false);
 		}
 
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			startActivity(new Intent(this, TimeTableActivity.class));
+			break;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+		return true;
 	}
 
 }
