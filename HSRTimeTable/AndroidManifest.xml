@@ -51,7 +51,9 @@
             </intent-filter>
         </activity>
         
-        <activity android:name=".UserPreferencesActivity" android:label="@string/app_name" android:theme="@style/Theme.Sherlock" />
+        <activity android:name=".UserPreferencesActivity" android:label="@string/menu_preferences" android:theme="@style/Theme.Sherlock" />
+        
+        <activity android:name=".AboutActivity" android:label="@string/menu_about" android:theme="@style/Theme.Sherlock" />
 
     </application>
     

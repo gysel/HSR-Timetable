@@ -18,39 +18,33 @@
  */
 package ch.scythe.hsr;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.Preference;
+import android.text.util.Linkify;
+import android.widget.TextView;
 import ch.scythe.hsr.helper.AndroidHelper;
 
 import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockPreferenceActivity;
+import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.MenuItem;
 
-public class UserPreferencesActivity extends SherlockPreferenceActivity {
+public class AboutActivity extends SherlockActivity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		addPreferencesFromResource(R.xml.user_preferences);
-		final ActionBar actionBar = getSupportActionBar();
-		actionBar.setDisplayHomeAsUpEnabled(true);
+		final ActionBar ab = getSupportActionBar();
+		ab.setDisplayHomeAsUpEnabled(true);
+		setContentView(R.layout.about);
 
-		// Preference removeAccount = findPreference(getString(R.string.key_removeaccount));
+		setTitle(getString(R.string.app_name) + " v" + AndroidHelper.getAppVersionName(getApplicationContext()));
+		linkify((TextView) findViewById(R.id.aboutAuthor));
+		linkify((TextView) findViewById(R.id.aboutContact));
 
-		Preference login = findPreference(getString(R.string.key_login));
+	}
 
-		Account account = AndroidHelper.getAccount(AccountManager.get(getApplicationContext()));
-		if (account != null) {
-			login.setSummary(account.name);
-			// removeAccount.setEnabled(true);
-		} else {
-			login.setSummary(getString(R.string.preferences_account_not_there));
-			// removeAccount.setEnabled(false);
-		}
-
+	private void linkify(TextView textViewWithLinks) {
+		Linkify.addLinks(textViewWithLinks, Linkify.ALL);
 	}
 
 	@Override

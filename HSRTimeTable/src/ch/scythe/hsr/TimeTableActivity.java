@@ -39,7 +39,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.text.util.Linkify;
 import android.view.View;
 import android.widget.TextView;
 import ch.scythe.hsr.api.RequestException;
@@ -72,7 +71,6 @@ public class TimeTableActivity extends SherlockFragmentActivity {
 	private static final int DIALOG_ERROR_FETCH = 1;
 	private static final int DIALOG_ERROR_CONNECT = 2;
 	private static final int DIALOG_ERROR_PARSE = 3;
-	private static final int DIALOG_ABOUT = 4;
 	// _Android
 	private AccountManager accountManager;
 	// _State
@@ -143,8 +141,7 @@ public class TimeTableActivity extends SherlockFragmentActivity {
 			startRequest(new Date(), true);
 			break;
 		case R.id.about:
-			// TODO dont show as dialog
-			showDialog(DIALOG_ABOUT);
+			startActivity(new Intent(this, AboutActivity.class));
 			break;
 		case R.id.today:
 			scrollToToday();
@@ -205,21 +202,10 @@ public class TimeTableActivity extends SherlockFragmentActivity {
 			builder.setMessage(getString(R.string.message_error_while_parsing)).setPositiveButton(getString(R.string.button_ok), null);
 			result = builder.create();
 			break;
-		case DIALOG_ABOUT:
-			result = new Dialog(this);
-			result.setContentView(R.layout.about);
-			result.setTitle(getString(R.string.app_name) + " v" + AndroidHelper.getAppVersionName(getApplicationContext()));
-			linkify((TextView) result.findViewById(R.id.aboutAuthor));
-			linkify((TextView) result.findViewById(R.id.aboutContact));
-			break;
 		default:
 			result = null;
 		}
 		return result;
-	}
-
-	private void linkify(TextView textViewWithLinks) {
-		Linkify.addLinks(textViewWithLinks, Linkify.ALL);
 	}
 
 	class FetchDataTask extends AsyncTask<Object, Integer, UiWeek> {
