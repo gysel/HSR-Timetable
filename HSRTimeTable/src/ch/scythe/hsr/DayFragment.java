@@ -26,7 +26,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 import ch.scythe.hsr.api.ui.UiDay;
 import ch.scythe.hsr.api.ui.UiLesson;
@@ -94,15 +93,13 @@ public class DayFragment extends DialogFragment {
 			}
 		} else {
 			String message = getString(R.string.message_no_data);
-			// TODO refactor this
 			showInfoRow(timeTable, message);
 		}
 	}
 
 	private void showInfoRow(TableLayout timeTable, String message) {
-		TableRow descriptionRow = (TableRow) layoutInflater.inflate(R.layout.timetable_info_row, null);
-		// TODO can we use an id here?
-		TextView infoField = (TextView) descriptionRow.getChildAt(0);
+		View descriptionRow = (View) layoutInflater.inflate(R.layout.timetable_info_row, null);
+		TextView infoField = (TextView) descriptionRow.findViewById(R.id.infoRow);
 		infoField.setText(message);
 		timeTable.addView(descriptionRow);
 	}
@@ -143,10 +140,10 @@ public class DayFragment extends DialogFragment {
 		} else {
 			// TODO don't show anything (not even the time...) and merge with
 			// the info row
-			View secondRow = row.findViewById(R.id.secondRow);
-			secondRow.setVisibility(View.GONE);
-			descriptionField.setVisibility(View.GONE);
-			typeField.setVisibility(View.GONE);
+			// View secondRow = row.findViewById(R.id.secondRow);
+			// secondRow.setVisibility(View.GONE);
+			// descriptionField.setVisibility(View.GONE);
+			// typeField.setVisibility(View.GONE);
 		}
 
 	}

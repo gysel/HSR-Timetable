@@ -5,7 +5,7 @@
  * should not be modified by hand.
  */
 
-package ch.scythe.hsr;
+package com.actionbarsherlock;
 
 public final class R {
     public static final class attr {

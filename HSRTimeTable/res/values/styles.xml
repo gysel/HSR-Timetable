@@ -1,6 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
-    <style name="app_title" parent="android:Widget.TextView">
+    <style name="row_cell">
+        <item name="android:layout_gravity">bottom</item>
+        <item name="android:padding">0dp</item>
+    </style>
+    <style name="row_cell_small" parent="row_cell">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">?android:attr/textColorSecondary</item>
+    </style>
+    <style name="row_cell_medium" parent="row_cell">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+    </style>
+    <style name="row_cell_small_emphasis" parent="row_cell_small">
+		<item name="android:textStyle">italic</item>
+    </style>
+    <style name="footer">
+		<item name="android:padding">4dp</item>
+		<item name="android:background">@android:color/background_dark</item>
+    </style>
+    <style name="footerText">
+        <item name="android:textColor">@android:color/secondary_text_dark</item>
+		<item name="android:textStyle">italic</item>
+		<item name="android:paddingRight">4sp</item>
+    </style>
+    <style name="footerLabel" parent="footerText">
+		<item name="android:textStyle">bold</item>
+    </style>
+    
+    <!-- <style name="app_title" parent="android:Widget.TextView">
         <item name="android:layout_marginBottom">5dip</item>
         <item name="android:layout_marginLeft">5dip</item>
         <item name="android:layout_marginRight">5dip</item>
@@ -21,12 +49,12 @@
         <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
     </style>
     <style name="aboutTextView" parent="android:Widget.TextView">
-		<!--         <item name="android:layout_margin">7dp</item> -->
+		<!- -         <item name="android:layout_margin">7dp</item> - ->
         <item name="android:layout_marginLeft">7dp</item>
         <item name="android:layout_marginBottom">7dp</item>
         <item name="android:lineSpacingMultiplier">1.2</item>
     </style>
     <style name="rowStyle" parent="android:Widget.TextView">
         <item name="android:layout_margin">3dp</item>
-    </style>
+    </style> -->
 </resources>

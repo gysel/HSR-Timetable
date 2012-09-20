@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableRow xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical" >
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:paddingTop="15dp" >
 
-    <TextView style="@style/table_cell_small" />
+        <TextView
+            android:id="@+id/infoRow"
+            style="@style/row_cell_small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
-</TableRow>
+</LinearLayout>

@@ -56,6 +56,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.viewpagerindicator.TitlePageIndicator;
+import com.viewpagerindicator.TitlePageIndicator.IndicatorStyle;
 
 public class TimeTableActivity extends SherlockFragmentActivity {
 	// _Pager
@@ -87,13 +88,21 @@ public class TimeTableActivity extends SherlockFragmentActivity {
 		dayPager = (ViewPager) findViewById(R.id.day_pager);
 		dayPager.setAdapter(fragmentPageAdapter);
 
-		// Set the pager with an adapter
-		// ViewPager pager = (ViewPager)findViewById(R.id.pager);
-		// dayPager.setAdapter(new TestAdapter(getSupportFragmentManager()));
+		final float density = getResources().getDisplayMetrics().density;
 
-		// Bind the title indicator to the adapter
 		TitlePageIndicator titleIndicator = (TitlePageIndicator) findViewById(R.id.titles);
 		titleIndicator.setViewPager(dayPager);
+
+		titleIndicator.setBackgroundColor(getResources().getColor(android.R.color.background_dark)); // 0x330065A3
+		titleIndicator.setFooterColor(0xFF0065A3);
+		titleIndicator.setFooterLineHeight(4 * density); // 1dp
+		titleIndicator.setFooterIndicatorHeight(6 * density); // 3dp
+		// titleIndicator.setFooterColor(0x330065A3);
+		// titleIndicator.setBackgroundColor(0xFF0065A3);
+		titleIndicator.setFooterIndicatorStyle(IndicatorStyle.Triangle);
+		titleIndicator.setTextColor(getResources().getColor(android.R.color.primary_text_dark));
+		titleIndicator.setTextColor(getResources().getColor(android.R.color.secondary_text_dark));
+		// titleIndicator.setSelectedColor(0xFFFAB61D);
 
 		datebox = (TextView) findViewById(R.id.date_value);
 		weekbox = (TextView) findViewById(R.id.week_value);

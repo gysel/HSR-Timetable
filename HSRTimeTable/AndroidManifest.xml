@@ -37,23 +37,23 @@
         </service> -->
         
         <activity android:name=".authenticator.AuthenticatorActivity" android:label="@string/authentication_label" 
-             android:theme="@style/Theme.Sherlock" android:excludeFromRecents="true">
+             android:theme="@style/Theme.Sherlock.Light" android:excludeFromRecents="true">
             <!--
                 No intent-filter here! This activity is only ever launched by
                 someone who explicitly knows the class name
             -->
         </activity>
         
-        <activity android:name=".TimeTableActivity" android:label="@string/app_name" android:theme="@style/Theme.Sherlock">
+        <activity android:name=".TimeTableActivity" android:label="@string/app_name" android:theme="@style/Theme.Sherlock.Light">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         
-        <activity android:name=".UserPreferencesActivity" android:label="@string/menu_preferences" android:theme="@style/Theme.Sherlock" />
+        <activity android:name=".UserPreferencesActivity" android:label="@string/menu_preferences" android:theme="@style/Theme.Sherlock.Light" />
         
-        <activity android:name=".AboutActivity" android:label="@string/menu_about" android:theme="@style/Theme.Sherlock" />
+        <activity android:name=".AboutActivity" android:label="@string/menu_about" android:theme="@style/Theme.Sherlock.Light" />
 
     </application>
     

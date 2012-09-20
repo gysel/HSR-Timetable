@@ -5,11 +5,12 @@
     <string name="button_ok">Ok</string>
     <string name="button_add_login">Login hinzufügen</string>
     <string name="default_novalue">-</string>
-    <string name="label_date_label">Letzte Aktual.:</string>
-    <string name="label_week">Akt. Woche:</string>
+    <string name="label_date_label">Letzte Aktual.: </string>
+    <string name="label_week">Akt. Woche: </string>
     <string name="menu_preferences">Einstellungen</string>
     <string name="menu_refresh">Aktualisieren</string>
     <string name="menu_today">Heute</string>
+    <string name="menu_about">Info</string>
     <string name="message_configure_credentials">Bitte hinterlege deinen HSR Login.</string>
     <string name="message_error_while_fetching">Laden der Daten ist fehlgeschlagen.</string>
     <string name="message_error_while_connecting">Verbindung zum Server fehlgeschlagen.</string>
@@ -22,8 +23,12 @@
     <string name="preferences_account_remove">Benutzername löschen</string>
     <string name="preferences_password">Passwort</string>
     <string name="preferences_password_text">Dein Passwort wird ausschliesslich an den HSR Server gesendet.</string>
+    <string name="preferences_account_not_there">Kein Benutzername konfiguriert</string>
+    <string name="preferences_sync">Synchronisation</string>
+    <string name="preferences_sync_schedule">Plan</string>
     <string name="key_login">login</string>
     <string name="key_password">password</string>
+    <string name="key_removeaccount">removeaccount</string>
     <string name="weekday_monday">Montag</string>
     <string name="weekday_tuesday">Dienstag</string>
     <string name="weekday_wednesday">Mittwoch</string>
@@ -31,4 +36,15 @@
     <string name="weekday_friday">Freitag</string>
     <string name="weekday_saturday">Samstag</string>
     <string name="weekday_sunday">Sonntag</string>
+    <string name="login_activity_username_label">Benutzername</string>
+    <string name="login_activity_password_label">Passwort</string>
+    <string name="login_activity_newaccount_text">Bitte mit dem HSR Benutzernamen anmlden.</string>
+    <string name="login_activity_loginfail_text_pwmissing">Bitte das Password eingeben.</string>
+    <string name="login_activity_ok_button">Anmelden</string>
+    <string name="login_activity_loginfail_text_both">Ungültige Benutzerdaten, bitte nochmal versuchen.</string>
+    <string name="ui_activity_authenticating">Anmeldung\u2026</string>
+    <string name="authentication_label">HSR Benutzername</string>
+    <string name="authentication_title">Einstellungen</string>
+    <string name="authentication_summary">Synchronisationsplan, Benutzername, usw.</string>
+
 </resources>
