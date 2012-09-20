@@ -38,7 +38,7 @@
     <string name="weekday_sunday">Sonntag</string>
     <string name="login_activity_username_label">Benutzername</string>
     <string name="login_activity_password_label">Passwort</string>
-    <string name="login_activity_newaccount_text">Bitte mit dem HSR Benutzernamen anmlden.</string>
+    <string name="login_activity_newaccount_text">Bitte mit dem HSR Benutzernamen anmelden.</string>
     <string name="login_activity_loginfail_text_pwmissing">Bitte das Password eingeben.</string>
     <string name="login_activity_ok_button">Anmelden</string>
     <string name="login_activity_loginfail_text_both">Ungültige Benutzerdaten, bitte nochmal versuchen.</string>
