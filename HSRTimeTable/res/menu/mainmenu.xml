@@ -1,9 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    
-    <item android:id="@+id/refresh" android:title="@string/menu_refresh" android:showAsAction="ifRoom" />
-    <item android:id="@+id/today" android:title="@string/menu_today" android:showAsAction="ifRoom" />
-    <item android:title="@string/menu_preferences" android:id="@+id/preferences" />
-    <item android:title="@string/menu_about" android:id="@+id/about" />
-    
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/refresh"
+        android:icon="@drawable/navigationrefresh"
+        android:showAsAction="ifRoom|withText"
+        android:title="@string/menu_refresh"/>
+    <item
+        android:id="@+id/today"
+        android:icon="@drawable/gototoday"
+        android:showAsAction="ifRoom|withText"
+        android:title="@string/menu_today"/>
+    <item
+        android:id="@+id/preferences"
+        android:title="@string/menu_preferences"/>
+    <item
+        android:id="@+id/about"
+        android:title="@string/menu_about"/>
+
 </menu>

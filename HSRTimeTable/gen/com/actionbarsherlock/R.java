@@ -1090,14 +1090,16 @@ containing a value of this type.
         public static final int abs__tab_selected_pressed_holo=0x7f020053;
         public static final int abs__tab_unselected_pressed_holo=0x7f020054;
         public static final int adunis=0x7f020055;
-        public static final int icon=0x7f020056;
-        public static final int vpi__tab_indicator=0x7f020057;
-        public static final int vpi__tab_selected_focused_holo=0x7f020058;
-        public static final int vpi__tab_selected_holo=0x7f020059;
-        public static final int vpi__tab_selected_pressed_holo=0x7f02005a;
-        public static final int vpi__tab_unselected_focused_holo=0x7f02005b;
-        public static final int vpi__tab_unselected_holo=0x7f02005c;
-        public static final int vpi__tab_unselected_pressed_holo=0x7f02005d;
+        public static final int gototoday=0x7f020056;
+        public static final int icon=0x7f020057;
+        public static final int navigationrefresh=0x7f020058;
+        public static final int vpi__tab_indicator=0x7f020059;
+        public static final int vpi__tab_selected_focused_holo=0x7f02005a;
+        public static final int vpi__tab_selected_holo=0x7f02005b;
+        public static final int vpi__tab_selected_pressed_holo=0x7f02005c;
+        public static final int vpi__tab_unselected_focused_holo=0x7f02005d;
+        public static final int vpi__tab_unselected_holo=0x7f02005e;
+        public static final int vpi__tab_unselected_pressed_holo=0x7f02005f;
     }
     public static final class id {
         public static final int about=0x7f050044;
