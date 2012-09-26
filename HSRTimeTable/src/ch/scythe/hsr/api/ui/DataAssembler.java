@@ -63,7 +63,8 @@ public class DataAssembler {
 				uiLesson.setType(lesson.getType());
 				uiLesson.setTimeSlot(allocation.getTimeslot());
 				uiLesson.setDescription(allocation.getDescription());
-				uiLesson.setLecturer(implodeLecturers(lesson.getLecturers()));
+				uiLesson.setLecturerShort(implodeLecturers(lesson.getLecturers(), true));
+				uiLesson.setLecturerLong(implodeLecturers(lesson.getLecturers(), false));
 				uiLesson.setRoom(implodeRooms(allocation.getRoomAllocations()));
 				result.add(uiLesson);
 			}
@@ -71,11 +72,15 @@ public class DataAssembler {
 		return result;
 	}
 
-	static String implodeLecturers(List<JsonLecturer> lecturers) {
+	static String implodeLecturers(List<JsonLecturer> lecturers, boolean shortVersion) {
 		StringBuilder result = new StringBuilder();
 		for (Iterator<JsonLecturer> iterator = lecturers.iterator(); iterator.hasNext();) {
 			JsonLecturer lecturer = iterator.next();
-			result.append(lecturer.getShortname());
+			if (shortVersion) {
+				result.append(lecturer.getShortname());
+			} else {
+				result.append(lecturer.getFullname());
+			}
 			if (iterator.hasNext()) {
 				result.append(LIST_SEPARATOR);
 			}

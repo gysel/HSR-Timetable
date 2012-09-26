@@ -118,7 +118,8 @@ public class DayFragment extends DialogFragment {
 
 		TextView timeUnitField = (TextView) row.findViewById(R.id.rowTimeunit);
 		TextView lessonField = (TextView) row.findViewById(R.id.rowLesson);
-		TextView lecturerField = (TextView) row.findViewById(R.id.rowLecturer);
+		TextView lecturerFieldShort = (TextView) row.findViewById(R.id.rowLecturerShort);
+		TextView lecturerFieldLong = (TextView) row.findViewById(R.id.rowLecturerLong);
 		TextView roomField = (TextView) row.findViewById(R.id.rowRoom);
 		TextView descriptionField = (TextView) row.findViewById(R.id.rowDescription);
 		TextView typeField = (TextView) row.findViewById(R.id.rowType);
@@ -127,9 +128,15 @@ public class DayFragment extends DialogFragment {
 		timeUnitField.setText(lesson.getTimeSlot());
 		timeTable.addView(row);
 		if (lesson != null) {
+
 			lessonField.setText(lesson.getName());
 			roomField.setText(lesson.getRoom());
-			lecturerField.setText(lesson.getLecturer());
+
+			if (lecturerFieldShort != null)
+				lecturerFieldShort.setText(lesson.getLecturerShort());
+			if (lecturerFieldLong != null)
+				lecturerFieldLong.setText(lesson.getLecturerLong());
+
 			typeField.setText(lesson.getType());
 
 			if (lesson.hasDescription()) {
@@ -147,5 +154,4 @@ public class DayFragment extends DialogFragment {
 		}
 
 	}
-
 }

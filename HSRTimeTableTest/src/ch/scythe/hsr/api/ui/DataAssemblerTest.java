@@ -1,6 +1,8 @@
 package ch.scythe.hsr.api.ui;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,8 +42,7 @@ public class DataAssemblerTest {
 		String mathUname = "An2I-u22";
 		String mathUtype = "Uebung";
 		// Set up fixture
-		JsonDay wednesday = createDay(3, createLesson(mathVname, mathVtype, "", "10:10 - 10:55"),
-				createLesson(mathUname, mathUtype, "", "11:05 - 11:50"));
+		JsonDay wednesday = createDay(3, createLesson(mathVname, mathVtype, "", "10:10 - 10:55"), createLesson(mathUname, mathUtype, "", "11:05 - 11:50"));
 		JsonTimetableWeek jsonData = createWeek(wednesday);
 		// Exercise sut
 		UiWeek uiData = DataAssembler.convert(jsonData);
@@ -98,7 +99,7 @@ public class DataAssemblerTest {
 		assertNotNull(day);
 		List<UiLesson> lessons = day.getLessons();
 		//
-		assertEquals(TextHelper.implodeArray(lecturers, DataAssembler.LIST_SEPARATOR), lessons.get(0).getLecturer());
+		assertEquals(TextHelper.implodeArray(lecturers, DataAssembler.LIST_SEPARATOR), lessons.get(0).getLecturerShort());
 		assertEquals(TextHelper.implodeArray(rooms, DataAssembler.LIST_SEPARATOR), lessons.get(0).getRoom());
 	}
 

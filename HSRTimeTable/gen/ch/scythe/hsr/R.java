@@ -1102,7 +1102,7 @@ containing a value of this type.
         public static final int vpi__tab_unselected_pressed_holo=0x7f02005f;
     }
     public static final class id {
-        public static final int about=0x7f050044;
+        public static final int about=0x7f050045;
         public static final int aboutAuthor=0x7f050013;
         public static final int aboutContact=0x7f050014;
         public static final int abs__action_bar=0x7f050027;
@@ -1148,12 +1148,13 @@ containing a value of this type.
         public static final int normal=0x7f050001;
         public static final int ok_button=0x7f050031;
         public static final int password_edit=0x7f05002f;
-        public static final int preferences=0x7f050043;
-        public static final int refresh=0x7f050041;
-        public static final int rowDescription=0x7f050040;
-        public static final int rowLecturer=0x7f05003e;
+        public static final int preferences=0x7f050044;
+        public static final int refresh=0x7f050042;
+        public static final int rowDescription=0x7f05003f;
+        public static final int rowLecturerLong=0x7f050041;
+        public static final int rowLecturerShort=0x7f050040;
         public static final int rowLesson=0x7f05003c;
-        public static final int rowRoom=0x7f05003f;
+        public static final int rowRoom=0x7f05003e;
         public static final int rowTimeunit=0x7f05003b;
         public static final int rowType=0x7f05003d;
         public static final int showCustom=0x7f050008;
@@ -1162,7 +1163,7 @@ containing a value of this type.
         public static final int tabMode=0x7f050003;
         public static final int timeTable=0x7f050033;
         public static final int titles=0x7f050035;
-        public static final int today=0x7f050042;
+        public static final int today=0x7f050043;
         public static final int triangle=0x7f050011;
         public static final int underline=0x7f050012;
         public static final int useLogo=0x7f050004;
@@ -1208,6 +1209,7 @@ containing a value of this type.
         public static final int timetable_info_row=0x7f030019;
         public static final int timetable_main=0x7f03001a;
         public static final int timetable_row=0x7f03001b;
+        public static final int timetable_row_lecturer=0x7f03001c;
     }
     public static final class menu {
         public static final int mainmenu=0x7f0c0000;

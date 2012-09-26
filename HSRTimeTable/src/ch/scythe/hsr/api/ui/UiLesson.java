@@ -25,7 +25,8 @@ public class UiLesson implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String name;
 	private String timeSlot;
-	private String lecturer;
+	private String lecturerShort;
+	private String lecturerLong;
 	private String type;
 	private String room;
 	private String description;
@@ -44,14 +45,6 @@ public class UiLesson implements Serializable {
 
 	public void setTimeSlot(String timeSlot) {
 		this.timeSlot = timeSlot;
-	}
-
-	public String getLecturer() {
-		return lecturer;
-	}
-
-	public void setLecturer(String lecturer) {
-		this.lecturer = lecturer;
 	}
 
 	public String getType() {
@@ -80,6 +73,22 @@ public class UiLesson implements Serializable {
 
 	public boolean hasDescription() {
 		return description != null && description.length() > 0;
+	}
+
+	public String getLecturerShort() {
+		return lecturerShort;
+	}
+
+	public void setLecturerShort(String lecturerShort) {
+		this.lecturerShort = lecturerShort;
+	}
+
+	public String getLecturerLong() {
+		return lecturerLong;
+	}
+
+	public void setLecturerLong(String lecturerLong) {
+		this.lecturerLong = lecturerLong;
 	}
 
 }
