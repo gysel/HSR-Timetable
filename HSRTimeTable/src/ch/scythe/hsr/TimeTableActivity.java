@@ -34,15 +34,19 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 import ch.scythe.hsr.api.RequestException;
 import ch.scythe.hsr.api.TimeTableAPI;
 import ch.scythe.hsr.api.ui.UiWeek;
@@ -237,7 +241,25 @@ public class TimeTableActivity extends SherlockFragmentActivity {
 
 		Account account = AndroidHelper.getAccount(accountManager);
 
+		// try to migrate settings
 		if (account == null) {
+			SharedPreferences oldPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+			String login = oldPrefs.getString(getString(R.string.key_login), null);
+			String password = oldPrefs.getString(getString(R.string.key_password), null);
+
+			if (!TextUtils.isEmpty(login) && !TextUtils.isEmpty(password)) {
+				account = new Account(login.toLowerCase(), Constants.ACCOUNT_TYPE);
+				accountManager.addAccountExplicitly(account, password, null);
+				Toast.makeText(getApplicationContext(), "Automatically migrated your HSR Login into the Android AccountManager.", Toast.LENGTH_LONG).show();
+				Editor editor = oldPrefs.edit();
+				editor.clear();
+				editor.commit();
+			}
+
+		}
+
+		if (account == null) {
+
 			showDialog(DIALOG_NO_USER_PASS);
 		} else if (api.retrieveRequiresBlockingCall(forceRequest)) {
 			progress = ProgressDialog.show(this, "", getString(R.string.message_loading_data));

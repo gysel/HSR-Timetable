@@ -62,8 +62,8 @@ public class TimeTableAPI {
 	private static final String METHOD_GET_TIMEPERIOD = "Timeperiod/";
 
 	// _Cache details
-	private static final String TIMETABLE_CACHE_SERIALIZED = "timetable_cache.ser";
-	private static final String TIMETABLE_CACHE_TIMESTAMP = "timetable_timestamp.txt";
+	private static final String TIMETABLE_CACHE_SERIALIZED = "timetable_cache-v8.ser";
+	private static final String TIMETABLE_CACHE_TIMESTAMP = "timetable_timestamp-v8.txt";
 	// _Helper
 	private final Context context;
 	// _Logging details
