@@ -7,43 +7,76 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:paddingTop="8dp"
+        android:paddingLeft="16dp"
+        android:paddingBottom="16dp"
+        android:paddingRight="16dp">
 
         <TextView
+            style="@style/about_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="HSR Timetable provides students and lecturers at the Hochschule für Technik Rapperswil (HSR) access to their timetable." />
+            android:text="HSR Timetable provides students and lecturers of the Hochschule für Technik Rapperswil (HSR) access to their timetable." />
 
+        <TextView
+            style="@style/about_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="The Developer" />
+        
         <TextView
             android:id="@+id/aboutAuthor"
+            style="@style/about_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="The app is written and maintained by Michael Gysel and published under an open-source license on GitHub (https://github.com/theScythe/HSR-Timetable). Even though the source code is accessible, please do not republish the app in the Android Market as this version is officially supported and monitored by Michael Gysel and the HSR staff." />
-
+            android:text="The app is written and maintained by Michael Gysel and published under an open-source license on GitHub. github.com/theScythe/HSR-Timetable \n\nEven though the source code is accessible, please do not republish the app in the Android Market as this version is officially supported and monitored by Michael Gysel and the HSR staff." />
+        
         <TextView
+            style="@style/about_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Your data" />
+        
+        <TextView
+            style="@style/about_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="All data is provided by ADUNIS." />
 
         <ImageView
+            style="@style/about_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="#FFFFFF"
+            android:contentDescription="Adunis Logo"
             android:padding="5dp"
-            android:src="@drawable/adunis"
-            android:contentDescription="Adunis Logo" />
-
+            android:src="@drawable/adunis" />
+        
         <TextView
+            style="@style/about_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="The data made available by this App is non-binding. The only binding data source is unterricht.hsr.ch." />
+        
+        <TextView
+            style="@style/about_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Configured credentials are stored in a protected file and only sent to the HSR server." />
 
         <TextView
-            android:id="@+id/aboutContact"
+            style="@style/about_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Contact: \nMichael Gysel (mgysel@hsr.ch) to pay me a beer, report bugs or suggest features. \nHSR Business Applications Team (businessapps@hsr.ch) for everything else." />
+            android:text="Contact" />
 
+        <TextView
+            android:id="@+id/aboutContact"
+            style="@style/about_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Michael Gysel (mgysel@hsr.ch) to report bugs or suggest features. \n\nHSR Business Applications Team (businessapps@hsr.ch) for everything else." />
     </LinearLayout>
 
 </ScrollView>

@@ -1404,6 +1404,8 @@ containing a value of this type.
         public static final int Widget_Sherlock_Spinner_DropDown_ActionBar=0x7f0b0024;
         public static final int Widget_Sherlock_TextView_SpinnerItem=0x7f0b0032;
         public static final int Widget_TabPageIndicator=0x7f0b0059;
+        public static final int about_text=0x7f0b0062;
+        public static final int about_title=0x7f0b0063;
         public static final int footer=0x7f0b005f;
         public static final int footerLabel=0x7f0b0061;
         public static final int footerText=0x7f0b0060;

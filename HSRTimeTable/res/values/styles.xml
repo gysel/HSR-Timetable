@@ -27,6 +27,16 @@
     <style name="footerLabel" parent="footerText">
 		<item name="android:textStyle">bold</item>
     </style>
+    <style name="about_text">
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="about_title" parent="about_text">
+        <item name="android:textStyle">bold</item>
+        <item name="android:paddingBottom">0dp</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
     
     <!-- <style name="app_title" parent="android:Widget.TextView">
         <item name="android:layout_marginBottom">5dip</item>
