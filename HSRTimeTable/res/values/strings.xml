@@ -15,6 +15,7 @@
     <string name="message_error_while_fetching">Error while fetching data.</string>
     <string name="message_error_while_connecting">Error while connecting to server.</string>
     <string name="message_error_while_parsing">Error while parsing server response.</string>
+    <string name="message_error_while_fetching_user">Error while reading the credentials.</string>
     <string name="message_loading_data">Loading data…</string>
     <string name="message_no_data">No data available. Please refresh.</string>
     <string name="message_no_lessons">No lessons on this day.</string>

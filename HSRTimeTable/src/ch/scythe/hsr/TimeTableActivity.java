@@ -33,12 +33,14 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import ch.scythe.hsr.api.RequestException;
@@ -59,7 +61,7 @@ import com.viewpagerindicator.TitlePageIndicator;
 import com.viewpagerindicator.TitlePageIndicator.IndicatorStyle;
 
 public class TimeTableActivity extends SherlockFragmentActivity {
-	// _Pager
+	// _ViewPager
 	public static final int NUM_ITEMS = 6;
 	private ViewPager dayPager;
 	private MyAdapter fragmentPageAdapter;
@@ -67,23 +69,36 @@ public class TimeTableActivity extends SherlockFragmentActivity {
 	private TextView datebox;
 	private TextView weekbox;
 	private ProgressDialog progress;
-	// private SharedPreferences preferences;
+	// _Android
+	private AccountManager accountManager;
+	private SharedPreferences preferences;
+	// _State
+	public UiWeek week = new UiWeek();
+	public Date lastAcessed;
+	// _Helpers
+	private TimeTableAPI api;
+	// _Keys
 	private static final int DIALOG_NO_USER_PASS = 0;
 	private static final int DIALOG_ERROR_FETCH = 1;
 	private static final int DIALOG_ERROR_CONNECT = 2;
 	private static final int DIALOG_ERROR_PARSE = 3;
-	// _Android
-	private AccountManager accountManager;
-	// _State
-	public UiWeek week = new UiWeek();
+	private static final int DIALOG_USER_PASS_FETCH = 4;
+	private static final String PREFERENCE_ACTIVATED_TAB_TIMESTAMP = "ActivatedTabTimestamp";
+	private static final String PREFERENCE_ACTIVATED_TAB = "ActivatedTab";
+	private static final String LOGGING_TAG = "TimeTableActivity";
+	private static final String SAVED_INSTANCE_TIMETABLE_WEEK = "TimetableWeek";
+	private static final int THRESHOLD_IN_MINUTES = 1;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		api = new TimeTableAPI(TimeTableActivity.this);
+
 		setContentView(R.layout.timetable_main);
 
 		fragmentPageAdapter = new MyAdapter(getSupportFragmentManager());
 		accountManager = AccountManager.get(getApplicationContext());
+		preferences = getPreferences(MODE_PRIVATE);
 
 		dayPager = (ViewPager) findViewById(R.id.day_pager);
 		dayPager.setAdapter(fragmentPageAdapter);
@@ -97,28 +112,34 @@ public class TimeTableActivity extends SherlockFragmentActivity {
 		titleIndicator.setFooterColor(0xFF0065A3);
 		titleIndicator.setFooterLineHeight(4 * density); // 1dp
 		titleIndicator.setFooterIndicatorHeight(6 * density); // 3dp
-		// titleIndicator.setFooterColor(0x330065A3);
-		// titleIndicator.setBackgroundColor(0xFF0065A3);
 		titleIndicator.setFooterIndicatorStyle(IndicatorStyle.Triangle);
 		titleIndicator.setTextColor(getResources().getColor(android.R.color.primary_text_dark));
 		titleIndicator.setTextColor(getResources().getColor(android.R.color.secondary_text_dark));
-		// titleIndicator.setSelectedColor(0xFFFAB61D);
 
 		datebox = (TextView) findViewById(R.id.date_value);
 		weekbox = (TextView) findViewById(R.id.week_value);
-		// preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
 		Date date = new Date();
 		weekbox.setText(DateHelper.formatToWeekNumber(date));
 
+		String days = week.getDays() != null ? Integer.valueOf(week.getDays().size()).toString() : "null";
+
 		UiWeek lastInstance = (UiWeek) getLastCustomNonConfigurationInstance();
-		if (lastInstance == null) {
-			startRequest(date, false);
-		} else {
+		if (lastInstance != null) {
+			Log.i(LOGGING_TAG, "Creating Activity from lastInstance.");
 			// there was a screen orientation change.
 			// we can don't have to create the ui...
 			week = lastInstance;
 			datebox.setText(DateHelper.formatToUserFriendlyFormat(week.getLastUpdate()));
+		} else if (savedInstanceState != null && savedInstanceState.containsKey(SAVED_INSTANCE_TIMETABLE_WEEK)) {
+			Log.i(LOGGING_TAG, "Creating Activity from savedInstanceState.");
+			// the state of the app was saved, so we can just update the ui
+			week = (UiWeek) savedInstanceState.get(SAVED_INSTANCE_TIMETABLE_WEEK);
+			// updateFragemetsWithData(week);
+		} else {
+			Log.i(LOGGING_TAG, "Creating Activity from scratch.");
+			// no data available, read it!
+			startRequest(date, false);
 		}
 
 	}
@@ -126,7 +147,19 @@ public class TimeTableActivity extends SherlockFragmentActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		// scrollToToday();
+		reloadCurrentTab();
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		persistCurrentTab();
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putSerializable(SAVED_INSTANCE_TIMETABLE_WEEK, week);
 	}
 
 	@Override
@@ -159,23 +192,63 @@ public class TimeTableActivity extends SherlockFragmentActivity {
 		return true;
 	}
 
+	private void persistCurrentTab() {
+		SharedPreferences.Editor editor = this.preferences.edit();
+		int currentTab = dayPager.getCurrentItem();
+		editor.putInt(PREFERENCE_ACTIVATED_TAB, currentTab);
+		editor.putLong(PREFERENCE_ACTIVATED_TAB_TIMESTAMP, new Date().getTime());
+		Log.d(LOGGING_TAG, "Persisting current tab: " + Weekday.getById(currentTab + 1));
+		editor.commit();
+	}
+
+	private void reloadCurrentTab() {
+		int activatedTab = preferences.getInt(PREFERENCE_ACTIVATED_TAB, -1);
+		long activatedTabTimestamp = preferences.getLong(PREFERENCE_ACTIVATED_TAB_TIMESTAMP, -1);
+
+		if (activatedTab == -1 || activatedTabTimestamp == -1) {
+			scrollToToday();
+		} else {
+			long timeDiff = new Date().getTime() - activatedTabTimestamp;
+
+			Log.d(LOGGING_TAG, "Timediff:" + timeDiff + "/" + 1000 * 60 * THRESHOLD_IN_MINUTES);
+
+			if (timeDiff > 1000 * 60 * THRESHOLD_IN_MINUTES) {
+				scrollToToday();
+			} else {
+				dayPager.setCurrentItem(activatedTab);
+				Log.d(LOGGING_TAG, "Reloading current tab: " + Weekday.getById(activatedTab + 1));
+			}
+
+		}
+	}
+
 	private void scrollToToday() {
+		Log.d(LOGGING_TAG, "Activating todays tab.");
 		Weekday today = Weekday.getByDate(new Date());
 		if (today == Weekday.SUNDAY) {
 			today = Weekday.MONDAY;
 		}
-		dayPager.setCurrentItem(today.getId() - 1);
+		dayPager.setCurrentItem(today.getId() - 1, true);
+		persistCurrentTab();
 	}
 
 	private synchronized void startRequest(Date date, boolean forceRequest) {
 
 		Account account = AndroidHelper.getAccount(accountManager);
 
-		if (account == null /* || inNullOrEmpty(password)*/) {
+		if (account == null) {
 			showDialog(DIALOG_NO_USER_PASS);
-		} else {
+		} else if (api.retrieveRequiresBlockingCall(forceRequest)) {
 			progress = ProgressDialog.show(this, "", getString(R.string.message_loading_data));
 			new FetchDataTask().execute(date, account, forceRequest);
+		} else {
+			new FetchDataTask().execute(date, account, forceRequest);
+		}
+	}
+
+	private void updateFragemetsWithData(UiWeek week) {
+		for (DayFragment fragment : fragmentPageAdapter.getActiveFragments()) {
+			fragment.updateDate(week);
 		}
 	}
 
@@ -206,6 +279,10 @@ public class TimeTableActivity extends SherlockFragmentActivity {
 			builder.setMessage(getString(R.string.message_error_while_parsing)).setPositiveButton(getString(R.string.button_ok), null);
 			result = builder.create();
 			break;
+		case DIALOG_USER_PASS_FETCH:
+			builder.setMessage(getString(R.string.message_error_while_fetching_user)).setPositiveButton(getString(R.string.button_ok), null);
+			result = builder.create();
+			break;
 		default:
 			result = null;
 		}
@@ -214,7 +291,6 @@ public class TimeTableActivity extends SherlockFragmentActivity {
 
 	class FetchDataTask extends AsyncTask<Object, Integer, UiWeek> {
 
-		private final TimeTableAPI api = new TimeTableAPI(TimeTableActivity.this);
 		private Integer errorCode = 0;
 
 		@Override
@@ -223,62 +299,64 @@ public class TimeTableActivity extends SherlockFragmentActivity {
 			Account account = (Account) params[1];
 			boolean forceRequest = (Boolean) params[2];
 
+			UiWeek result = new UiWeek();
+
 			String password = null;
 			try {
-				password = accountManager.blockingGetAuthToken(account, Constants.AUTHTOKEN_TYPE, true);
-			} catch (OperationCanceledException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (AuthenticatorException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 
-			UiWeek result = new UiWeek();
-			try {
+				password = accountManager.blockingGetAuthToken(account, Constants.AUTHTOKEN_TYPE, true);
+
 				result = api.retrieve(date, account.name, password, forceRequest);
 
+			} catch (OperationCanceledException e) {
+				Log.e(LOGGING_TAG, "Exception while fetching the user from the AccountManager.", e);
+				errorCode = DIALOG_USER_PASS_FETCH;
+			} catch (AuthenticatorException e) {
+				Log.e(LOGGING_TAG, "Exception while fetching the user from the AccountManager.", e);
+				errorCode = DIALOG_USER_PASS_FETCH;
+			} catch (IOException e) {
+				Log.e(LOGGING_TAG, "Exception while fetching the user from the AccountManager.", e);
+				errorCode = DIALOG_USER_PASS_FETCH;
 			} catch (ResponseParseException e) {
-				e.printStackTrace();
+				Log.e(LOGGING_TAG, "Exception while parsing the server response.", e);
 				errorCode = DIALOG_ERROR_PARSE;
 			} catch (RequestException e) {
-				e.printStackTrace();
+				Log.e(LOGGING_TAG, "Exception while fetching data from the server.", e);
 				errorCode = DIALOG_ERROR_FETCH;
 			} catch (ServerConnectionException e) {
-				e.printStackTrace();
+				Log.e(LOGGING_TAG, "Exception while fetching data from the server.", e);
 				errorCode = DIALOG_ERROR_CONNECT;
 			} catch (AccessDeniedException e) {
-				e.printStackTrace();
+				Log.e(LOGGING_TAG, "Exception while fetching data from the server. (AccessDenied!)", e);
 				// TODO add better error message
 				errorCode = DIALOG_ERROR_FETCH;
 			}
+
 			return result;
 		}
 
 		@Override
 		protected void onPostExecute(UiWeek week) {
+
 			if (errorCode == 0) {
 				TimeTableActivity.this.week = week;
-				for (DayFragment fragment : fragmentPageAdapter.getActiveFragments()) {
-					fragment.updateDate(week);
-				}
+				updateFragemetsWithData(week);
 				datebox.setText(DateHelper.formatToUserFriendlyFormat(week.getLastUpdate()));
 			} else {
 				datebox.setText(getString(R.string.default_novalue));
 			}
 
-			progress.dismiss();
+			if (progress != null)
+				progress.dismiss();
 
 			if (errorCode != 0) {
 				showDialog(errorCode);
 			} else {
-				scrollToToday();
+				reloadCurrentTab();
 			}
 
 		}
+
 	}
 
 	public class MyAdapter extends FragmentStatePagerAdapter {
@@ -322,8 +400,8 @@ public class TimeTableActivity extends SherlockFragmentActivity {
 
 		@Override
 		public void destroyItem(View container, int position, Object object) {
-			super.destroyItem(container, position, object);
 			activeFragments.remove(position);
+			super.destroyItem(container, position, object);
 		}
 
 		public Collection<DayFragment> getActiveFragments() {

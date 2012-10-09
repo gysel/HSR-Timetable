@@ -98,7 +98,7 @@ public class TimeTableAPI {
 		UiWeek result = null;
 
 		// create cache if the cache is not present yet
-		if (forceRequest || !cacheFilesExist(context.fileList(), TIMETABLE_CACHE_SERIALIZED, TIMETABLE_CACHE_TIMESTAMP)) {
+		if (cacheUpdateRequired(forceRequest)) {
 			if (forceRequest) {
 				Log.i(LOGGING_TAG, "Started forced cache reloading.");
 			} else {
@@ -137,6 +137,32 @@ public class TimeTableAPI {
 		return result;
 	}
 
+	public boolean validateCredentials(String login, String password) throws ServerConnectionException {
+		boolean result = false;
+		try {
+			HttpGet get = createHttpGet(URL + METHOD_GET_TIMEPERIOD, login, password);
+			HttpClient httpclient = new DefaultHttpClient();
+
+			BasicHttpResponse httpResponse = (BasicHttpResponse) httpclient.execute(get);
+			int httpStatus = httpResponse.getStatusLine().getStatusCode();
+
+			result = HttpStatus.SC_OK == httpStatus;
+
+		} catch (Exception e) {
+			throw new ServerConnectionException(e);
+		}
+
+		return result;
+	}
+
+	public boolean retrieveRequiresBlockingCall(boolean forceRequest) {
+		return true;
+	}
+
+	private boolean cacheUpdateRequired(boolean forceRequest) {
+		return forceRequest || !cacheFilesExist(context.fileList(), TIMETABLE_CACHE_SERIALIZED, TIMETABLE_CACHE_TIMESTAMP);
+	}
+
 	private Date getCacheTimestamp() throws RequestException {
 		Date cacheTimestamp = null;
 		DataInputStream inputStream = null;
@@ -156,6 +182,7 @@ public class TimeTableAPI {
 	private void updateCache(String dateString, Date cacheTimestamp, String login, String password) throws RequestException, ServerConnectionException,
 			ResponseParseException, AccessDeniedException {
 
+		Log.i(LOGGING_TAG, "Starting to read data from the server.");
 		long before = System.currentTimeMillis();
 
 		try {
@@ -199,24 +226,6 @@ public class TimeTableAPI {
 		}
 
 		Log.i(LOGGING_TAG, "Read data from the server in " + (System.currentTimeMillis() - before) + "ms.");
-	}
-
-	public boolean validateCredentials(String login, String password) throws ServerConnectionException {
-		boolean result = false;
-		try {
-			HttpGet get = createHttpGet(URL + METHOD_GET_TIMEPERIOD, login, password);
-			HttpClient httpclient = new DefaultHttpClient();
-
-			BasicHttpResponse httpResponse = (BasicHttpResponse) httpclient.execute(get);
-			int httpStatus = httpResponse.getStatusLine().getStatusCode();
-
-			result = HttpStatus.SC_OK == httpStatus;
-
-		} catch (Exception e) {
-			throw new ServerConnectionException(e);
-		}
-
-		return result;
 	}
 
 	private HttpGet createHttpGet(String url, String login, String password) throws UnsupportedEncodingException {
