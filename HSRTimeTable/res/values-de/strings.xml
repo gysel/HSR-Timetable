@@ -16,6 +16,7 @@
     <string name="message_error_while_fetching">Laden der Daten ist fehlgeschlagen.</string>
     <string name="message_error_while_connecting">Verbindung zum Server fehlgeschlagen.</string>
     <string name="message_error_while_parsing">Datenverarbeitung fehlgeschlagen.</string>
+    <string name="message_error_while_fetching_user">Auslesen des Logins fehlgeschlagen.</string>
     <string name="message_loading_data">Lade Daten…</string>
     <string name="message_no_data">Keine Daten verfügbar. Bitte neu laden.</string>
     <string name="message_no_lessons">Keine Lektionen an diesem Tag.</string>
@@ -39,8 +40,9 @@
     <string name="weekday_sunday">Sonntag</string>
     <string name="login_activity_username_label">Benutzername</string>
     <string name="login_activity_password_label">Passwort</string>
+    <string name="login_activity_login_missing">Bitte den Login eingeben.</string>
+    <string name="login_activity_pw_missing">Bitte das Passwort eingeben.</string>
     <string name="login_activity_newaccount_text">Bitte mit dem HSR Benutzernamen anmelden.</string>
-    <string name="login_activity_loginfail_text_pwmissing">Bitte das Password eingeben.</string>
     <string name="login_activity_ok_button">Anmelden</string>
     <string name="login_activity_loginfail_text_both">Ungültige Benutzerdaten, bitte nochmal versuchen.</string>
     <string name="ui_activity_authenticating">Anmeldung\u2026</string>

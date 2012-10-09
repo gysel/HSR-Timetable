@@ -1280,7 +1280,6 @@ containing a value of this type.
         public static final int label_week=0x7f0a0010;
         public static final int login_activity_login_missing=0x7f0a0030;
         public static final int login_activity_loginfail_text_both=0x7f0a0033;
-        public static final int login_activity_loginfail_text_pwmissing=0x7f0a003b;
         public static final int login_activity_newaccount_text=0x7f0a003a;
         public static final int login_activity_ok_button=0x7f0a0032;
         public static final int login_activity_password_label=0x7f0a002f;
