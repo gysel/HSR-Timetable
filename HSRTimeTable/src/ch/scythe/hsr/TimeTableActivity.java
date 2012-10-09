@@ -79,6 +79,7 @@ public class TimeTableActivity extends SherlockFragmentActivity {
 	// _State
 	public UiWeek week = new UiWeek();
 	public Date lastAcessed;
+	private AsyncTask<Object, Integer, UiWeek> task;
 	// _Helpers
 	private TimeTableAPI api;
 	// _Keys
@@ -258,11 +259,25 @@ public class TimeTableActivity extends SherlockFragmentActivity {
 		if (account == null) {
 
 			showDialog(DIALOG_NO_USER_PASS);
-		} else if (api.retrieveRequiresBlockingCall(forceRequest)) {
-			progress = ProgressDialog.show(this, "", getString(R.string.message_loading_data));
-			new FetchDataTask().execute(date, account, forceRequest);
+		} else if (api.retrieveRequiresBlockingCall(forceRequest)) { // TODO implement this
+			progress = new ProgressDialog(this);
+			progress.setMessage(getText(R.string.message_loading_data));
+			progress.setIndeterminate(true);
+			progress.setCancelable(true);
+			progress.setOnCancelListener(new DialogInterface.OnCancelListener() {
+				public void onCancel(DialogInterface dialog) {
+					Log.i(LOGGING_TAG, "dialog cancel has been invoked");
+					if (task != null) {
+						task.cancel(true);
+					}
+				}
+			});
+			progress.show();
+
+			// progress = ProgressDialog.show(this, "", getString(R.string.message_loading_data));
+			task = new FetchDataTask().execute(date, account, forceRequest);
 		} else {
-			new FetchDataTask().execute(date, account, forceRequest);
+			task = new FetchDataTask().execute(date, account, forceRequest);
 		}
 	}
 
