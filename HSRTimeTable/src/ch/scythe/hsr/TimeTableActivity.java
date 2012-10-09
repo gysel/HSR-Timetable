@@ -125,8 +125,8 @@ public class TimeTableActivity extends SherlockFragmentActivity {
 
 	@Override
 	protected void onResume() {
-		super.onStart();
-		scrollToToday();
+		super.onResume();
+		// scrollToToday();
 	}
 
 	@Override
@@ -157,11 +157,6 @@ public class TimeTableActivity extends SherlockFragmentActivity {
 			break;
 		}
 		return true;
-	}
-
-	// TODO remove
-	public void showToday(View view) {
-		scrollToToday();
 	}
 
 	private void scrollToToday() {
@@ -279,6 +274,8 @@ public class TimeTableActivity extends SherlockFragmentActivity {
 
 			if (errorCode != 0) {
 				showDialog(errorCode);
+			} else {
+				scrollToToday();
 			}
 
 		}
