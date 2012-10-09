@@ -5,7 +5,7 @@
     <string name="button_ok">Ok</string>
     <string name="button_add_login">Login hinzufügen</string>
     <string name="default_novalue">-</string>
-    <string name="label_date_label">Letzte Aktual.: </string>
+    <string name="label_date_label">Aktualisiert: </string>
     <string name="label_week">Akt. Woche: </string>
     <string name="menu_preferences">Einstellungen</string>
     <string name="menu_refresh">Aktualisieren</string>

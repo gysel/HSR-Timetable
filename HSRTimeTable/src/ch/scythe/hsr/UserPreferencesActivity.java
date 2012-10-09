@@ -20,9 +20,14 @@ package ch.scythe.hsr;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.accounts.AccountManagerCallback;
+import android.accounts.AccountManagerFuture;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.Preference;
+import android.preference.Preference.OnPreferenceClickListener;
+import android.widget.Toast;
+import ch.scythe.hsr.authenticator.AuthenticatorActivity;
 import ch.scythe.hsr.helper.AndroidHelper;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -31,26 +36,48 @@ import com.actionbarsherlock.view.MenuItem;
 
 public class UserPreferencesActivity extends SherlockPreferenceActivity {
 
+	private AccountManager accountManager;
+	private Preference login;
+	private Preference removeAccount;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		accountManager = AccountManager.get(getApplicationContext());
+
 		addPreferencesFromResource(R.xml.user_preferences);
 		final ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 
 		// Preference removeAccount = findPreference(getString(R.string.key_removeaccount));
 
-		Preference login = findPreference(getString(R.string.key_login));
+		login = findPreference(getString(R.string.key_login));
+		removeAccount = findPreference(getString(R.string.key_removeaccount));
 
+		login.setOnPreferenceClickListener(new AddAccountListener());
+		removeAccount.setOnPreferenceClickListener(new RemoveAccountListener());
+
+		// updateViewState(account);
+
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
 		Account account = AndroidHelper.getAccount(AccountManager.get(getApplicationContext()));
-		if (account != null) {
-			login.setSummary(account.name);
-			// removeAccount.setEnabled(true);
-		} else {
-			login.setSummary(getString(R.string.preferences_account_not_there));
-			// removeAccount.setEnabled(false);
-		}
+		updateViewState(account);
+	}
 
+	private void updateViewState(Account account) {
+		if (account == null) {
+			login.setSummary(getString(R.string.preferences_account_not_there));
+			login.setEnabled(true);
+			removeAccount.setEnabled(false);
+		} else {
+			login.setSummary(account.name);
+			removeAccount.setEnabled(true);
+			login.setEnabled(false);
+		}
 	}
 
 	@Override
@@ -63,6 +90,31 @@ public class UserPreferencesActivity extends SherlockPreferenceActivity {
 			return super.onOptionsItemSelected(item);
 		}
 		return true;
+	}
+
+	private final class AddAccountListener implements OnPreferenceClickListener {
+		@Override
+		public boolean onPreferenceClick(Preference preference) {
+			startActivity(new Intent(UserPreferencesActivity.this, AuthenticatorActivity.class));
+			return true;
+		}
+	}
+
+	private final class RemoveAccountListener implements OnPreferenceClickListener {
+		public boolean onPreferenceClick(Preference preference) {
+			Account account = AndroidHelper.getAccount(accountManager);
+			accountManager.removeAccount(account, new AccountManagerCallback<Boolean>() {
+
+				@Override
+				public void run(AccountManagerFuture<Boolean> future) {
+					Toast toast = Toast.makeText(getApplicationContext(), "Login sucessfully removed.", Toast.LENGTH_SHORT);
+					toast.show();
+					updateViewState(null);
+				}
+			}, null);
+
+			return true;
+		}
 	}
 
 }

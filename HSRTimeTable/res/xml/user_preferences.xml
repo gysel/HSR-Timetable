@@ -11,10 +11,5 @@
             />
     </PreferenceCategory>
     
-    <PreferenceCategory android:title="@string/preferences_sync" >
-        <Preference
-            android:key="SyncSchedule"
-            android:title="@string/preferences_sync_schedule" />
-    </PreferenceCategory>
 
 </PreferenceScreen>
