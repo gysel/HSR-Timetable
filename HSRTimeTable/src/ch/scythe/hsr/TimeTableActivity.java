@@ -87,7 +87,7 @@ public class TimeTableActivity extends SherlockFragmentActivity {
 	private static final String PREFERENCE_ACTIVATED_TAB = "ActivatedTab";
 	private static final String LOGGING_TAG = "TimeTableActivity";
 	private static final String SAVED_INSTANCE_TIMETABLE_WEEK = "TimetableWeek";
-	private static final int THRESHOLD_IN_MINUTES = 1;
+	private static final int THRESHOLD_IN_MINUTES = 30;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
