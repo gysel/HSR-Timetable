@@ -21,16 +21,13 @@ import android.accounts.AccountAuthenticatorActivity;
 import android.accounts.AccountManager;
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.widget.EditText;
 import android.widget.TextView;
 import ch.scythe.hsr.Constants;
@@ -46,8 +43,8 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 	public static final String PARAM_AUTHTOKEN_TYPE = "authtokenType";
 
 	private static final String TAG = "AuthenticatorActivity";
-
-	private AccountManager mAccountManager;
+	private boolean firstLoginAttempt = true;
+	private AccountManager accountManager;
 	private Thread mAuthThread;
 	private String mAuthtoken;
 	private String mAuthtokenType;
@@ -61,31 +58,25 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 	private String mPassword;
 	private EditText mPasswordEdit;
 
-	/** Was the original caller asking for an entirely new account? */
-	protected boolean mRequestNewAccount = false;
-
 	private String mUsername;
 	private EditText mUsernameEdit;
+	private AsyncTask<String, Object, Boolean> authTask;
 
 	/** {@inheritDoc} */
 	@Override
 	public void onCreate(Bundle icicle) {
-		Log.i(TAG, "onCreate(" + icicle + ")");
 		super.onCreate(icicle);
-		mAccountManager = AccountManager.get(this);
-		Log.i(TAG, "loading data from Intent");
+		accountManager = AccountManager.get(this);
+
 		final Intent intent = getIntent();
+
 		mUsername = intent.getStringExtra(PARAM_USERNAME);
 		mAuthtokenType = intent.getStringExtra(PARAM_AUTHTOKEN_TYPE);
-		mRequestNewAccount = mUsername == null;
-		// mConfirmCredentials = intent.getBooleanExtra(PARAM_CONFIRMCREDENTIALS, false);
+		firstLoginAttempt = TextUtils.isEmpty(mUsername) && TextUtils.isEmpty(mAuthtoken);
 
-		Log.i(TAG, "    request new: " + mRequestNewAccount);
-		requestWindowFeature(Window.FEATURE_LEFT_ICON);
 		setContentView(R.layout.login_activity);
-		getWindow().setFeatureDrawableResource(Window.FEATURE_LEFT_ICON, android.R.drawable.ic_dialog_alert);
 
-		mMessage = (TextView) findViewById(R.id.message);
+		mMessage = (TextView) findViewById(R.id.message_bottom);
 		mUsernameEdit = (EditText) findViewById(R.id.username_edit);
 		mPasswordEdit = (EditText) findViewById(R.id.password_edit);
 
@@ -105,9 +96,8 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 		dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
 			public void onCancel(DialogInterface dialog) {
 				Log.i(TAG, "dialog cancel has been invoked");
-				if (mAuthThread != null) {
-					mAuthThread.interrupt();
-					finish();
+				if (authTask != null) {
+					authTask.cancel(true);
 				}
 			}
 		});
@@ -119,17 +109,14 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 	 * @param view
 	 *            The Submit button for which this method is invoked */
 	public void handleLogin(View view) {
-		if (mRequestNewAccount) {
-			mUsername = mUsernameEdit.getText().toString();
-		}
+		mUsername = mUsernameEdit.getText().toString();
 		mPassword = mPasswordEdit.getText().toString();
 		if (TextUtils.isEmpty(mUsername) || TextUtils.isEmpty(mPassword)) {
 			mMessage.setText(getMessage());
 		} else {
 			showProgress();
-			new AttemptAuthTask(new TimeTableAPI(getApplicationContext())).execute(mUsername, mPassword);
-			// Start authenticating...
-			// mAuthThread = NetworkUtilities.attemptAuth(mUsername, mPassword, mHandler, AuthenticatorActivity.this);
+			authTask = new AttemptAuthTask(new TimeTableAPI(getApplicationContext()));
+			authTask.execute(mUsername, mPassword);
 		}
 	}
 
@@ -149,7 +136,8 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 			try {
 				result = api.validateCredentials(username, password);
 			} catch (ServerConnectionException e) {
-				// return null;
+				// TODO handle error message
+				// for now: result = null means error
 			}
 			return result;
 		}
@@ -161,20 +149,20 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 
 	}
 
-	/** Called when response is received from the server for confirm credentials request. See onAuthenticationResult(). Sets the AccountAuthenticatorResult which
-	 * is sent back to the caller.
-	 * 
-	 * @param the
-	 *            confirmCredentials result. */
-	protected void finishConfirmCredentials(boolean result) {
-		Log.i(TAG, "finishConfirmCredentials()");
-		final Account account = new Account(mUsername, Constants.ACCOUNT_TYPE);
-		mAccountManager.setPassword(account, mPassword);
-		final Intent intent = new Intent();
-		intent.putExtra(AccountManager.KEY_BOOLEAN_RESULT, result);
-		setAccountAuthenticatorResult(intent.getExtras());
-		setResult(RESULT_OK, intent);
-		finish();
+	/** Called when the authentication process completes. */
+	public void onAuthenticationResult(Boolean result) {
+		Log.i(TAG, "Authentication " + (result ? "succeeded" : "failed") + ".");
+		hideProgress();
+
+		if (Boolean.TRUE == result) {
+			finishLogin();
+		} else {
+			if (Boolean.FALSE == result) {
+				mMessage.setText(getText(R.string.login_activity_loginfail_text_both));
+			} else {
+				mMessage.setText(getText(R.string.message_error_while_connecting));
+			}
+		}
 	}
 
 	/** Called when response is received from the server for authentication request. See onAuthenticationResult(). Sets the AccountAuthenticatorResult which is
@@ -184,15 +172,15 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 	 *            confirmCredentials result. */
 
 	protected void finishLogin() {
-		Log.i(TAG, "finishLogin()");
 		final Account account = new Account(mUsername, Constants.ACCOUNT_TYPE);
 
-		if (mRequestNewAccount) {
-			mAccountManager.addAccountExplicitly(account, mPassword, null);
+		if (firstLoginAttempt) {
+
+			accountManager.addAccountExplicitly(account, mPassword, null);
 			// Set contacts sync for this account.
-			ContentResolver.setSyncAutomatically(account, ContactsContract.AUTHORITY, true);
+			// ContentResolver.setSyncAutomatically(account, ContactsContract.AUTHORITY, true);
 		} else {
-			mAccountManager.setPassword(account, mPassword);
+			accountManager.setPassword(account, mPassword);
 		}
 		final Intent intent = new Intent();
 		mAuthtoken = mPassword;
@@ -211,44 +199,21 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 		dismissDialog(0);
 	}
 
-	/** Called when the authentication process completes (see attemptLogin()). */
-	public void onAuthenticationResult(Boolean result) {
-		Log.i(TAG, "onAuthenticationResult(" + result + ")");
-		// Hide the progress dialog
-		hideProgress();
-		if (Boolean.TRUE == result) {
-			// if (!mConfirmCredentials) {
-			finishLogin();
-			// } else {
-			// finishConfirmCredentials(true);
-			// }
-		} else {
-			Log.e(TAG, "onAuthenticationResult: failed to authenticate");
-			if (Boolean.FALSE == result) {
-				mMessage.setText(getText(R.string.login_activity_loginfail_text_both));
-			} else {
-				mMessage.setText(getText(R.string.message_error_while_connecting));
-			}
-		}
+	/** Shows the progress UI for a lengthy operation. */
+	protected void showProgress() {
+		showDialog(0);
 	}
 
 	/** Returns the message to be displayed at the top of the login dialog box. */
 	private CharSequence getMessage() {
 		getString(R.string.app_name);
-		if (TextUtils.isEmpty(mUsername)) {
-			// If no username, then we ask the user to log in using an
-			// appropriate service.
-			return getText(R.string.login_activity_newaccount_text);
-		}
-		if (TextUtils.isEmpty(mPassword)) {
-			// We have an account but no password
-			return getText(R.string.login_activity_loginfail_text_pwmissing);
+		if (TextUtils.isEmpty(mUsername) && TextUtils.isEmpty(mPassword)) {
+			return "";
+		} else if (TextUtils.isEmpty(mUsername)) {
+			return getText(R.string.login_activity_login_missing);
+		} else if (TextUtils.isEmpty(mPassword)) {
+			return getText(R.string.login_activity_pw_missing);
 		}
 		return null;
-	}
-
-	/** Shows the progress UI for a lengthy operation. */
-	protected void showProgress() {
-		showDialog(0);
 	}
 }

@@ -23,13 +23,11 @@ import android.accounts.AccountManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import ch.scythe.hsr.Constants;
 import ch.scythe.hsr.R;
 
-/**
- * This class is an implementation of AbstractAccountAuthenticator for
- * authenticating accounts in the com.example.android.samplesync domain.
- */
+/** This class is an implementation of AbstractAccountAuthenticator for authenticating accounts in the com.example.android.samplesync domain. */
 class Authenticator extends AbstractAccountAuthenticator {
 	// Authentication Service context
 	private final Context mContext;
@@ -39,12 +37,9 @@ class Authenticator extends AbstractAccountAuthenticator {
 		mContext = context;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	/** {@inheritDoc} */
 	@Override
-	public Bundle addAccount(AccountAuthenticatorResponse response, String accountType, String authTokenType, String[] requiredFeatures,
-			Bundle options) {
+	public Bundle addAccount(AccountAuthenticatorResponse response, String accountType, String authTokenType, String[] requiredFeatures, Bundle options) {
 		final Intent intent = new Intent(mContext, AuthenticatorActivity.class);
 		intent.putExtra(AuthenticatorActivity.PARAM_AUTHTOKEN_TYPE, authTokenType);
 		intent.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response);
@@ -53,39 +48,35 @@ class Authenticator extends AbstractAccountAuthenticator {
 		return bundle;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public Bundle confirmCredentials(AccountAuthenticatorResponse response, Account account, Bundle options) {
-		if (options != null && options.containsKey(AccountManager.KEY_PASSWORD)) {
-			final String password = options.getString(AccountManager.KEY_PASSWORD);
-			final boolean verified = onlineConfirmPassword(account.name, password);
-			final Bundle result = new Bundle();
-			result.putBoolean(AccountManager.KEY_BOOLEAN_RESULT, verified);
-			return result;
-		}
-		// Launch AuthenticatorActivity to confirm credentials
-		final Intent intent = new Intent(mContext, AuthenticatorActivity.class);
-		intent.putExtra(AuthenticatorActivity.PARAM_USERNAME, account.name);
-		intent.putExtra(AuthenticatorActivity.PARAM_CONFIRMCREDENTIALS, true);
-		intent.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response);
-		final Bundle bundle = new Bundle();
-		bundle.putParcelable(AccountManager.KEY_INTENT, intent);
-		return bundle;
+		Log.e("Authenticator", "confirmCredentials called!");
+		// if (options != null && options.containsKey(AccountManager.KEY_PASSWORD)) {
+		// final String password = options.getString(AccountManager.KEY_PASSWORD);
+		// final boolean verified = onlineConfirmPassword(account.name, password);
+		// final Bundle result = new Bundle();
+		// result.putBoolean(AccountManager.KEY_BOOLEAN_RESULT, verified);
+		// return result;
+		// }
+		// // Launch AuthenticatorActivity to confirm credentials
+		// final Intent intent = new Intent(mContext, AuthenticatorActivity.class);
+		// intent.putExtra(AuthenticatorActivity.PARAM_USERNAME, account.name);
+		// intent.putExtra(AuthenticatorActivity.PARAM_CONFIRMCREDENTIALS, true);
+		// intent.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response);
+		// final Bundle bundle = new Bundle();
+		// bundle.putParcelable(AccountManager.KEY_INTENT, intent);
+		// return bundle;
+		return null;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public Bundle editProperties(AccountAuthenticatorResponse response, String accountType) {
 		throw new UnsupportedOperationException();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public Bundle getAuthToken(AccountAuthenticatorResponse response, Account account, String authTokenType, Bundle loginOptions) {
 		if (!authTokenType.equals(Constants.AUTHTOKEN_TYPE)) {
@@ -116,9 +107,7 @@ class Authenticator extends AbstractAccountAuthenticator {
 		return bundle;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public String getAuthTokenLabel(String authTokenType) {
 		if (authTokenType.equals(Constants.AUTHTOKEN_TYPE)) {
@@ -128,9 +117,7 @@ class Authenticator extends AbstractAccountAuthenticator {
 
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public Bundle hasFeatures(AccountAuthenticatorResponse response, Account account, String[] features) {
 		final Bundle result = new Bundle();
@@ -138,17 +125,13 @@ class Authenticator extends AbstractAccountAuthenticator {
 		return result;
 	}
 
-	/**
-	 * Validates user's password on the server
-	 */
+	/** Validates user's password on the server */
 	private boolean onlineConfirmPassword(String username, String password) {
-		//		return NetworkUtilities.authenticate(username, password, null/* Handler */, null/* Context */);
+		// return NetworkUtilities.authenticate(username, password, null/* Handler */, null/* Context */);
 		return true;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public Bundle updateCredentials(AccountAuthenticatorResponse response, Account account, String authTokenType, Bundle loginOptions) {
 		final Intent intent = new Intent(mContext, AuthenticatorActivity.class);

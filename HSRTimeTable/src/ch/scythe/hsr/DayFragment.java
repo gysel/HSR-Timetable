@@ -106,10 +106,13 @@ public class DayFragment extends DialogFragment {
 
 	public void updateDate(UiWeek week) {
 		this.week = week;
-		TableLayout timeTable = (TableLayout) getView().findViewById(R.id.timeTable);
-		// remove all existing table rows and add them again
-		timeTable.removeAllViews();
-		updateTable(timeTable);
+		View view = getView();
+		if (view != null) {
+			TableLayout timeTable = (TableLayout) view.findViewById(R.id.timeTable);
+			// remove all existing table rows and add them again
+			timeTable.removeAllViews();
+			updateTable(timeTable);
+		}
 	}
 
 	private void createAndFormatTableRow(UiLesson lesson, TableLayout timeTable, LayoutInflater layoutInflater) {

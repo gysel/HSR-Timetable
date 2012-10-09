@@ -29,14 +29,14 @@ import android.util.Log;
  */
 public class AuthenticationService extends Service {
 	private static final String TAG = "AuthenticationService";
-	private Authenticator mAuthenticator;
+	private Authenticator authenticator;
 
 	@Override
 	public void onCreate() {
 		if (Log.isLoggable(TAG, Log.VERBOSE)) {
 			Log.v(TAG, "HSR Authentication Service started.");
 		}
-		mAuthenticator = new Authenticator(this);
+		authenticator = new Authenticator(this);
 	}
 
 	@Override
@@ -51,6 +51,6 @@ public class AuthenticationService extends Service {
 		if (Log.isLoggable(TAG, Log.VERBOSE)) {
 			Log.v(TAG, "getBinder()...  returning the AccountAuthenticator binder for intent " + intent);
 		}
-		return mAuthenticator.getIBinder();
+		return authenticator.getIBinder();
 	}
 }
