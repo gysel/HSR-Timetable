@@ -38,34 +38,4 @@
         <item name="android:paddingBottom">0dp</item>
         <item name="android:textAllCaps">true</item>
     </style>
-    
-    <!-- <style name="app_title" parent="android:Widget.TextView">
-        <item name="android:layout_marginBottom">5dip</item>
-        <item name="android:layout_marginLeft">5dip</item>
-        <item name="android:layout_marginRight">5dip</item>
-        <item name="android:layout_marginTop">10dip</item>
-        <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
-    </style>
-    <style name="table_cell" parent="android:Widget.TextView">
-        <item name="android:padding">5dip</item>
-    </style>
-    <style name="table_cell_small" parent="table_cell">
-        <item name="android:paddingTop">0dip</item>
-        <item name="android:textStyle">italic</item>
-    </style>
-    <style name="table_header" parent="table_cell">
-        <item name="android:textStyle">bold</item>
-        <item name="android:capitalize">characters</item>
-        <item name="android:gravity">center</item>
-        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
-    </style>
-    <style name="aboutTextView" parent="android:Widget.TextView">
-		<!- -         <item name="android:layout_margin">7dp</item> - ->
-        <item name="android:layout_marginLeft">7dp</item>
-        <item name="android:layout_marginBottom">7dp</item>
-        <item name="android:lineSpacingMultiplier">1.2</item>
-    </style>
-    <style name="rowStyle" parent="android:Widget.TextView">
-        <item name="android:layout_margin">3dp</item>
-    </style> -->
 </resources>

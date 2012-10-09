@@ -126,8 +126,6 @@ public class TimeTableActivity extends SherlockFragmentActivity {
 		Date date = new Date();
 		weekbox.setText(DateHelper.formatToWeekNumber(date));
 
-		String days = week.getDays() != null ? Integer.valueOf(week.getDays().size()).toString() : "null";
-
 		UiWeek lastInstance = (UiWeek) getLastCustomNonConfigurationInstance();
 		if (lastInstance != null) {
 			Log.i(LOGGING_TAG, "Creating Activity from lastInstance.");
@@ -140,7 +138,6 @@ public class TimeTableActivity extends SherlockFragmentActivity {
 			// the state of the app was saved, so we can just update the ui
 			week = (UiWeek) savedInstanceState.get(SAVED_INSTANCE_TIMETABLE_WEEK);
 			datebox.setText(DateHelper.formatToUserFriendlyFormat(week.getLastUpdate()));
-			// updateFragemetsWithData(week);
 		} else {
 			Log.i(LOGGING_TAG, "Creating Activity from scratch.");
 			// no data available, read it!
