@@ -84,9 +84,7 @@ public class DayFragment extends DialogFragment {
 		if (day != null) {
 			List<UiLesson> lessons = day.getLessons();
 			if (lessons.size() > 0) {
-				for (UiLesson lesson : lessons) {
-					createAndFormatTableRow(lesson, timeTable, layoutInflater);
-				}
+				createAndFormatTableRows(lessons, timeTable, layoutInflater);
 			} else {
 				String message = getString(R.string.message_no_lessons);
 				showInfoRow(timeTable, message);
@@ -115,22 +113,32 @@ public class DayFragment extends DialogFragment {
 		}
 	}
 
-	private void createAndFormatTableRow(UiLesson lesson, TableLayout timeTable, LayoutInflater layoutInflater) {
+	private void createAndFormatTableRows(List<UiLesson> lessons, TableLayout timeTable, LayoutInflater layoutInflater) {
 
-		View row = layoutInflater.inflate(R.layout.timetable_row, null);
+		String lastLessonTimeslot = "";
 
-		TextView timeUnitField = (TextView) row.findViewById(R.id.rowTimeunit);
-		TextView lessonField = (TextView) row.findViewById(R.id.rowLesson);
-		TextView lecturerFieldShort = (TextView) row.findViewById(R.id.rowLecturerShort);
-		TextView lecturerFieldLong = (TextView) row.findViewById(R.id.rowLecturerLong);
-		TextView roomField = (TextView) row.findViewById(R.id.rowRoom);
-		TextView descriptionField = (TextView) row.findViewById(R.id.rowDescription);
-		TextView typeField = (TextView) row.findViewById(R.id.rowType);
+		for (UiLesson lesson : lessons) {
 
-		// fill values into row
-		timeUnitField.setText(lesson.getTimeSlot());
-		timeTable.addView(row);
-		if (lesson != null) {
+			View row = layoutInflater.inflate(R.layout.timetable_row, null);
+			timeTable.addView(row);
+
+			TextView timeUnitField = (TextView) row.findViewById(R.id.rowTimeunit);
+			TextView lessonField = (TextView) row.findViewById(R.id.rowLesson);
+			TextView lecturerFieldShort = (TextView) row.findViewById(R.id.rowLecturerShort);
+			TextView lecturerFieldLong = (TextView) row.findViewById(R.id.rowLecturerLong);
+			TextView roomField = (TextView) row.findViewById(R.id.rowRoom);
+			TextView descriptionField = (TextView) row.findViewById(R.id.rowDescription);
+			TextView typeField = (TextView) row.findViewById(R.id.rowType);
+
+			// fill values into row
+
+			String newTimeslot = lesson.getTimeSlot();
+			if (!lastLessonTimeslot.equals(newTimeslot)) {
+				timeUnitField.setText(newTimeslot);
+			} else {
+				timeUnitField.setText("");
+			}
+			lastLessonTimeslot = newTimeslot;
 
 			lessonField.setText(lesson.getName());
 			roomField.setText(lesson.getRoom());
@@ -147,13 +155,6 @@ public class DayFragment extends DialogFragment {
 			} else {
 				descriptionField.setVisibility(View.GONE);
 			}
-		} else {
-			// TODO don't show anything (not even the time...) and merge with
-			// the info row
-			// View secondRow = row.findViewById(R.id.secondRow);
-			// secondRow.setVisibility(View.GONE);
-			// descriptionField.setVisibility(View.GONE);
-			// typeField.setVisibility(View.GONE);
 		}
 
 	}
