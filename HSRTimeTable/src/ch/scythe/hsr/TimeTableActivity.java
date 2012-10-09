@@ -135,6 +135,7 @@ public class TimeTableActivity extends SherlockFragmentActivity {
 			Log.i(LOGGING_TAG, "Creating Activity from savedInstanceState.");
 			// the state of the app was saved, so we can just update the ui
 			week = (UiWeek) savedInstanceState.get(SAVED_INSTANCE_TIMETABLE_WEEK);
+			datebox.setText(DateHelper.formatToUserFriendlyFormat(week.getLastUpdate()));
 			// updateFragemetsWithData(week);
 		} else {
 			Log.i(LOGGING_TAG, "Creating Activity from scratch.");
