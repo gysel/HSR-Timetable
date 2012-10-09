@@ -22,6 +22,8 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.accounts.AccountManagerCallback;
 import android.accounts.AccountManagerFuture;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.Preference;
@@ -102,16 +104,30 @@ public class UserPreferencesActivity extends SherlockPreferenceActivity {
 
 	private final class RemoveAccountListener implements OnPreferenceClickListener {
 		public boolean onPreferenceClick(Preference preference) {
-			Account account = AndroidHelper.getAccount(accountManager);
-			accountManager.removeAccount(account, new AccountManagerCallback<Boolean>() {
 
-				@Override
-				public void run(AccountManagerFuture<Boolean> future) {
-					Toast toast = Toast.makeText(getApplicationContext(), "Login sucessfully removed.", Toast.LENGTH_SHORT);
-					toast.show();
-					updateViewState(null);
-				}
-			}, null);
+			final Account account = AndroidHelper.getAccount(accountManager);
+
+			// make sure the user is aware of what he is doing
+			AlertDialog.Builder builder = new AlertDialog.Builder(UserPreferencesActivity.this);
+			builder.setMessage(getString(R.string.preferences_account_remove_warning)).setCancelable(true)
+					.setPositiveButton(getString(R.string.button_yes), new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int which) {
+
+							// now, delete the account.
+							accountManager.removeAccount(account, new AccountManagerCallback<Boolean>() {
+
+								@Override
+								public void run(AccountManagerFuture<Boolean> future) {
+									Toast toast = Toast.makeText(getApplicationContext(), "Login sucessfully removed.", Toast.LENGTH_SHORT);
+									toast.show();
+									updateViewState(null);
+								}
+							}, null);
+
+						}
+					}).setNegativeButton(getString(R.string.button_no), null);
+
+			builder.create().show();
 
 			return true;
 		}

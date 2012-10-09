@@ -4,6 +4,8 @@
     <string name="button_cancel">Cancel</string>
     <string name="button_ok">OK</string>
     <string name="button_add_login">Add Login</string>
+    <string name="button_yes">Yes</string>
+    <string name="button_no">No</string>
     <string name="default_novalue">-</string>
     <string name="label_date_label">Updated:</string>
     <string name="label_week">Current week:</string>
@@ -24,6 +26,7 @@
     <string name="preferences_login">HSR Login</string>
     <string name="preferences_account_remove">Remove Login</string>
     <string name="preferences_account_not_there">No Login configured</string>
+    <string name="preferences_account_remove_warning">Do you really want to remove your Login from this app?</string>
     <string name="preferences_sync">Synchronisation</string>
     <string name="preferences_sync_schedule">Schedule</string>
     <string name="key_login">login</string>

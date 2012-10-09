@@ -4,6 +4,8 @@
     <string name="button_cancel">Abbrechen</string>
     <string name="button_ok">Ok</string>
     <string name="button_add_login">Login hinzufügen</string>
+    <string name="button_yes">Ja</string>
+    <string name="button_no">Nein</string>
     <string name="default_novalue">-</string>
     <string name="label_date_label">Aktualisiert: </string>
     <string name="label_week">Akt. Woche: </string>
@@ -26,6 +28,7 @@
     <string name="preferences_password">Passwort</string>
     <string name="preferences_password_text">Dein Passwort wird ausschliesslich an den HSR Server gesendet.</string>
     <string name="preferences_account_not_there">Kein Benutzername konfiguriert</string>
+    <string name="preferences_account_remove_warning">Willst du dein Login wirklich aus dieser App entfernen?</string>
     <string name="preferences_sync">Synchronisation</string>
     <string name="preferences_sync_schedule">Plan</string>
     <string name="key_login">login</string>
