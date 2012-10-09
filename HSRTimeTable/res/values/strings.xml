@@ -42,7 +42,7 @@
     <string name="login_activity_pw_missing">Please enter your password.</string>
     <string name="login_activity_ok_button">Sign in</string>
     <string name="login_activity_loginfail_text_both">Invalid credentials, please try again.</string>
-    <string name="ui_activity_authenticating">Anmelden\u2026</string>
+    <string name="ui_activity_authenticating">Authenticating\u2026</string>
     <string name="authentication_label">HSR Login</string>
     <string name="authentication_title">General Settings</string>
     <string name="authentication_summary">HSR Timetable App settings.</string>

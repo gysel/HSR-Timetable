@@ -187,10 +187,10 @@ public class TimeTableAPI {
 
 		try {
 
-			HttpGet httppost = createHttpGet(URL + METHOD_GET_TIMETABLE + login, login, password);
+			HttpGet get = createHttpGet(URL + METHOD_GET_TIMETABLE + login, login, password);
 			HttpClient httpclient = new DefaultHttpClient();
 
-			BasicHttpResponse httpResponse = (BasicHttpResponse) httpclient.execute(httppost);
+			BasicHttpResponse httpResponse = (BasicHttpResponse) httpclient.execute(get);
 			InputStream jsonStream = null;
 			int httpStatus = httpResponse.getStatusLine().getStatusCode();
 			if (httpStatus == HttpStatus.SC_OK) {
@@ -200,6 +200,8 @@ public class TimeTableAPI {
 			} else {
 				throw new RequestException("Request not successful. \nHTTP Status: " + httpStatus);
 			}
+
+			Log.i(LOGGING_TAG, "Finished reading from server.");
 
 			// convert JSON to Java objects
 			JsonTimetableWeek serverData = new GsonParser().parse(jsonStream);
@@ -225,7 +227,7 @@ public class TimeTableAPI {
 			throw new ServerConnectionException(e);
 		}
 
-		Log.i(LOGGING_TAG, "Read data from the server in " + (System.currentTimeMillis() - before) + "ms.");
+		Log.i(LOGGING_TAG, "Read and parsed data from the server in " + (System.currentTimeMillis() - before) + "ms.");
 	}
 
 	private HttpGet createHttpGet(String url, String login, String password) throws UnsupportedEncodingException {

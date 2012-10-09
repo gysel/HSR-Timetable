@@ -75,7 +75,7 @@ public class DataAssemblerTest {
 		List<UiLesson> lessons = day.getLessons();
 		//
 		for (int i = 0; i < 4; i++) {
-			assertEquals(timeslots[i], lessons.get(i).getTimeSlot());
+			assertEquals(new DataAssembler().shortenTimeSlot(timeslots[i]), lessons.get(i).getTimeSlot());
 			assertEquals(name, lessons.get(i).getName());
 			assertEquals(type, lessons.get(i).getType());
 			assertEquals(description, lessons.get(i).getDescription());
@@ -101,6 +101,13 @@ public class DataAssemblerTest {
 		//
 		assertEquals(TextHelper.implodeArray(lecturers, DataAssembler.LIST_SEPARATOR), lessons.get(0).getLecturerShort());
 		assertEquals(TextHelper.implodeArray(rooms, DataAssembler.LIST_SEPARATOR), lessons.get(0).getRoom());
+	}
+
+	@Test
+	public void testShortenTimeSlot() {
+		DataAssembler sut = new DataAssembler();
+		assertEquals("8:10 - :55", sut.shortenTimeSlot("8:10 - 8:55"));
+		assertEquals("15:10 - :55", sut.shortenTimeSlot("15:10 - 15:55"));
 	}
 
 	private JsonTimetableWeek createWeek(JsonDay... days) {

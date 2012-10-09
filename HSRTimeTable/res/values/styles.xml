@@ -12,8 +12,9 @@
         <item name="android:textSize">22sp</item>
         <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
-    <style name="row_cell_small_emphasis" parent="row_cell_small">
+    <style name="row_cell_small_description" parent="row_cell_small">
 		<item name="android:textStyle">italic</item>
+        <item name="android:paddingTop">4dp</item>
     </style>
     <style name="footer">
 		<item name="android:padding">4dp</item>

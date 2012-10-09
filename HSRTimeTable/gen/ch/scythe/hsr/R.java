@@ -1416,7 +1416,7 @@ containing a value of this type.
         public static final int row_cell=0x7f0b005b;
         public static final int row_cell_medium=0x7f0b005d;
         public static final int row_cell_small=0x7f0b005c;
-        public static final int row_cell_small_emphasis=0x7f0b005e;
+        public static final int row_cell_small_description=0x7f0b005e;
     }
     public static final class xml {
         public static final int authenticator=0x7f040000;

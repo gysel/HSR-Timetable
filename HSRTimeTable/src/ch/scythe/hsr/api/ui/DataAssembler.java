@@ -61,7 +61,7 @@ public class DataAssembler {
 				UiLesson uiLesson = new UiLesson();
 				uiLesson.setName(lesson.getName());
 				uiLesson.setType(lesson.getType());
-				uiLesson.setTimeSlot(allocation.getTimeslot());
+				uiLesson.setTimeSlot(shortenTimeSlot(allocation.getTimeslot()));
 				uiLesson.setDescription(allocation.getDescription());
 				uiLesson.setLecturerShort(implodeLecturers(lesson.getLecturers(), true));
 				uiLesson.setLecturerLong(implodeLecturers(lesson.getLecturers(), false));
@@ -72,20 +72,39 @@ public class DataAssembler {
 		return result;
 	}
 
+	static String shortenTimeSlot(String timeSlot) {
+		String[] tokens = timeSlot.trim().split("-"); // split by "-" in "8:10 - 8:55"
+		String result = timeSlot;
+		if (tokens.length == 2) {
+			String[] secondTokens = tokens[1].trim().split(":"); // split by ":" in "8:55"
+			result = tokens[0].trim() + " - :" + secondTokens[1].trim();
+		}
+		return result;
+	}
+
 	static String implodeLecturers(List<JsonLecturer> lecturers, boolean shortVersion) {
 		StringBuilder result = new StringBuilder();
 		for (Iterator<JsonLecturer> iterator = lecturers.iterator(); iterator.hasNext();) {
 			JsonLecturer lecturer = iterator.next();
 			if (shortVersion) {
-				result.append(lecturer.getShortname());
+				if (maxSize(result)) {
+					result.append("…");
+				} else {
+
+					result.append(lecturer.getShortname());
+				}
 			} else {
 				result.append(lecturer.getFullname());
 			}
-			if (iterator.hasNext()) {
+			if (iterator.hasNext() && !(shortVersion && maxSize(result))) {
 				result.append(LIST_SEPARATOR);
 			}
 		}
 		return result.toString();
+	}
+
+	private static boolean maxSize(StringBuilder result) {
+		return result.length() >= 8;
 	}
 
 	static String implodeRooms(List<JsonRoomAllocation> rooms) {
