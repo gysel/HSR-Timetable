@@ -1,22 +1,15 @@
-﻿HSR Timetable
+
+HSR Timetable
 ==========
 
-HSR Timetable is an Android App providing access to the Timetable of the [Hochschule für Technik Rapperswil](http://www.hsr.ch).
+HSR Timetable is an Android App providing access to the Timetable of the [Hochschule f�r Technik Rapperswil](http://www.hsr.ch).
 
-I will publish it on the Android Market in Feb 2012.
+The App is also available in [Google Play](https://play.google.com/store/apps/details?id=ch.scythe.hsr).
 
-Wiki
+Features and Bugs
 -------
 
-* [Feature Roadmap](https://github.com/theScythe/HSR-Timetable/wiki/Feature-Roadmap)
-
-
-Participation
--------
-
-I'm looking for other developers to join this little project. Are you keen to get some Android development hands on? Get in touch with me! 
-
-Email: <michi@scythe.ch> 
+Features and Bugs are tracked on [GitHub](https://github.com/theScythe/HSR-Timetable/issues?state=open). Feel free to contribute your ideas!
 
 
 License
@@ -24,9 +17,9 @@ License
 
 The complete source code is put under the [GPLv3](http://www.gnu.org/licenses/gpl.html) license, so that everyone is forced to publish improvements. 
 
-Please send me a pull request on Github if you improved one of the scripts.
+Please note that [ActionBarSherlock](https://github.com/JakeWharton/ActionBarSherlock) and [ViewpagerLibrary](https://github.com/JakeWharton/Android-ViewPagerIndicator) are written by Jake Wharton and licensed under the Apache License.
 
 Disclaimer
 ----------
 
-This App is inofficial and not supported by the HSR.
+This App is officially approved and supported by the HSR.
