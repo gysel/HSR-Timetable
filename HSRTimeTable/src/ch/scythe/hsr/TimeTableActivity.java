@@ -44,7 +44,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import ch.scythe.hsr.api.RequestException;
@@ -377,8 +377,6 @@ public class TimeTableActivity extends SherlockFragmentActivity {
 				TimeTableActivity.this.week = week;
 				updateFragemetsWithData(week);
 				datebox.setText(DateHelper.formatToUserFriendlyFormat(week.getLastUpdate()));
-			} else {
-				datebox.setText(getString(R.string.default_novalue));
 			}
 
 			if (progress != null)
@@ -434,7 +432,7 @@ public class TimeTableActivity extends SherlockFragmentActivity {
 		}
 
 		@Override
-		public void destroyItem(View container, int position, Object object) {
+		public void destroyItem(ViewGroup container, int position, Object object) {
 			activeFragments.remove(position);
 			super.destroyItem(container, position, object);
 		}

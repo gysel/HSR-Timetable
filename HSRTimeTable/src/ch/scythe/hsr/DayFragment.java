@@ -22,6 +22,7 @@ import java.util.List;
 
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -110,6 +111,8 @@ public class DayFragment extends DialogFragment {
 			// remove all existing table rows and add them again
 			timeTable.removeAllViews();
 			updateTable(timeTable);
+		} else {
+			Log.w("DayFragment", "Not possible to update data as the view is not available.");
 		}
 	}
 
