@@ -239,6 +239,8 @@ public class TimeTableActivity extends SherlockFragmentActivity {
 
 		Account account = AndroidHelper.getAccount(accountManager);
 
+		persistCurrentTab();
+
 		// try to migrate settings
 		if (account == null) {
 			SharedPreferences oldPrefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -283,6 +285,7 @@ public class TimeTableActivity extends SherlockFragmentActivity {
 
 	private void updateFragemetsWithData(UiWeek week) {
 		for (DayFragment fragment : fragmentPageAdapter.getActiveFragments()) {
+			Log.d("TimeTableActivity", "Update Fragment " + fragment.getWeekDay() + " with new data.");
 			fragment.updateDate(week);
 		}
 	}

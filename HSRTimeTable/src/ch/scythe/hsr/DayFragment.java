@@ -169,4 +169,8 @@ public class DayFragment extends DialogFragment {
 		}
 
 	}
+
+	public Weekday getWeekDay() {
+		return weekDay;
+	}
 }
