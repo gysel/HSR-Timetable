@@ -7,6 +7,12 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp" >
 
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:id="@+id/horizontalLine"
+        android:background="#ccc" />
+    
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -73,10 +79,5 @@
             android:gravity="right"
             android:text="@string/default_novalue" />
     </LinearLayout>
-
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:background="#ccc" />
 
 </LinearLayout>

@@ -116,11 +116,18 @@ public class DayFragment extends DialogFragment {
 	private void createAndFormatTableRows(List<UiLesson> lessons, TableLayout timeTable, LayoutInflater layoutInflater) {
 
 		String lastLessonTimeslot = "";
+		boolean firstRow = true;
 
 		for (UiLesson lesson : lessons) {
 
 			View row = layoutInflater.inflate(R.layout.timetable_row, null);
 			timeTable.addView(row);
+
+			View horizontalLine = row.findViewById(R.id.horizontalLine);
+			if (firstRow) {
+				horizontalLine.setVisibility(View.GONE);
+				firstRow = false;
+			}
 
 			TextView timeUnitField = (TextView) row.findViewById(R.id.rowTimeunit);
 			TextView lessonField = (TextView) row.findViewById(R.id.rowLesson);
@@ -137,6 +144,7 @@ public class DayFragment extends DialogFragment {
 				timeUnitField.setText(newTimeslot);
 			} else {
 				timeUnitField.setText("");
+				horizontalLine.setVisibility(View.GONE);
 			}
 			lastLessonTimeslot = newTimeslot;
 
