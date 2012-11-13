@@ -142,6 +142,7 @@ public class TimeTableActivity extends SherlockFragmentActivity {
 		} else {
 			Log.i(LOGGING_TAG, "Creating Activity from scratch.");
 			// no data available, read it!
+			reloadCurrentTab();
 			startRequest(date, false);
 		}
 
