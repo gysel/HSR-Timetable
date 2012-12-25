@@ -159,6 +159,13 @@ public class TimeTableActivity extends SherlockFragmentActivity {
 		super.onPause();
 		persistCurrentTab();
 	}
+	
+	@Override
+	protected void onDestroy(){
+		super.onDestroy();
+		if(progress != null && progress.isShowing())
+			progress.cancel();
+	}
 
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
@@ -256,7 +263,6 @@ public class TimeTableActivity extends SherlockFragmentActivity {
 				editor.clear();
 				editor.commit();
 			}
-
 		}
 
 		if (account == null) {
@@ -383,7 +389,7 @@ public class TimeTableActivity extends SherlockFragmentActivity {
 				datebox.setText(DateHelper.formatToUserFriendlyFormat(week.getLastUpdate()));
 			}
 
-			if (progress != null)
+			if (progress != null && progress.isShowing())
 				progress.dismiss();
 
 			if (errorCode != 0) {
