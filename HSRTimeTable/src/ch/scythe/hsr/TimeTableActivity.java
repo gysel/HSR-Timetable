@@ -36,6 +36,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -284,10 +285,20 @@ public class TimeTableActivity extends SherlockFragmentActivity {
 			progress.show();
 
 			// progress = ProgressDialog.show(this, "", getString(R.string.message_loading_data));
-			task = new FetchDataTask().execute(date, account, forceRequest);
+			executeTask(date, forceRequest, account);
 		} else {
-			task = new FetchDataTask().execute(date, account, forceRequest);
+			executeTask(date, forceRequest, account);
 		}
+	}
+
+	private void executeTask(Date date, boolean forceRequest, Account account) {
+		task = new FetchDataTask();
+		if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.HONEYCOMB) {
+			task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,date, account, forceRequest);
+			}
+			else {
+			  task.execute(date, account, forceRequest);
+			}
 	}
 
 	private void updateFragemetsWithData(UiWeek week) {
