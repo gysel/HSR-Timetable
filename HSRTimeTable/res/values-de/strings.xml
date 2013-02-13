@@ -16,6 +16,7 @@
     <string name="message_configure_credentials">Bitte hinterlege deinen HSR Login.</string>
     <string name="message_enter_credentials">Bitte gib deine HSR Logindaten ein.</string>
     <string name="message_error_while_fetching">Laden der Daten ist fehlgeschlagen.</string>
+    <string name="message_error_access_denied">Zugriff auf den Server verweigert.</string>
     <string name="message_error_while_connecting">Verbindung zum Server fehlgeschlagen.</string>
     <string name="message_error_while_parsing">Datenverarbeitung fehlgeschlagen.</string>
     <string name="message_error_while_fetching_user">Auslesen des Logins fehlgeschlagen.</string>

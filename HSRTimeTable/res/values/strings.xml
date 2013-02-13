@@ -16,6 +16,7 @@
     <string name="message_configure_credentials">Please configure your HSR Login.</string>
     <string name="message_enter_credentials">Please enter your HSR Login.</string>
     <string name="message_error_while_fetching">Error while fetching data.</string>
+    <string name="message_error_access_denied">Access to server denied.</string>
     <string name="message_error_while_connecting">Error while connecting to server.</string>
     <string name="message_error_while_parsing">Error while parsing server response.</string>
     <string name="message_error_while_fetching_user">Error while reading the credentials.</string>

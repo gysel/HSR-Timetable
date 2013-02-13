@@ -89,6 +89,7 @@ public class TimeTableActivity extends SherlockFragmentActivity {
 	private static final int DIALOG_ERROR_CONNECT = 2;
 	private static final int DIALOG_ERROR_PARSE = 3;
 	private static final int DIALOG_USER_PASS_FETCH = 4;
+	private static final int DIALOG_ERROR_ACCESS_DENIED = 5;
 	private static final String PREFERENCE_ACTIVATED_TAB_TIMESTAMP = "ActivatedTabTimestamp";
 	private static final String PREFERENCE_ACTIVATED_TAB = "ActivatedTab";
 	private static final String LOGGING_TAG = "TimeTableActivity";
@@ -339,6 +340,10 @@ public class TimeTableActivity extends SherlockFragmentActivity {
 			builder.setMessage(getString(R.string.message_error_while_fetching_user)).setPositiveButton(getString(R.string.button_ok), null);
 			result = builder.create();
 			break;
+		case DIALOG_ERROR_ACCESS_DENIED:
+			builder.setMessage(getString(R.string.message_error_access_denied)).setPositiveButton(getString(R.string.button_ok), null);
+			result = builder.create();
+			break;
 		default:
 			result = null;
 		}
@@ -384,8 +389,7 @@ public class TimeTableActivity extends SherlockFragmentActivity {
 				errorCode = DIALOG_ERROR_CONNECT;
 			} catch (AccessDeniedException e) {
 				Log.e(LOGGING_TAG, "Exception while fetching data from the server. (AccessDenied!)", e);
-				// TODO add better error message
-				errorCode = DIALOG_ERROR_FETCH;
+				errorCode = DIALOG_ERROR_ACCESS_DENIED;
 			}
 
 			return result;
