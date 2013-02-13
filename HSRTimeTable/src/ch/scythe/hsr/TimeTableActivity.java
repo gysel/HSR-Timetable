@@ -294,12 +294,7 @@ public class TimeTableActivity extends SherlockFragmentActivity {
 
 	private void executeTask(Date date, boolean forceRequest, Account account) {
 		task = new FetchDataTask();
-		if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.HONEYCOMB) {
-			task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,date, account, forceRequest);
-			}
-			else {
-			  task.execute(date, account, forceRequest);
-			}
+		task.execute(date, account, forceRequest);
 	}
 
 	private void updateFragemetsWithData(UiWeek week) {
