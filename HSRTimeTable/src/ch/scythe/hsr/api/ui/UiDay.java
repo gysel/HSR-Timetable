@@ -20,6 +20,8 @@ package ch.scythe.hsr.api.ui;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import ch.scythe.hsr.enumeration.Weekday;
@@ -35,15 +37,33 @@ public class UiDay implements Serializable {
 	}
 
 	public List<UiLesson> getLessons() {
+		// TODO remove this sorting part at some point...
+		Collections.sort(lessons, new Comparator<UiLesson>() {
+			@Override
+			public int compare(UiLesson l, UiLesson r) {
+				return extractHour(l).compareTo(extractHour(r));
+			}
+
+		});
 		return lessons;
 	}
 
 	public void setLessons(List<UiLesson> lessons) {
 		this.lessons = lessons;
+		Collections.sort(lessons, new Comparator<UiLesson>() {
+			@Override
+			public int compare(UiLesson l, UiLesson r) {
+				return extractHour(l).compareTo(extractHour(r));
+			}
+
+		});
 	}
 
 	public Weekday getWeekday() {
 		return weekday;
+	}
+	private Integer extractHour(UiLesson l) {
+		return Integer.valueOf(l.getTimeSlot().split(":")[0]);
 	}
 
 }
