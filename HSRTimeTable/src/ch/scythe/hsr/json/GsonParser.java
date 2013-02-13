@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2011 - 2012 Michi Gysel <michael.gysel@gmail.com>
+ * Copyright (C) 2011 - 2013 Michi Gysel <michael.gysel@gmail.com>
  *
  * This file is part of the HSR Timetable.
  *
