@@ -231,6 +231,7 @@ public class TimeTableAPI {
 	}
 
 	private HttpGet createHttpGet(String url, String login, String password) throws UnsupportedEncodingException {
+		login = login.trim(); // prevent "Illegal character in path" Exception 
 		String basicAuth = "Basic " + Base64.encodeBytes((login + ":" + password).getBytes());
 		HttpGet get = new HttpGet(url);
 		get.setHeader("Content-Type", "text/json;charset=UTF-8");
