@@ -7,6 +7,7 @@
 <listEntry value="4"/>
 </listAttribute>
 <mapAttribute key="org.eclipse.debug.core.preferred_launchers">
+<mapEntry key="[debug]" value="com.android.ide.eclipse.adt.launch.JUnitLaunchConfigDelegate.launchAndroidJunit"/>
 <mapEntry key="[run]" value="com.android.ide.eclipse.adt.launch.JUnitLaunchConfigDelegate.launchAndroidJunit"/>
 </mapAttribute>
 <listAttribute key="org.eclipse.debug.ui.favoriteGroups">
