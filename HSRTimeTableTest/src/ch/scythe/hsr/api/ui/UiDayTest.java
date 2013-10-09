@@ -34,6 +34,7 @@ public class UiDayTest {
 		UiDay day = new UiDay(Weekday.MONDAY);
 		List<UiLesson> lessons = new ArrayList<UiLesson>();
 		lessons.add(createLesson("spezial", "BA"));
+		lessons.add(createLesson("8:10 - :55", "Cn1"));
 		lessons.add(createLesson("15:10 - :55", "SE2"));
 		lessons.add(createLesson("16:05 - :50", "SE2"));
 		lessons.add(createLesson("15:10 - :55", "Dbs2"));
@@ -42,10 +43,11 @@ public class UiDayTest {
 		// now the actual test
 		List<UiLesson> sortedLessons = day.getLessons();
 		assertEquals("BA", sortedLessons.get(0).getName());
-		assertEquals("Dbs2", sortedLessons.get(1).getName());
-		assertEquals("SE2", sortedLessons.get(2).getName());
-		assertEquals("Dbs2", sortedLessons.get(3).getName());
-		assertEquals("SE2", sortedLessons.get(4).getName());
+		assertEquals("Cn1", sortedLessons.get(1).getName());
+		assertEquals("Dbs2", sortedLessons.get(2).getName());
+		assertEquals("SE2", sortedLessons.get(3).getName());
+		assertEquals("Dbs2", sortedLessons.get(4).getName());
+		assertEquals("SE2", sortedLessons.get(5).getName());
 	}
 
 	private UiLesson createLesson(String slot, String name) {

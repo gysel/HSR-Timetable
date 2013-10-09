@@ -45,12 +45,21 @@ public class UiDay implements Serializable {
 		Collections.sort(lessons, new Comparator<UiLesson>() {
 			@Override
 			public int compare(UiLesson l, UiLesson r) {
-				int result = l.getTimeSlot().compareTo(r.getTimeSlot());
-				if (result == 0) {
-					result = l.getName().compareTo(r.getName());
-				} else if ("spezial".equals(l.getTimeSlot())
-						|| "spezial".equals(r.getTimeSlot())) {
-					result = result * -1;
+				int result = 0;
+				if ("spezial".equals(l.getTimeSlot())) {
+					result = -1;
+					if (l.getTimeSlot().equals(r.getTimeSlot())) {
+						result = 0;
+					}
+				} else if ("spezial".equals(r.getTimeSlot())) {
+					result = 1;
+				} else if (hasTimeFormat(l) && hasTimeFormat(r)) {
+					result = extractHour(l).compareTo(extractHour(r));
+					if (result == 0) {
+						result = l.getName().compareTo(r.getName());
+					}
+				} else {
+					result = l.getTimeSlot().compareTo(r.getTimeSlot());
 				}
 				return result;
 			}
@@ -62,4 +71,11 @@ public class UiDay implements Serializable {
 		return weekday;
 	}
 
+	private Integer extractHour(UiLesson l) {
+		return Integer.valueOf(l.getTimeSlot().split(":")[0]);
+	}
+
+	private boolean hasTimeFormat(UiLesson uiLesson) {
+		return uiLesson.getTimeSlot().contains(":");
+	}
 }
