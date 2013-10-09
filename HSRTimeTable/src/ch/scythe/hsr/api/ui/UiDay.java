@@ -37,14 +37,6 @@ public class UiDay implements Serializable {
 	}
 
 	public List<UiLesson> getLessons() {
-		// TODO remove this sorting part at some point...
-		Collections.sort(lessons, new Comparator<UiLesson>() {
-			@Override
-			public int compare(UiLesson l, UiLesson r) {
-				return extractHour(l).compareTo(extractHour(r));
-			}
-
-		});
 		return lessons;
 	}
 
@@ -53,7 +45,14 @@ public class UiDay implements Serializable {
 		Collections.sort(lessons, new Comparator<UiLesson>() {
 			@Override
 			public int compare(UiLesson l, UiLesson r) {
-				return extractHour(l).compareTo(extractHour(r));
+				int result = l.getTimeSlot().compareTo(r.getTimeSlot());
+				if (result == 0) {
+					result = l.getName().compareTo(r.getName());
+				} else if ("spezial".equals(l.getTimeSlot())
+						|| "spezial".equals(r.getTimeSlot())) {
+					result = result * -1;
+				}
+				return result;
 			}
 
 		});
@@ -61,9 +60,6 @@ public class UiDay implements Serializable {
 
 	public Weekday getWeekday() {
 		return weekday;
-	}
-	private Integer extractHour(UiLesson l) {
-		return Integer.valueOf(l.getTimeSlot().split(":")[0]);
 	}
 
 }
